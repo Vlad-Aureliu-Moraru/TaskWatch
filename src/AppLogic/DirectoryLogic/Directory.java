@@ -8,6 +8,10 @@ public class Directory {
     private ArrayList<Task> tasks = new ArrayList<>();
     private String Name;
 
+    public  Directory(String name) {
+        Name = name;
+    }
+
     public String getName() {
         return Name;
     }

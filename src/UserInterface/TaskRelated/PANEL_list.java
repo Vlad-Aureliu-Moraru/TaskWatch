@@ -1,5 +1,6 @@
 package UserInterface.TaskRelated;
 
+import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class PANEL_list extends JScrollPane {
     private int GAP = 20;
     private int MARGIN = 10;
 
-    private EventHandler eventHandler = new EventHandler();
+    private EventHandler eventHandler;
     public PANEL_list(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
         panel.setBackground(Color.blue);
@@ -32,9 +33,8 @@ public class PANEL_list extends JScrollPane {
         this.setWheelScrollingEnabled(true);
         getVerticalScrollBar().setUnitIncrement(80);
 
-        PANEL_dir task1 = new PANEL_dir();
-        task1.setTitleLabel("Task_1");
-        addTask(task1);
+        convertToPanel();
+
         System.out.println("PANEL_tasklist created"+this.getWidth()+"x"+HEIGHT);
     }
 
@@ -64,6 +64,15 @@ public class PANEL_list extends JScrollPane {
         addTasksToList();
 
 
+    }
+    private void convertToPanel(){
+        System.out.println("convertToPanel");
+        for (Directory dir : eventHandler.getDirectoryList()){
+            System.out.println(dir);
+            PANEL_dir dirPanel = new PANEL_dir();
+            dirPanel.setTitleLabel(dir.getName());
+            addTask( dirPanel);
+        }
     }
 
 }

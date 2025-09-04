@@ -1,5 +1,6 @@
 package UserInterface;
 
+import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
@@ -16,7 +17,7 @@ public class FRAME_main extends JFrame {
     private int HEIGHT= 500;
     private int tasklistWIDTH = (WIDTH/2)-60;
     private int navbarHEIGHT = HEIGHT/10;
-    private PANEL_list tasklist= new PANEL_list(eventHandler);
+    private PANEL_list tasklist;
     private PANEL_navbar navbar = new PANEL_navbar();
     private PANEL_mainmenu mainmenu = new PANEL_mainmenu();
 
@@ -28,6 +29,15 @@ public class FRAME_main extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        Directory directory = new Directory("test");
+        Directory directory1 = new Directory("test1");
+        eventHandler.addDirectory(directory);
+        eventHandler.addDirectory(directory1);
+        eventHandler.saveDirectoryListToFile();
+
+        eventHandler.getDirectoryListFromFile();
+        eventHandler.printDirectoryList();
+        tasklist = new PANEL_list(eventHandler);
 
         updateAllComponents();
 
@@ -51,7 +61,6 @@ public class FRAME_main extends JFrame {
             navbarHEIGHT = 50;
         }
 
-        System.out.println("Updating components to " + currentWIDTH + "x" + currentHEIGHT);
 
         mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
@@ -59,9 +68,6 @@ public class FRAME_main extends JFrame {
         tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
         navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
 
-        System.out.println("MAINMEUN :"+mainmenu.getHeight()+"x"+mainmenu.getWidth());
-        System.out.println("NAVBAR:"+navbar.getHeight()+"x"+navbar.getWidth());
-        System.out.println("TASKLIST:"+tasklist.getHeight()+"x"+tasklist.getWidth());
 
 
         this.revalidate();
