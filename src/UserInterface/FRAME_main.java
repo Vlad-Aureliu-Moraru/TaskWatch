@@ -1,24 +1,26 @@
 package UserInterface;
 
+import AppLogic.EventHandler;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
-import UserInterface.TaskRelated.PANEL_tasklist;
+import UserInterface.TaskRelated.PANEL_list;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class FRAME_main extends JFrame {
     //?addons
+    private EventHandler  eventHandler = new EventHandler();
     private int WIDTH = 1000;
     private int HEIGHT= 500;
     private int tasklistWIDTH = (WIDTH/2)-60;
     private int navbarHEIGHT = HEIGHT/10;
-    private PANEL_tasklist tasklist= new PANEL_tasklist();
+    private PANEL_list tasklist= new PANEL_list(eventHandler);
     private PANEL_navbar navbar = new PANEL_navbar();
     private PANEL_mainmenu mainmenu = new PANEL_mainmenu();
+
+
     public FRAME_main() {
         this.setTitle("PRODUCTIVITY-APP");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,15 +29,12 @@ public class FRAME_main extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(null);
 
-        mainmenu.setBounds(0,navbarHEIGHT,WIDTH-tasklistWIDTH,HEIGHT-navbarHEIGHT);
-        this.add(mainmenu);
-        navbar.setBounds(0,0,WIDTH,navbarHEIGHT);
-        this.add(navbar);
-        tasklist.setBounds(WIDTH-tasklistWIDTH, navbarHEIGHT,tasklistWIDTH,HEIGHT-navbarHEIGHT);
-        tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
-        this.add(tasklist);
+        updateAllComponents();
 
-//!todo add refreshing stuff so it works for all screens and the refreshing should be done automatically preferabbly
+        this.add(mainmenu);
+        this.add(navbar);
+        this.add(tasklist);
+        eventHandler.checkFileStructure();
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -58,6 +57,7 @@ public class FRAME_main extends JFrame {
         navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
         tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
+        navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
 
         System.out.println("MAINMEUN :"+mainmenu.getHeight()+"x"+mainmenu.getWidth());
         System.out.println("NAVBAR:"+navbar.getHeight()+"x"+navbar.getWidth());

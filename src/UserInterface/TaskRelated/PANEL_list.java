@@ -1,18 +1,22 @@
 package UserInterface.TaskRelated;
 
+import AppLogic.EventHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PANEL_tasklist extends JScrollPane {
+public class PANEL_list extends JScrollPane {
     private JPanel panel = new JPanel();
-    private ArrayList<PANEL_task> tasklist = new ArrayList<>();
+    private ArrayList<PANEL_dir> dirList = new ArrayList();
     private int HEIGHT;
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
 
-    public PANEL_tasklist() {
+    private EventHandler eventHandler = new EventHandler();
+    public PANEL_list(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
         panel.setBackground(Color.blue);
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -28,31 +32,22 @@ public class PANEL_tasklist extends JScrollPane {
         this.setWheelScrollingEnabled(true);
         getVerticalScrollBar().setUnitIncrement(80);
 
-        PANEL_task task1 = new PANEL_task();
-        PANEL_task task2 = new PANEL_task();
-        PANEL_task task3 = new PANEL_task();
-        PANEL_task task4 = new PANEL_task();
-        PANEL_task task5 = new PANEL_task();
-        PANEL_task task6 = new PANEL_task();
+        PANEL_dir task1 = new PANEL_dir();
+        task1.setTitleLabel("Task_1");
         addTask(task1);
-        addTask(task2);
-        addTask(task3);
-        addTask(task4);
-        addTask(task5);
-        addTask(task6);
         System.out.println("PANEL_tasklist created"+this.getWidth()+"x"+HEIGHT);
     }
 
-    public void addTask(PANEL_task task) {
+    public void addTask(PANEL_dir dir) {
         System.out.println("adding task");
-        tasklist.add(task);
+        dirList.add(dir);
     }
     public void addTasksToList(){
         panel.removeAll();
         int currentY = 10;
 
-        for(int j=0;j<tasklist.size();j++){
-            PANEL_task task = tasklist.get(j);
+        for(int j=0;j<dirList.size();j++){
+            PANEL_dir task =dirList.get(j);
             task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
             panel.add(task);
             currentY+= task.getHeight()+GAP;

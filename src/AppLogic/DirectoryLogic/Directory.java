@@ -23,4 +23,9 @@ public class Directory {
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("name: "+Name+",");
+        return sb.toString();
+    }
 }
