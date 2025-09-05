@@ -28,7 +28,7 @@ public class PANEL_task extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 eventHandler.setCurrentTask(currentTask);
-                System.out.println(eventHandler.getCurrentTask());
+                System.out.println(eventHandler.getCurrentTask().getNotes().size());
             }
         });
     }

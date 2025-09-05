@@ -1,6 +1,7 @@
 package AppLogic;
 
 import AppLogic.DirectoryLogic.Directory;
+import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
 
 import java.io.*;
@@ -19,7 +20,9 @@ public class FileHandler {
     public void setCurrentDirectory(Directory currentDirectory) {
         this.currentDirectory = currentDirectory;
     }
-
+    public void setCurrentTask(Task currentTask) {
+        this.currentTask = currentTask;
+    }
     public void checkFileStructure() {
         File mainDir = new File("main");
         if (!mainDir.exists()) {
@@ -177,55 +180,47 @@ public class FileHandler {
     }
     //?NOTE
     public void getNotesFromFile(){
-        ArrayList<Task> taskList = new ArrayList<>();
-
-        if (currentDirectory == null) {
+        ArrayList<Note> noteList = new ArrayList<>();
+        if (currentTask == null) {
             System.err.println("Error: No current directory is set to load tasks from.");
             return;
         }
 
-        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        String fileName = "main" + File.separator +currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".md";
         File taskFile = new File(fileName);
 
         if (!taskFile.exists()) {
-            System.err.println("Error: Task file not found for directory '" + currentDirectory.getName() + "'.");
+            System.err.println("Error: Task file not found for directory '" + fileName + "'.");
             return;
         }
 
-        System.out.println("Loading tasks from " + fileName + "...");
+        System.out.println("Loading notes from " + fileName + "...");
         try (BufferedReader reader = new BufferedReader(new FileReader(taskFile))) {
             String line;
             while ((line = reader.readLine()) != null && line.trim().length() > 0) {
-                String[] taskLine = line.split(";");
-                ArrayList<String> items = new ArrayList<>();
-                for (int i = 0; i < taskLine.length; i++) {
-                    if (!taskLine[i].trim().isEmpty()) {
-                        String item =taskLine[i].substring(taskLine[i].indexOf(":")+1).trim().replaceAll("}", "");
-                        items.add(item);
+                String[]  noteLine = line.split(";");
+                for (String note : noteLine) {
+                    if (!note.trim().isEmpty()) {
+                        String[] noteItem = note.split("-");
+                        String Date = noteItem[0].substring(noteItem[0].indexOf(":")+1);
+                        String Note = noteItem[1].substring(noteItem[1].indexOf(":")+1);
+                        Note noteObj = new Note();
+                        noteObj.setDate(null);
+                        System.out.println(Date);
+                        System.out.println(Note);
+                        noteObj.setNote(Note);
+                        noteList.add(noteObj);
+                        }
+                        }
                     }
-                }
-                System.out.println(items.get(0));
-                Task task = new Task();
-                task.setName(items.get(0));
-                task.setDescription(items.get(1));
-// task.setRepeatable(taskLine[2]);
-                task.setRepeatable(false);
-// task.isFinished(taskLine[3]);
-                task.setFinished(false);
-// task.setDeadline(taskLine[4]);
-                task.setDeadline(null);
-                // task.setUrgency(taskLine[5]);
-                task.setUrgency(1);
-                task.setTimeDedicated(items.get(6));
-                taskList.add(task);
-            }
-            currentDirectory.setTasks(taskList);
-            System.out.println("Tasks loaded successfully.");
+
+
         } catch (IOException e) {
-            System.err.println("An error occurred while loading tasks: " + e.getMessage());
+            System.err.println("An error occurred while loading notes: " + e.getMessage());
             e.printStackTrace();
         }
-        System.out.println(currentDirectory);
+
+        System.out.println("CURRENT TASK NOTES "+currentTask.getNotes());
     }
     public void saveNotesToFile() {
         if (currentDirectory == null) {
@@ -233,13 +228,13 @@ public class FileHandler {
             return;
         }
 
-        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        String fileName = "main" + File.separator +currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".md";
         File taskFile = new File(fileName);
 
-        System.out.println("Saving tasks for directory '" + currentDirectory.getName() + "' to " + fileName + "...");
+        System.out.println("Saving tasks for directory '" +currentDirectory.getName()+"/"+currentTask.getName().replaceAll(" ","_") + "' to " + fileName + "...");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(taskFile,false))) {
-            for (Task task : currentDirectory.getTasks()) {
+            for (Note task :currentTask.getNotes()) {
                 String taskLine = task+"";
                 writer.write(taskLine);
 

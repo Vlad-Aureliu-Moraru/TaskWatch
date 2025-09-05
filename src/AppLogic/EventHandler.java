@@ -77,6 +77,7 @@ public class EventHandler {
     }
     public void setCurrentTask(Task currentTask) {
         this.currentTask = currentTask;
+        fileHandler.setCurrentTask(currentTask);
         panelnavbar.setCurrentPATH(currentDirectory.getName()+"/"+currentTask.getName());
     }
     public Task getCurrentTask() {

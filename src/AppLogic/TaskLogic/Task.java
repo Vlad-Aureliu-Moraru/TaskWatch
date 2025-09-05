@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Task {
-    private ArrayList<Note> notes;
+    private ArrayList<Note> notes = new ArrayList<>();
     private String Name;
     private String Description;
     private String TimeDedicated;
@@ -64,6 +64,10 @@ public class Task {
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
+    public void addNote(Note note) {
+        notes.add(note);
+    }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("{name: "+Name+";description:"+Description+";isRepeatable:"+repeatable+";isFinished:"+finished+";deadline:"+deadline+";urgency:"+urgency+";Time:"+TimeDedicated+"}");

@@ -24,9 +24,6 @@ public class Note {
 
     @Override
     public String toString() {
-        return "{" +
-                "date:" + date +
-                "; note:" + note  +
-                '}';
+        return "date:" + date+"-" +"note:" + note+";\n"  ;
     }
 }

@@ -2,6 +2,7 @@ package UserInterface.NavBar;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
+import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
 
 import javax.swing.*;
@@ -34,6 +35,14 @@ public class PANEL_navbar extends JPanel {
             }
         });
         addButton.addActionListener(actionEvent -> {
+            if (eventHandler.getCurrentTask() != null) {
+                System.out.println("adding note");
+                Note note = new Note();
+                eventHandler.getCurrentTask().addNote(note);
+                eventHandler.getFileHandler().saveNotesToFile();
+                eventHandler.getFileHandler().getNotesFromFile();
+                return;
+            }
             if (eventHandler.getCurrentDirectory() != null) {
                 System.out.println("adding task");
                 Task currentTask = new Task();
