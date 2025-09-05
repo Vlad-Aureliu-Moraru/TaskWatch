@@ -38,6 +38,7 @@ public class PANEL_navbar extends JPanel {
                 System.out.println("adding task");
                 Task currentTask = new Task();
                 currentTask.setName("TESTING ADDING");
+                currentTask.setTimeDedicated("20:10");
                 eventHandler.getCurrentDirectory().addTask(currentTask);
                 eventHandler.saveTaskToFile();
                 eventHandler.loadcurrentDirectoryTasksToUIList();
@@ -53,7 +54,7 @@ public class PANEL_navbar extends JPanel {
     public void setHEIGHTandWIDTH(int WIDTH,int HEIGHT){
         this.HEIGHT=HEIGHT;
         this.WIDTH=WIDTH;
-        currentPATH.setBounds((WIDTH/2)-50,10,100,30);
+        currentPATH.setBounds((WIDTH/2)-100,10,300,30);
         returnButton.setBounds((WIDTH-50),10,50,40);
         addButton.setBounds((WIDTH-150),10,50,40);
         if (currentPATH.getX()<0){

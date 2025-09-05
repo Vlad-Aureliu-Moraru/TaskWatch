@@ -144,6 +144,9 @@ public class EventHandler {
         this.currentDirectory = currentDirectory;
         panelnavbar.setCurrentPATH(currentDirectory.getName()+"/");
     }
+    public void setCurrentTask(Task currentTask) {
+        panelnavbar.setCurrentPATH(currentDirectory.getName()+"/"+currentTask.getName());
+    }
     public void resetCurrentDirectory() {
         this.currentDirectory = null;
         panelnavbar.setCurrentPATH("~");
@@ -213,6 +216,7 @@ public class EventHandler {
                 task.setDeadline(null);
     // task.setUrgency(taskLine[5]);
                 task.setUrgency(1);
+                task.setTimeDedicated(items.get(6));
                 taskList.add(task);
             }
             currentDirectory.setTasks(taskList);

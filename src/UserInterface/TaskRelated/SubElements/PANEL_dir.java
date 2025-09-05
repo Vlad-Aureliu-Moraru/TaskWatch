@@ -1,4 +1,4 @@
-package UserInterface.TaskRelated;
+package UserInterface.TaskRelated.SubElements;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;

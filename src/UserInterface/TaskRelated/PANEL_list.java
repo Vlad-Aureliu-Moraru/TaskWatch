@@ -2,6 +2,8 @@ package UserInterface.TaskRelated;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
+import UserInterface.TaskRelated.SubElements.PANEL_dir;
+import UserInterface.TaskRelated.SubElements.PANEL_task;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,7 @@ public class PANEL_list extends JScrollPane {
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
-
+//    private
     private boolean inDirectory = false;
     private EventHandler eventHandler;
     public PANEL_list(EventHandler eventHandler) {
@@ -92,6 +94,7 @@ public class PANEL_list extends JScrollPane {
         for(int j=0;j<eventHandler.getCurrentDirectory().getTasks().size();j++){
             PANEL_task task = new PANEL_task(eventHandler.getCurrentDirectory().getTasks().get(j));
             task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            task.setEventHandler(eventHandler);
             panel.add(task);
             currentY+= task.getHeight()+GAP;
         }

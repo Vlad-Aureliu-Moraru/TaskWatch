@@ -9,6 +9,7 @@ public class Task {
     private ArrayList<Notes> notes;
     private String Name;
     private String Description;
+    private String TimeDedicated;
     private boolean repeatable;
     private boolean finished;
     private Date deadline;
@@ -17,6 +18,14 @@ public class Task {
 
     public int getUrgency() {
         return urgency;
+    }
+
+    public String getTimeDedicated() {
+        return TimeDedicated;
+    }
+
+    public void setTimeDedicated(String timeDedicated) {
+        TimeDedicated = timeDedicated;
     }
 
     public void setUrgency(int urgency) {
@@ -73,7 +82,7 @@ public class Task {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("{name: "+Name+";description:"+Description+";isRepeatable:"+repeatable+";isFinished:"+finished+";deadline:"+deadline+";urgency:"+urgency+"}");
+        sb.append("{name: "+Name+";description:"+Description+";isRepeatable:"+repeatable+";isFinished:"+finished+";deadline:"+deadline+";urgency:"+urgency+";Time:"+TimeDedicated+"}");
         sb.append("\n");
         return sb.toString();
     }
