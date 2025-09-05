@@ -33,7 +33,7 @@ public class PANEL_dir extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 System.out.println(directory.getName()+"/");
                 eventHandler.setCurrentDirectory(directory);
-                eventHandler.getTaskListFromFile();
+                eventHandler.getFileHandler().getTaskListFromFile();
                 eventHandler.loadcurrentDirectoryTasksToUIList();
             }
         });

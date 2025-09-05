@@ -37,7 +37,7 @@ public class FRAME_main extends JFrame {
         this.add(mainmenu);
         this.add(navbar);
         this.add(tasklist);
-        eventHandler.checkFileStructure();
+        eventHandler.getFileHandler().checkFileStructure();
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

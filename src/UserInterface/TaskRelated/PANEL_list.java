@@ -17,8 +17,7 @@ public class PANEL_list extends JScrollPane {
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
-//    private
-    private boolean inDirectory = false;
+    private int stage = 0;
     private EventHandler eventHandler;
     public PANEL_list(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -66,18 +65,18 @@ public class PANEL_list extends JScrollPane {
     public void setHEIGHTandWIDTH(int width,int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
-        if (inDirectory){
-            loadCurrentDirTasks();
-        }else{
+        if (stage ==0){
             addDirsToLayout();
+        }else if (stage ==1){
+            loadCurrentDirTasks();
         }
 
 
     }
     public void loadDirs(){
-        this.setInDirectory(false);
+        stage=0;
         dirList.clear();
-        eventHandler.getDirectoryListFromFile();
+        eventHandler.getFileHandler().getDirectoryListFromFile();
         System.out.println("loadDirs");
         for (Directory dir : eventHandler.getDirectoryList()){
             PANEL_dir dirPanel = new PANEL_dir(dir);
@@ -87,7 +86,7 @@ public class PANEL_list extends JScrollPane {
         addDirsToLayout();
     }
     public void loadCurrentDirTasks(){
-        this.setInDirectory(true);
+        stage = 1;
         panel.removeAll();
         int currentY = 10;
 
@@ -103,8 +102,5 @@ public class PANEL_list extends JScrollPane {
         panel.repaint();
         this.revalidate();
         this.repaint();
-    }
-    public void setInDirectory(boolean inDirectory) {
-        this.inDirectory = inDirectory;
     }
 }

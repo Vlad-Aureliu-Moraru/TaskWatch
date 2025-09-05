@@ -9,6 +9,12 @@ public class Directory {
     private String Name;
 
     public void addTask(Task task){
+        for(int i=0;i<tasks.size();i++){
+            if(tasks.get(i).getName().equals(task.getName())){
+            System.out.println("THERE IS ALREADY THE TASK");
+            return;
+            }
+        }
         tasks.add(task);
     }
 

@@ -40,7 +40,7 @@ public class PANEL_navbar extends JPanel {
                 currentTask.setName("TESTING ADDING");
                 currentTask.setTimeDedicated("20:10");
                 eventHandler.getCurrentDirectory().addTask(currentTask);
-                eventHandler.saveTaskToFile();
+                eventHandler.getFileHandler().saveTaskToFile();
                 eventHandler.loadcurrentDirectoryTasksToUIList();
             }else{
                 System.out.println("Adding Directory");
