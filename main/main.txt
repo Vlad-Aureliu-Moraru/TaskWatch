@@ -1,1 +1,1 @@
-test ; test1 ; 
+DIRECTORY1 ; DIRECTORY2 ; DIR3 ; DIR3 ; 

@@ -1,11 +1,18 @@
 package AppLogic;
 
 import AppLogic.DirectoryLogic.Directory;
+import UserInterface.MainMenu.PANEL_mainmenu;
+import UserInterface.NavBar.PANEL_navbar;
+import UserInterface.TaskRelated.PANEL_list;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class EventHandler {
+    private PANEL_list panelList;
+    private PANEL_mainmenu panelMainmenu;
+    private PANEL_navbar panelnavbar;
+
     private ArrayList<Directory> directoryList = new ArrayList();
     private Directory currentDirectory;
     public void checkFileStructure() {
@@ -88,6 +95,9 @@ public class EventHandler {
     }
     public void addDirectory(Directory directory) {
         directoryList.add(directory);
+        saveDirectoryListToFile();
+        panelList.convertToPanel();
+
     }
     public ArrayList<Directory> getDirectoryList() {
         return directoryList;
@@ -96,5 +106,41 @@ public class EventHandler {
         for (Directory directory : directoryList) {
             System.out.println(directory.getName());
         }
+    }
+    public Directory getCurrentDirectory() {
+        return currentDirectory;
+    }
+
+    public PANEL_list getPanelList() {
+        return panelList;
+    }
+
+    public void setPanelList(PANEL_list panelList) {
+        this.panelList = panelList;
+    }
+
+    public PANEL_mainmenu getPanelMainmenu() {
+        return panelMainmenu;
+    }
+
+    public void setPanelMainmenu(PANEL_mainmenu panelMainmenu) {
+        this.panelMainmenu = panelMainmenu;
+    }
+
+    public PANEL_navbar getPanelnavbar() {
+        return panelnavbar;
+    }
+
+    public void setPanelnavbar(PANEL_navbar panelnavbar) {
+        this.panelnavbar = panelnavbar;
+    }
+
+    public void setDirectoryList(ArrayList<Directory> directoryList) {
+        this.directoryList = directoryList;
+    }
+
+    public void setCurrentDirectory(Directory currentDirectory) {
+        this.currentDirectory = currentDirectory;
+        panelnavbar.setCurrentPATH(currentDirectory.getName()+"/");
     }
 }

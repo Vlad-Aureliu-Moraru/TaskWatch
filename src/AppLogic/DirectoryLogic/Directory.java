@@ -8,6 +8,10 @@ public class Directory {
     private ArrayList<Task> tasks = new ArrayList<>();
     private String Name;
 
+    public void addTask(Task task){
+        tasks.add(task);
+    }
+
     public  Directory(String name) {
         Name = name;
     }
@@ -29,7 +33,7 @@ public class Directory {
     }
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("name: "+Name+",");
+        sb.append("name: "+Name+" ");
         return sb.toString();
     }
 }

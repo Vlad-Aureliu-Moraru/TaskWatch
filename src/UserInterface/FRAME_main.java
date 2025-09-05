@@ -15,11 +15,9 @@ public class FRAME_main extends JFrame {
     private EventHandler  eventHandler = new EventHandler();
     private int WIDTH = 1000;
     private int HEIGHT= 500;
-    private int tasklistWIDTH = (WIDTH/2)-60;
-    private int navbarHEIGHT = HEIGHT/10;
-    private PANEL_list tasklist;
-    private PANEL_navbar navbar = new PANEL_navbar();
-    private PANEL_mainmenu mainmenu = new PANEL_mainmenu();
+    private PANEL_list tasklist = new PANEL_list(eventHandler);
+    private PANEL_navbar navbar = new PANEL_navbar(eventHandler);
+    private PANEL_mainmenu mainmenu = new PANEL_mainmenu(eventHandler);
 
 
     public FRAME_main() {
@@ -29,15 +27,10 @@ public class FRAME_main extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
-        Directory directory = new Directory("test");
-        Directory directory1 = new Directory("test1");
-        eventHandler.addDirectory(directory);
-        eventHandler.addDirectory(directory1);
-        eventHandler.saveDirectoryListToFile();
 
-        eventHandler.getDirectoryListFromFile();
-        eventHandler.printDirectoryList();
-        tasklist = new PANEL_list(eventHandler);
+        eventHandler.setPanelList(tasklist);
+        eventHandler.setPanelnavbar(navbar);
+        eventHandler.setPanelMainmenu(mainmenu);
 
         updateAllComponents();
 

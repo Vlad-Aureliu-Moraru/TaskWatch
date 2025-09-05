@@ -38,9 +38,10 @@ public class PANEL_list extends JScrollPane {
         System.out.println("PANEL_tasklist created"+this.getWidth()+"x"+HEIGHT);
     }
 
-    public void addTask(PANEL_dir dir) {
-        System.out.println("adding task");
+    public void addToList(PANEL_dir dir) {
+        System.out.println("adding to DIR List ");
         dirList.add(dir);
+
     }
     public void addTasksToList(){
         panel.removeAll();
@@ -65,14 +66,16 @@ public class PANEL_list extends JScrollPane {
 
 
     }
-    private void convertToPanel(){
+    public void convertToPanel(){
+        dirList.clear();
+        eventHandler.getDirectoryListFromFile();
         System.out.println("convertToPanel");
         for (Directory dir : eventHandler.getDirectoryList()){
-            System.out.println(dir);
-            PANEL_dir dirPanel = new PANEL_dir();
-            dirPanel.setTitleLabel(dir.getName());
-            addTask( dirPanel);
+            PANEL_dir dirPanel = new PANEL_dir(dir);
+            dirPanel.setEventHandler(eventHandler);
+            addToList( dirPanel);
         }
+        addTasksToList();
     }
 
 }
