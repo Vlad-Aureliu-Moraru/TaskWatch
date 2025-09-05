@@ -14,6 +14,15 @@ public class Task {
     private Date deadline;
     private int urgency;
 
+
+    public int getUrgency() {
+        return urgency;
+    }
+
+    public void setUrgency(int urgency) {
+        this.urgency = urgency;
+    }
+
     public ArrayList<Notes> getNotes() {
         return notes;
     }
@@ -60,5 +69,12 @@ public class Task {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{name: "+Name+";description:"+Description+";isRepeatable:"+repeatable+";isFinished:"+finished+";deadline:"+deadline+";urgency:"+urgency+"}");
+        sb.append("\n");
+        return sb.toString();
     }
 }

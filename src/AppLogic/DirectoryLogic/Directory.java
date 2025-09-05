@@ -33,7 +33,10 @@ public class Directory {
     }
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("name: "+Name+" ");
+        sb.append("name: "+Name+"\n ");
+        for(Task t:tasks){
+            sb.append(t+"\n");
+        }
         return sb.toString();
     }
 }

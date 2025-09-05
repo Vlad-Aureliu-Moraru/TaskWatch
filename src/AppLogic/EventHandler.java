@@ -1,6 +1,7 @@
 package AppLogic;
 
 import AppLogic.DirectoryLogic.Directory;
+import AppLogic.TaskLogic.Task;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
@@ -94,53 +95,135 @@ public class EventHandler {
         }
     }
     public void addDirectory(Directory directory) {
+        this.getDirectoryListFromFile();
+        for (Directory dir : directoryList) {
+            if (dir.getName().equals(directory.getName())) {
+                System.out.println("Directory already exists.");
+                return;
+            }
+        }
         directoryList.add(directory);
         saveDirectoryListToFile();
-        panelList.convertToPanel();
+        panelList.loadDirs();
 
     }
     public ArrayList<Directory> getDirectoryList() {
         return directoryList;
     }
+
     public void printDirectoryList() {
-        for (Directory directory : directoryList) {
-            System.out.println(directory.getName());
+        for (int i = 0; i < directoryList.size(); i++) {
+            System.out.println(i+" "+directoryList.get(i).getName());
         }
     }
     public Directory getCurrentDirectory() {
         return currentDirectory;
     }
-
     public PANEL_list getPanelList() {
         return panelList;
     }
-
     public void setPanelList(PANEL_list panelList) {
         this.panelList = panelList;
     }
-
     public PANEL_mainmenu getPanelMainmenu() {
         return panelMainmenu;
     }
-
     public void setPanelMainmenu(PANEL_mainmenu panelMainmenu) {
         this.panelMainmenu = panelMainmenu;
     }
-
     public PANEL_navbar getPanelnavbar() {
         return panelnavbar;
     }
-
     public void setPanelnavbar(PANEL_navbar panelnavbar) {
         this.panelnavbar = panelnavbar;
     }
-
     public void setDirectoryList(ArrayList<Directory> directoryList) {
         this.directoryList = directoryList;
     }
-
     public void setCurrentDirectory(Directory currentDirectory) {
         this.currentDirectory = currentDirectory;
         panelnavbar.setCurrentPATH(currentDirectory.getName()+"/");
+    }
+    public void resetCurrentDirectory() {
+        this.currentDirectory = null;
+        panelnavbar.setCurrentPATH("~");
+    }
+    public void saveTaskToFile() {
+        if (currentDirectory == null) {
+            System.err.println("Error: No current directory selected.");
+            return;
+        }
+
+        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        File taskFile = new File(fileName);
+
+        System.out.println("Saving tasks for directory '" + currentDirectory.getName() + "' to " + fileName + "...");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(taskFile,false))) {
+            for (Task task : currentDirectory.getTasks()) {
+                String taskLine = task+"";
+                writer.write(taskLine);
+
+            }
+            System.out.println("Tasks saved successfully.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while saving tasks: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    //!WORK ON THIS
+    public void getTaskListFromFile() {
+        ArrayList<Task> taskList = new ArrayList<>();
+
+        if (currentDirectory == null) {
+            System.err.println("Error: No current directory is set to load tasks from.");
+            return;
+        }
+
+        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        File taskFile = new File(fileName);
+
+        if (!taskFile.exists()) {
+            System.err.println("Error: Task file not found for directory '" + currentDirectory.getName() + "'.");
+            return;
+        }
+
+        System.out.println("Loading tasks from " + fileName + "...");
+        try (BufferedReader reader = new BufferedReader(new FileReader(taskFile))) {
+            String line;
+            while ((line = reader.readLine()) != null && line.trim().length() > 0) {
+                String[] taskLine = line.split(";");
+                ArrayList<String> items = new ArrayList<>();
+                for (int i = 0; i < taskLine.length; i++) {
+                    if (!taskLine[i].trim().isEmpty()) {
+                        String item =taskLine[i].substring(taskLine[i].indexOf(":")+1).trim().replaceAll("}", "");
+                        items.add(item);
+                    }
+                }
+                System.out.println(items.get(0));
+                Task task = new Task();
+                task.setName(items.get(0));
+                task.setDescription(items.get(1));
+// task.setRepeatable(taskLine[2]);
+                task.setRepeatable(false);
+// task.isFinished(taskLine[3]);
+                task.setFinished(false);
+// task.setDeadline(taskLine[4]);
+                task.setDeadline(null);
+    // task.setUrgency(taskLine[5]);
+                task.setUrgency(1);
+                taskList.add(task);
+            }
+            currentDirectory.setTasks(taskList);
+            System.out.println("Tasks loaded successfully.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while loading tasks: " + e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println(currentDirectory);
+    }
+    public void loadcurrentDirectoryTasksToUIList(){
+        panelList.loadCurrentDirTasks();
     }
 }

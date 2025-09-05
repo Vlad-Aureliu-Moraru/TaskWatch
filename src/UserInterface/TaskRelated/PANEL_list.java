@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public class PANEL_list extends JScrollPane {
     private JPanel panel = new JPanel();
     private ArrayList<PANEL_dir> dirList = new ArrayList();
+
     private int HEIGHT;
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
 
+    private boolean inDirectory = false;
     private EventHandler eventHandler;
     public PANEL_list(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -33,7 +35,7 @@ public class PANEL_list extends JScrollPane {
         this.setWheelScrollingEnabled(true);
         getVerticalScrollBar().setUnitIncrement(80);
 
-        convertToPanel();
+        loadDirs();
 
         System.out.println("PANEL_tasklist created"+this.getWidth()+"x"+HEIGHT);
     }
@@ -43,7 +45,7 @@ public class PANEL_list extends JScrollPane {
         dirList.add(dir);
 
     }
-    public void addTasksToList(){
+    public void addDirsToLayout(){
         panel.removeAll();
         int currentY = 10;
 
@@ -62,20 +64,44 @@ public class PANEL_list extends JScrollPane {
     public void setHEIGHTandWIDTH(int width,int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
-        addTasksToList();
+        if (inDirectory){
+            loadCurrentDirTasks();
+        }else{
+            addDirsToLayout();
+        }
 
 
     }
-    public void convertToPanel(){
+    public void loadDirs(){
+        this.setInDirectory(false);
         dirList.clear();
         eventHandler.getDirectoryListFromFile();
-        System.out.println("convertToPanel");
+        System.out.println("loadDirs");
         for (Directory dir : eventHandler.getDirectoryList()){
             PANEL_dir dirPanel = new PANEL_dir(dir);
             dirPanel.setEventHandler(eventHandler);
             addToList( dirPanel);
         }
-        addTasksToList();
+        addDirsToLayout();
     }
+    public void loadCurrentDirTasks(){
+        this.setInDirectory(true);
+        panel.removeAll();
+        int currentY = 10;
 
+        for(int j=0;j<eventHandler.getCurrentDirectory().getTasks().size();j++){
+            PANEL_task task = new PANEL_task(eventHandler.getCurrentDirectory().getTasks().get(j));
+            task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            panel.add(task);
+            currentY+= task.getHeight()+GAP;
+        }
+        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+        panel.revalidate();
+        panel.repaint();
+        this.revalidate();
+        this.repaint();
+    }
+    public void setInDirectory(boolean inDirectory) {
+        this.inDirectory = inDirectory;
+    }
 }
