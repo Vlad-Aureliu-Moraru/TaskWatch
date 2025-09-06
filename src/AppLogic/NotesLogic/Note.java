@@ -3,14 +3,14 @@ package AppLogic.NotesLogic;
 import java.util.Date;
 
 public class Note {
-    private Date date;
+    private String date;
     private String note;
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

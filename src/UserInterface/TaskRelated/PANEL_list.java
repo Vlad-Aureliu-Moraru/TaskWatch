@@ -3,6 +3,7 @@ package UserInterface.TaskRelated;
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 import UserInterface.TaskRelated.SubElements.PANEL_dir;
+import UserInterface.TaskRelated.SubElements.PANEL_note;
 import UserInterface.TaskRelated.SubElements.PANEL_task;
 
 import javax.swing.*;
@@ -69,6 +70,9 @@ public class PANEL_list extends JScrollPane {
             addDirsToLayout();
         }else if (stage ==1){
             loadCurrentDirTasks();
+        } else if (stage == 2) {
+            loadCurrentTaskNotes();
+
         }
 
 
@@ -103,4 +107,39 @@ public class PANEL_list extends JScrollPane {
         this.revalidate();
         this.repaint();
     }
+    public void loadCurrentTaskNotes(){
+        stage = 2;
+        panel.removeAll();
+        int currentY = 10;
+
+        for(int j=0;j<eventHandler.getCurrentTask().getNotes().size();j++){
+            PANEL_note note= new PANEL_note(eventHandler.getCurrentTask().getNotes().get(j));
+            note.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            note.setEventHandler(eventHandler);
+            panel.add(note);
+            currentY+=note.getHeight()+GAP;
+        }
+        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+        panel.revalidate();
+        panel.repaint();
+        this.revalidate();
+        this.repaint();
+    }
+    public void setStage(int stage) {
+        if (stage == 0){
+            loadDirs();
+            eventHandler.resetCurrentDirectory();
+        }
+        else if (stage ==1){
+            loadCurrentDirTasks();
+            eventHandler.resetCurrentTask();
+        }
+        else if (stage ==2){
+            loadCurrentTaskNotes();
+        }
+    }
+    public int getStage(){
+        return stage;
+    }
+
 }

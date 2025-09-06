@@ -1,6 +1,7 @@
 package AppLogic;
 
 import AppLogic.DirectoryLogic.Directory;
+import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
@@ -18,6 +19,7 @@ public class EventHandler {
     private ArrayList<Directory> directoryList = new ArrayList();
     private Directory currentDirectory;
     private Task currentTask;
+    private Note currentNote;
 
 
     public EventHandler() {
@@ -37,6 +39,18 @@ public class EventHandler {
         panelList.loadDirs();
 
     }
+    public void addNote(Note note) {
+        getCurrentTask().addNote(note);
+        getFileHandler().saveNotesToFile();
+        getPanelList().loadCurrentTaskNotes();
+    }
+    public void addTask(Task task) {
+        System.out.println("adding task");
+        this.getCurrentDirectory().addTask(task);
+        getFileHandler().saveTaskToFile();
+        panelList.loadCurrentDirTasks();
+    }
+
     public ArrayList<Directory> getDirectoryList() {
         return directoryList;
     }
@@ -83,12 +97,24 @@ public class EventHandler {
     public Task getCurrentTask() {
         return currentTask;
     }
+    public void setCurrentNote(Note currentNote) {
+        this.currentNote = currentNote;
+    }
+    public Note getCurrentNote() {
+        return currentNote;
+    }
+
     public void resetCurrentDirectory() {
         this.currentDirectory = null;
         panelnavbar.setCurrentPATH("~");
     }
-    public void loadcurrentDirectoryTasksToUIList(){
-        panelList.loadCurrentDirTasks();
+    public void resetCurrentTask() {
+        this.currentTask = null;
+        panelnavbar.setCurrentPATH(currentDirectory.getName()+"/");
+    }
+    public void resetCurrentNote() {
+        panelnavbar.setCurrentPATH("FIXEVENT HANDLER");
+        this.currentNote = null;
     }
     public FileHandler getFileHandler() {
         return fileHandler;

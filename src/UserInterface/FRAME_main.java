@@ -7,8 +7,7 @@ import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
 
 import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 
 public class FRAME_main extends JFrame {
     //?addons
@@ -27,6 +26,15 @@ public class FRAME_main extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        this.requestFocus();
+        InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(':'),"press");
+        ActionMap actionMap = getRootPane().getActionMap();
+        actionMap.put("press", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                mainmenu.getPanel_form().activate();
+            }
+        });
 
         eventHandler.setPanelList(tasklist);
         eventHandler.setPanelnavbar(navbar);
@@ -49,7 +57,7 @@ public class FRAME_main extends JFrame {
         int currentWIDTH = this.getSize().width;
         int currentHEIGHT = this.getSize().height;
         int navbarHEIGHT = currentHEIGHT / 10;
-        int tasklistWIDTH = (currentWIDTH / 2) - 60;
+        int tasklistWIDTH = (currentWIDTH / 2) - 150;
         if (navbarHEIGHT>50){
             navbarHEIGHT = 50;
         }
@@ -60,6 +68,7 @@ public class FRAME_main extends JFrame {
         tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
         navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
+        mainmenu.setHEIGHTandWIDTH(currentWIDTH-tasklistWIDTH,currentHEIGHT-navbarHEIGHT);
 
 
 

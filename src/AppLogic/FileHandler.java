@@ -205,9 +205,7 @@ public class FileHandler {
                         String Date = noteItem[0].substring(noteItem[0].indexOf(":")+1);
                         String Note = noteItem[1].substring(noteItem[1].indexOf(":")+1);
                         Note noteObj = new Note();
-                        noteObj.setDate(null);
-                        System.out.println(Date);
-                        System.out.println(Note);
+                        noteObj.setDate(Date);
                         noteObj.setNote(Note);
                         noteList.add(noteObj);
                         }
@@ -219,7 +217,7 @@ public class FileHandler {
             System.err.println("An error occurred while loading notes: " + e.getMessage());
             e.printStackTrace();
         }
-
+        currentTask.setNotes(noteList);
         System.out.println("CURRENT TASK NOTES "+currentTask.getNotes());
     }
     public void saveNotesToFile() {

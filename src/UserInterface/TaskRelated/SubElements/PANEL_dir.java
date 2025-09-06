@@ -34,7 +34,7 @@ public class PANEL_dir extends JPanel {
                 System.out.println(directory.getName()+"/");
                 eventHandler.setCurrentDirectory(directory);
                 eventHandler.getFileHandler().getTaskListFromFile();
-                eventHandler.loadcurrentDirectoryTasksToUIList();
+                eventHandler.getPanelList().loadCurrentDirTasks();
             }
         });
     }
