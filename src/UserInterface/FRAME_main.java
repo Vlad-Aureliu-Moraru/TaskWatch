@@ -28,11 +28,17 @@ public class FRAME_main extends JFrame {
         this.setLayout(null);
         this.requestFocus();
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap.put(KeyStroke.getKeyStroke(':'),"press");
+        inputMap.put(KeyStroke.getKeyStroke(':'),"command");
+        inputMap.put(KeyStroke.getKeyStroke('`'),"press");
         ActionMap actionMap = getRootPane().getActionMap();
-        actionMap.put("press", new AbstractAction() {
+        actionMap.put("command", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 mainmenu.getPanel_form().activate();
+            }
+        });
+        actionMap.put("press", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                navbar.returnFunction();
             }
         });
 

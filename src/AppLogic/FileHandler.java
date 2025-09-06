@@ -136,15 +136,11 @@ public class FileHandler {
                 Task task = new Task();
                 task.setName(items.get(0));
                 task.setDescription(items.get(1));
-// task.setRepeatable(taskLine[2]);
-                task.setRepeatable(false);
-// task.isFinished(taskLine[3]);
-                task.setFinished(false);
-// task.setDeadline(taskLine[4]);
-                task.setDeadline(null);
-                // task.setUrgency(taskLine[5]);
-                task.setUrgency(1);
-                task.setTimeDedicated(items.get(6));
+                task.setRepeatable(Boolean.parseBoolean(items.get(2)));
+                task.setFinished(Boolean.parseBoolean(items.get(3)));
+                task.setDeadline(items.get(4));
+                task.setUrgency(Integer.parseInt(items.get(5)));
+                task.setTimeDedicated(Integer.parseInt(items.get(6)));
                 taskList.add(task);
             }
             currentDirectory.setTasks(taskList);

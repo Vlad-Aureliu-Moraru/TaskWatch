@@ -9,20 +9,20 @@ public class Task {
     private ArrayList<Note> notes = new ArrayList<>();
     private String Name;
     private String Description;
-    private String TimeDedicated;
-    private boolean repeatable;
-    private boolean finished;
-    private Date deadline;
+    private int TimeDedicated;
+    private boolean repeatable = false;
+    private boolean finished = false;
+    private String deadline;
     private int urgency;
 
 
     public int getUrgency() {
         return urgency;
     }
-    public String getTimeDedicated() {
+    public int getTimeDedicated() {
         return TimeDedicated;
     }
-    public void setTimeDedicated(String timeDedicated) {
+    public void setTimeDedicated(int timeDedicated) {
         TimeDedicated = timeDedicated;
     }
     public void setUrgency(int urgency) {
@@ -58,10 +58,10 @@ public class Task {
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
-    public Date getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
     public void addNote(Note note) {

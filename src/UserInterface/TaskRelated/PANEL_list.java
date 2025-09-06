@@ -5,14 +5,18 @@ import AppLogic.EventHandler;
 import UserInterface.TaskRelated.SubElements.PANEL_dir;
 import UserInterface.TaskRelated.SubElements.PANEL_note;
 import UserInterface.TaskRelated.SubElements.PANEL_task;
+import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class PANEL_list extends JScrollPane {
     private JPanel panel = new JPanel();
     private ArrayList<PANEL_dir> dirList = new ArrayList();
+
+    private ColorTheme colorTheme = new ColorTheme();
 
     private int HEIGHT;
     private int WIDTH;
@@ -22,7 +26,7 @@ public class PANEL_list extends JScrollPane {
     private EventHandler eventHandler;
     public PANEL_list(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        panel.setBackground(Color.blue);
+        panel.setBackground(colorTheme.secondary_color);
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         panel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -35,6 +39,7 @@ public class PANEL_list extends JScrollPane {
         this.setVisible(true);
         this.setAutoscrolls(true);
         this.setWheelScrollingEnabled(true);
+        this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         getVerticalScrollBar().setUnitIncrement(80);
 
         loadDirs();
