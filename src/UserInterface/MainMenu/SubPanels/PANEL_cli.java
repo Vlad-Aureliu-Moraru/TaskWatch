@@ -3,12 +3,16 @@ package UserInterface.MainMenu.SubPanels;
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
+import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
 import UserInterface.MainMenu.CommandHelper;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class PANEL_cli extends JPanel {
     private JTextField commandField= new JTextField();
@@ -46,6 +50,7 @@ public class PANEL_cli extends JPanel {
         if(active){
             System.out.println("deactivating");
             stage =0;
+            step=1;
             active=false;
             this.setVisible(false);
             commandField.setText("");
@@ -81,6 +86,10 @@ public class PANEL_cli extends JPanel {
             commandField.setText("Task_Repeatable:");
         }
     }
+    private void loadNoteInput(){
+        stage = 3;
+        commandField.setText("Note:");
+    }
     //!ADD ERROR HANDLING AND CANCEL METHOD and removing method
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -92,51 +101,76 @@ public class PANEL_cli extends JPanel {
                 } else if (eventHandler.getPanelList().getStage()==1 ) {
                     loadTaskInput(step);
                 }
-//                else if (eventHandler.getPanelList().getStage()==2 ) {
-//                    loadTaskInput(1);
-//                }
+                else if (eventHandler.getPanelList().getStage()==2 ) {
+                    loadNoteInput();
+                }
 
-            }if (command.equals(commandHelper.getCancelCommand())){
+            }else if (command.equals(commandHelper.getCancelCommand())){
+                activate();
+            }
+            else if (command.matches(commandHelper.getNoteRegEx())){
+                Note note = new Note();
+                note.setNote(command.substring(command.indexOf(":")+1));
+
+                LocalDateTime now = LocalDateTime.now();
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH-mm");
+                String formattedDateTime = now.format(formatter);
+                note.setDate(formattedDateTime);
+                eventHandler.addNote(note);
                 activate();
             }
 
-            if (command.matches(commandHelper.getDirectoryRegEx()) && stage == 1) {
+            else if (command.matches(commandHelper.getDirectoryRegEx()) && stage == 1) {
                 eventHandler.addDirectory(new Directory(command.substring(command.indexOf(":")+1)));
                 activate();
             }
-            if (command.matches(commandHelper.getTaskNameRegEx()) && stage == 2) {
+            else if (command.matches(commandHelper.getTaskNameRegEx()) && stage == 2) {
                 addedTask.setName(command.substring(command.indexOf(":")+1));
                     step++;
                     loadTaskInput(step);
             }
-            if (command.matches(commandHelper.getTaskDescriptionRegEx()) && stage == 2) {
+            else if (command.matches(commandHelper.getTaskDescriptionRegEx()) && stage == 2) {
                 addedTask.setDescription(command.substring(command.indexOf(":")+1));
                 step++;
                 loadTaskInput(step);
             }
-            if (command.matches(commandHelper.getTaskPriorityRegEx()) && stage == 2) {
+            else if ((command.matches(commandHelper.getTaskPriorityRegEx()) || command.substring(command.indexOf(":")+1).equals("")) && stage == 2) {
+                if (command.substring(command.indexOf(":")+1).equals("")) {
+                    step++;
+                    loadTaskInput(step);
+                }else{
                 int Urgency =  Integer.parseInt(command.substring(command.indexOf(":")+1));
                 addedTask.setUrgency(Urgency);
                 step++;
                 loadTaskInput(step);
+                }
             }
-            if (command.matches(commandHelper.getTaskCompletionDateRegEx()) && stage == 2) {
-
-                addedTask.setDeadline(command.substring(command.indexOf(":")+1));
-                step++;
-                loadTaskInput(step);
+            else if ((command.matches(commandHelper.getTaskCompletionDateRegEx()) ||command.substring(command.indexOf(":")+1).equals("") ) && stage == 2) {
+                if (command.substring(command.indexOf(":")+1).equals("")) {
+                    step++;
+                    loadTaskInput(step);}else{
+                    addedTask.setDeadline(command.substring(command.indexOf(":")+1));
+                    step++;
+                    loadTaskInput(step);
+                }
             }
-            if (command.matches(commandHelper.getTaskCompletionTimeRegEx()) && stage == 2) {
+            else if (command.matches(commandHelper.getTaskCompletionTimeRegEx()) && stage == 2) {
                 addedTask.setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":")+1)));
                 step++;
                 loadTaskInput(step);
             }
-            if (command.matches(commandHelper.getTaskRepeatableRegEx()) && stage == 2 ) {
-                    Boolean repeatable = Boolean.parseBoolean(command.substring(command.indexOf(":") + 1));
-                    addedTask.setRepeatable(repeatable);
-                    step = 1;
-                    eventHandler.addTask(addedTask);
-                    activate();
+            else if (command.matches(commandHelper.getTaskRepeatableRegEx() ) && stage == 2 ) {
+                System.out.println(command.matches(commandHelper.getTaskRepeatableRegEx()));
+                System.out.println(command.substring(command.indexOf(":")+1));
+                Boolean repeatable = Boolean.parseBoolean(command.substring(command.indexOf(":") + 1));
+                addedTask.setRepeatable(repeatable);
+                step = 1;
+                eventHandler.addTask(addedTask);
+                activate();
+
+            }else{
+                System.out.println("COMMAND NOT FOUND ERROR");
             }
 
         });

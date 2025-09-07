@@ -54,9 +54,11 @@ public class PANEL_clock extends JPanel {
     public void setHEIGHTandWIDTH(int height, int width){
         timeDisplay.setBounds(0,0,width,height);
         if (width<400){
-            timeDisplay.setFont(FontLoader.getFont().deriveFont(50f));
-        } else{
+            timeDisplay.setFont(FontLoader.getFont().deriveFont(40f));
+        } else if (width<700){
             timeDisplay.setFont(FontLoader.getFont().deriveFont(70f));
+        }else{
+            timeDisplay.setFont(FontLoader.getFont().deriveFont(130f));
         }
     }
     private void updateTime(){

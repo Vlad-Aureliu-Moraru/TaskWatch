@@ -59,8 +59,8 @@ public class PANEL_taskinfo extends JPanel {
         taskStatus.setBounds(WIDTH/2,height/6,200,30);
         taskPriority.setBounds(WIDTH/2,height/5+20,200,30);
         taskTime.setBounds(WIDTH/2,height/4+40,200,30);
-        taskDeadline.setBounds(WIDTH/2,height/3+70,200,30);
-        taskType.setBounds(WIDTH/2,height/2+65,200,30);
+        taskDeadline.setBounds(WIDTH/2,height/3+50,200,30);
+        taskType.setBounds(WIDTH/2,height/2+45,200,30);
     }
 
     public void addTaskInfo(Task task){

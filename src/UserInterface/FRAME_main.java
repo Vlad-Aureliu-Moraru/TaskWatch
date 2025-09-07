@@ -42,6 +42,7 @@ public class FRAME_main extends JFrame {
                 navbar.returnFunction();
                 mainmenu.getPanel_taskinfo().deactivate();
                 mainmenu.getPanel_clock().activate();
+                mainmenu.getPanel_noteinfo().deactivate();
             }
         });
 

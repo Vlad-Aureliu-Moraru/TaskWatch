@@ -197,7 +197,7 @@ public class FileHandler {
                 String[]  noteLine = line.split(";");
                 for (String note : noteLine) {
                     if (!note.trim().isEmpty()) {
-                        String[] noteItem = note.split("-");
+                        String[] noteItem = note.split("%");
                         String Date = noteItem[0].substring(noteItem[0].indexOf(":")+1);
                         String Note = noteItem[1].substring(noteItem[1].indexOf(":")+1);
                         Note noteObj = new Note();

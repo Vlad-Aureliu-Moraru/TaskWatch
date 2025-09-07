@@ -37,41 +37,6 @@ public class PANEL_navbar extends JPanel {
        this.setBorder(compoundBorder);
 
         this.add(currentPATH);
-//        this.add(returnButton);
-//        this.add(test);
-//        this.add(addButton);
-        returnButton.addActionListener(actionEvent -> {
-            if (eventHandler.getPanelList().getStage()==2){
-                eventHandler.getPanelList().setStage(1);
-            } else if (eventHandler.getPanelList().getStage()==1) {
-                eventHandler.getPanelList().setStage(0);
-            }
-        });
-        addButton.addActionListener(actionEvent -> {
-                eventHandler.getPanelMainmenu().getPanel_form().activate();
-        });
-        test.addActionListener(actionEvent -> {
-            if (eventHandler.getCurrentTask() != null) {
-                System.out.println("adding note");
-                Note note = new Note();
-                note.setDate("2025%03%10");
-                note.setNote("DO SOMETHING");
-                eventHandler.addNote(note);
-                return;
-            }
-            if (eventHandler.getCurrentDirectory() != null) {
-                System.out.println("adding task");
-                Task currentTask = new Task();
-                currentTask.setName("TESTING");
-                currentTask.setTimeDedicated(2);
-                eventHandler.addTask(currentTask);
-            }else{
-                System.out.println("Adding Directory");
-                Directory dir = new Directory("APACHE");
-                eventHandler.addDirectory(dir);
-            }
-        });
-
     }
 
     public void setHEIGHTandWIDTH(int WIDTH,int HEIGHT){

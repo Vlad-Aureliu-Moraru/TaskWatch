@@ -18,7 +18,7 @@ public class PANEL_note extends JPanel {
         this.setBackground(ColorTheme.getAccent_green2());
         this.setLayout(null);
         noteName.setText(currentNote.getDate());
-        noteName.setBounds(0, 0,100,50);
+        noteName.setBounds(0, 0,200,50);
         this.add(noteName);
 
     }
@@ -27,6 +27,7 @@ public class PANEL_note extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 eventHandler.setCurrentNote(currentNote);
+                eventHandler.getPanelMainmenu().getPanel_noteinfo().addNoteInfo(currentNote);
 
                 System.out.println(eventHandler.getCurrentNote());
             }

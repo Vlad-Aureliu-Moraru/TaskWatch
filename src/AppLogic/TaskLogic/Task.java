@@ -9,11 +9,11 @@ public class Task {
     private ArrayList<Note> notes = new ArrayList<>();
     private String Name;
     private String Description;
-    private int TimeDedicated;
+    private int TimeDedicated = 0 ;
     private boolean repeatable = false;
     private boolean finished = false;
-    private String deadline;
-    private int urgency;
+    private String deadline = null;
+    private int urgency =1;
 
 
     public int getUrgency() {
