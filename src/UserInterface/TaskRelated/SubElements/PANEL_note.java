@@ -13,10 +13,9 @@ public class PANEL_note extends JPanel {
     private Note currentNote;
     private JLabel noteName = new JLabel();
     private EventHandler eventHandler;
-    private ColorTheme colorTheme = new ColorTheme();
     public PANEL_note(Note note) {
         this.currentNote = note;
-        this.setBackground(colorTheme.accent_green2);
+        this.setBackground(ColorTheme.getAccent_green2());
         this.setLayout(null);
         noteName.setText(currentNote.getDate());
         noteName.setBounds(0, 0,100,50);

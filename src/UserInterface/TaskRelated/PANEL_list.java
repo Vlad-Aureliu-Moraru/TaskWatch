@@ -13,20 +13,24 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PANEL_list extends JScrollPane {
+
     private JPanel panel = new JPanel();
     private ArrayList<PANEL_dir> dirList = new ArrayList();
 
-    private ColorTheme colorTheme = new ColorTheme();
 
     private int HEIGHT;
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
     private int stage = 0;
+
     private EventHandler eventHandler;
+
     public PANEL_list(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        panel.setBackground(colorTheme.secondary_color);
+
+        panel.setBackground(ColorTheme.getSecondary_color());
+
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         panel.setPreferredSize(new Dimension(WIDTH,HEIGHT));

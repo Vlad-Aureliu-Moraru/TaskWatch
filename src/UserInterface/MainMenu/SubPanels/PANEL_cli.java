@@ -2,8 +2,10 @@ package UserInterface.MainMenu.SubPanels;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
+import AppLogic.FontLoader;
 import AppLogic.TaskLogic.Task;
 import UserInterface.MainMenu.CommandHelper;
+import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,14 +23,16 @@ public class PANEL_cli extends JPanel {
 
     private CommandHelper commandHelper = new CommandHelper();
 
+
     public PANEL_cli() {
-        setBackground(Color.gray);
+        setBackground(ColorTheme.getConsoleColor());
         this.setLayout(null);
         this.add(commandField);
         commandField.setEditable(true);
         commandField.setOpaque(false);
         setVisible(false);
-        commandField.setForeground(Color.white);
+        commandField.setForeground(ColorTheme.getConsoleTextColor());
+        commandField.setFont(new Font("ARIAL",Font.PLAIN, 14));
         commandField.setBorder(null);
         commandField.setBounds(0,0,20,20);
     }

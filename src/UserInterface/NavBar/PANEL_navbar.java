@@ -20,20 +20,19 @@ public class PANEL_navbar extends JPanel {
     private int HEIGHT;
     private int WIDTH;
     private EventHandler eventHandler;
-    private ColorTheme colorTheme = new ColorTheme();
 
    public PANEL_navbar(EventHandler eventHandler) {
        this.eventHandler = eventHandler;
-        this.setBackground(colorTheme.secondary_color);
+        this.setBackground(ColorTheme.getSecondary_color());
         this.setLayout(null);
         currentPATH.setBounds(getHeight()/2,10,100,30);
-        currentPATH.setForeground(colorTheme.secnd_accent);
+        currentPATH.setForeground(ColorTheme.getSecnd_accent());
         returnButton.setBounds(getHeight()/3,10,100,30);
         addButton.setBounds(getHeight()/3,10,100,30);
         test.setBounds(getHeight()/3,10,100,30);
 
        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-       Border innerBorder = BorderFactory.createLineBorder(colorTheme.secnd_accent, 1);
+       Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 1);
        Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
        this.setBorder(compoundBorder);
 

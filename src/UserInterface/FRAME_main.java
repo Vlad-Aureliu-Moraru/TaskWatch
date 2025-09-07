@@ -2,6 +2,7 @@ package UserInterface;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
+import AppLogic.FontLoader;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
@@ -28,17 +29,19 @@ public class FRAME_main extends JFrame {
         this.setLayout(null);
         this.requestFocus();
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap.put(KeyStroke.getKeyStroke(':'),"command");
-        inputMap.put(KeyStroke.getKeyStroke('`'),"press");
+        inputMap.put(KeyStroke.getKeyStroke(':'),"cliOpen");
+        inputMap.put(KeyStroke.getKeyStroke('`'),"returnFunc");
         ActionMap actionMap = getRootPane().getActionMap();
-        actionMap.put("command", new AbstractAction() {
+        actionMap.put("cliOpen", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 mainmenu.getPanel_form().activate();
             }
         });
-        actionMap.put("press", new AbstractAction() {
+        actionMap.put("returnFunc", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 navbar.returnFunction();
+                mainmenu.getPanel_taskinfo().deactivate();
+                mainmenu.getPanel_clock().activate();
             }
         });
 
@@ -70,10 +73,13 @@ public class FRAME_main extends JFrame {
 
 
         mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
-        navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
         tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
+        if (navbarHEIGHT<40){
+            navbarHEIGHT = 40;
+        }
         navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
+        navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
         mainmenu.setHEIGHTandWIDTH(currentWIDTH-tasklistWIDTH,currentHEIGHT-navbarHEIGHT);
 
 
