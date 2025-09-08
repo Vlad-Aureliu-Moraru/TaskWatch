@@ -22,12 +22,12 @@ public class PANEL_list extends JScrollPane {
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
-    private int stage = 0;
+    private int stage = 0 ;//? 0 - mainmenu | 1 - dirmenu | 2 - taskmenu | 3 - noteclicked ;
+    private boolean noteSelected = false;
 
     private EventHandler eventHandler;
 
-    public PANEL_list(EventHandler eventHandler) {
-        this.eventHandler = eventHandler;
+    public PANEL_list() {
 
         panel.setBackground(ColorTheme.getSecondary_color());
 
@@ -46,7 +46,6 @@ public class PANEL_list extends JScrollPane {
         this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         getVerticalScrollBar().setUnitIncrement(80);
 
-        loadDirs();
 
         System.out.println("PANEL_tasklist created"+this.getWidth()+"x"+HEIGHT);
     }
@@ -63,6 +62,7 @@ public class PANEL_list extends JScrollPane {
         for(int j=0;j<dirList.size();j++){
             PANEL_dir task =dirList.get(j);
             task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            task.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
             panel.add(task);
             currentY+= task.getHeight()+GAP;
         }
@@ -106,6 +106,7 @@ public class PANEL_list extends JScrollPane {
         for(int j=0;j<eventHandler.getCurrentDirectory().getTasks().size();j++){
             PANEL_task task = new PANEL_task(eventHandler.getCurrentDirectory().getTasks().get(j));
             task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            task.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
             task.setEventHandler(eventHandler);
             panel.add(task);
             currentY+= task.getHeight()+GAP;
@@ -124,6 +125,7 @@ public class PANEL_list extends JScrollPane {
         for(int j=0;j<eventHandler.getCurrentTask().getNotes().size();j++){
             PANEL_note note= new PANEL_note(eventHandler.getCurrentTask().getNotes().get(j));
             note.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            note.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
             note.setEventHandler(eventHandler);
             panel.add(note);
             currentY+=note.getHeight()+GAP;
@@ -135,6 +137,7 @@ public class PANEL_list extends JScrollPane {
         this.repaint();
     }
     public void setStage(int stage) {
+        System.out.println("setting stage " + stage);
         if (stage == 0){
             loadDirs();
             eventHandler.resetCurrentDirectory();
@@ -150,5 +153,21 @@ public class PANEL_list extends JScrollPane {
     public int getStage(){
         return stage;
     }
+    public boolean isNoteSelected(){
+        return noteSelected;
+    }
+    public void setNoteSelected(boolean selected){
+        noteSelected = selected;
+    }
+    public void sortTasksByUrgency(boolean ascending){
+        eventHandler.getCurrentDirectory().sortTasksByUrgency(ascending);
+        loadCurrentDirTasks();
+        eventHandler.getFileHandler().saveTaskToFile();
 
+    }
+
+    public void setEventHandler(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
+        loadDirs();
+    }
 }

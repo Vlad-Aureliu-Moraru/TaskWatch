@@ -2,6 +2,7 @@ package UserInterface.NavBar;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
+import AppLogic.FontLoader;
 import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
@@ -13,23 +14,20 @@ import java.time.LocalDate;
 
 public class PANEL_navbar extends JPanel {
     private JLabel currentPATH = new JLabel("~");
-    private JButton returnButton = new JButton("<-");
-    private JButton addButton = new JButton("+");
-    private JButton test = new JButton("Test");
 
     private int HEIGHT;
     private int WIDTH;
+
+    private JLabel statusDisplay = new JLabel("");
     private EventHandler eventHandler;
 
-   public PANEL_navbar(EventHandler eventHandler) {
-       this.eventHandler = eventHandler;
+   public PANEL_navbar() {
         this.setBackground(ColorTheme.getSecondary_color());
         this.setLayout(null);
-        currentPATH.setBounds(getHeight()/2,10,100,30);
         currentPATH.setForeground(ColorTheme.getSecnd_accent());
-        returnButton.setBounds(getHeight()/3,10,100,30);
-        addButton.setBounds(getHeight()/3,10,100,30);
-        test.setBounds(getHeight()/3,10,100,30);
+        statusDisplay.setForeground(ColorTheme.getSecnd_accent());
+        statusDisplay.setFont(FontLoader.getFont().deriveFont(Font.PLAIN, 15));
+        statusDisplay.setForeground(ColorTheme.getSecondary_green());
 
        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 1);
@@ -37,15 +35,14 @@ public class PANEL_navbar extends JPanel {
        this.setBorder(compoundBorder);
 
         this.add(currentPATH);
+        this.add(statusDisplay);
     }
 
     public void setHEIGHTandWIDTH(int WIDTH,int HEIGHT){
         this.HEIGHT=HEIGHT;
         this.WIDTH=WIDTH;
+        statusDisplay.setBounds(30,10,WIDTH/3,30);
         currentPATH.setBounds((WIDTH/2)-100,10,300,30);
-        returnButton.setBounds((WIDTH-50),10,50,40);
-        addButton.setBounds((WIDTH-150),10,50,40);
-        test.setBounds((WIDTH-250),10,50,40);
         if (currentPATH.getX()<0){
             currentPATH.setBounds(0,10,100,30);
         }
@@ -59,8 +56,24 @@ public class PANEL_navbar extends JPanel {
     {
         if (eventHandler.getPanelList().getStage()==2){
             eventHandler.getPanelList().setStage(1);
+            eventHandler.getPanelList().setNoteSelected(false);
         } else if (eventHandler.getPanelList().getStage()==1) {
             eventHandler.getPanelList().setStage(0);
         }
+    }
+    public void setClockWorkingStatus(){
+       statusDisplay.setText("\uDB82\uDD54  :: clock");
+    }
+    public void setTimerWorkingStatus(){
+       statusDisplay.setText("\uDB84\uDCD0  :: timer");
+       statusDisplay.setForeground(ColorTheme.getSecondary_green());
+    }
+    public void setTimerPausedStatus(){
+       statusDisplay.setText("\uF28B  :: paused");
+       statusDisplay.setForeground(ColorTheme.getPausedTimerColor());
+    }
+
+    public void setEventHandler(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
     }
 }

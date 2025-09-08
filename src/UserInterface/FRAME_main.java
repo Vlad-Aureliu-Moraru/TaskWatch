@@ -12,12 +12,12 @@ import java.awt.event.*;
 
 public class FRAME_main extends JFrame {
     //?addons
-    private EventHandler  eventHandler = new EventHandler();
+    private EventHandler  eventHandler = new EventHandler() ;
     private int WIDTH = 1000;
     private int HEIGHT= 500;
-    private PANEL_list tasklist = new PANEL_list(eventHandler);
-    private PANEL_navbar navbar = new PANEL_navbar(eventHandler);
-    private PANEL_mainmenu mainmenu = new PANEL_mainmenu(eventHandler);
+    private PANEL_navbar navbar = new PANEL_navbar() ;
+    private PANEL_list tasklist  = new PANEL_list() ;
+    private PANEL_mainmenu mainmenu = new PANEL_mainmenu() ;
 
 
     public FRAME_main() {
@@ -46,9 +46,13 @@ public class FRAME_main extends JFrame {
             }
         });
 
-        eventHandler.setPanelList(tasklist);
         eventHandler.setPanelnavbar(navbar);
+        eventHandler.setPanelList(tasklist);
         eventHandler.setPanelMainmenu(mainmenu);
+        navbar.setEventHandler(eventHandler);
+        tasklist.setEventHandler(eventHandler);
+        mainmenu.setEventHandler(eventHandler);
+        mainmenu.getPanel_clock().startClockTimer();
 
         updateAllComponents();
 

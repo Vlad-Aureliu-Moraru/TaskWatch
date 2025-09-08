@@ -2,6 +2,8 @@ package UserInterface.TaskRelated.SubElements;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
+import AppLogic.FileHandler;
+import AppLogic.FontLoader;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
@@ -15,25 +17,31 @@ public class PANEL_dir extends JPanel {
     private EventHandler eventHandler = new EventHandler();
     private Directory directory;
 
+    private int WIDTH = 200;
+    private int HEIGHT = 30;
+
     public PANEL_dir(Directory directory) {
         this.directory = directory;
-        this.setBackground(ColorTheme.getSecondary_green());
+        this.setBackground(ColorTheme.getDirColor());
         this.setLayout(null);
-        titleLabel.setText(directory.getName());
-        titleLabel.setOpaque(true);
+        titleLabel.setText("\uF4D3  "+directory.getName());
         titleLabel.setBackground(ColorTheme.getSecondary_green());
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setFont(FontLoader.getFont().deriveFont(Font.PLAIN, 20));
 
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 1);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
+
         this.setBorder(compoundBorder);
+
         titleLabel.setBounds(0,0,100,30);
         titleLabel.setForeground(ColorTheme.getSecnd_accent());
         this.add(titleLabel);
     }
-    public void setTitleLabel(String title){
-        titleLabel.setText(title);
+    public void setHEIGHTandWIDTH(int height, int width){
+        titleLabel.setBounds(this.getWidth()/2-(WIDTH/2),this.getHeight()/2-(HEIGHT/2),WIDTH,HEIGHT);
     }
 
     public void setEventHandler(EventHandler eventHandler) {

@@ -79,6 +79,7 @@ public class EventHandler {
         return panelnavbar;
     }
     public void setPanelnavbar(PANEL_navbar panelnavbar) {
+        System.out.println("setting panel navbar");
         this.panelnavbar = panelnavbar;
     }
     public void setDirectoryList(ArrayList<Directory> directoryList) {
@@ -99,11 +100,11 @@ public class EventHandler {
     }
     public void setCurrentNote(Note currentNote) {
         this.currentNote = currentNote;
+        fileHandler.setCurrentNote(currentNote);
     }
     public Note getCurrentNote() {
         return currentNote;
     }
-
     public void resetCurrentDirectory() {
         this.currentDirectory = null;
         panelnavbar.setCurrentPATH("~");
@@ -118,5 +119,7 @@ public class EventHandler {
     }
     public FileHandler getFileHandler() {
         return fileHandler;
+    }
+    public void setclockstatus(){
     }
 }

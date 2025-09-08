@@ -5,6 +5,7 @@ import AppLogic.NotesLogic.Note;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,11 +16,22 @@ public class PANEL_note extends JPanel {
     private EventHandler eventHandler;
     public PANEL_note(Note note) {
         this.currentNote = note;
-        this.setBackground(ColorTheme.getAccent_green2());
+        this.setBackground(ColorTheme.getNoteColor());
         this.setLayout(null);
-        noteName.setText(currentNote.getDate());
+        noteName.setText("\uDB85\uDF81  "+currentNote.getDate());
         noteName.setBounds(0, 0,200,50);
+        noteName.setHorizontalAlignment(JLabel.CENTER);
+        noteName.setFont(new Font("ARIAL",Font.PLAIN,15));
         this.add(noteName);
+        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getAccent_green(), 3);
+        Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
+        this.setBorder(compoundBorder);
+
+    }
+
+    public void setHEIGHTandWIDTH(int height, int width){
+        noteName.setBounds(0,0,width,height);
 
     }
     public void setEventHandler(EventHandler eventHandler) {
@@ -28,6 +40,7 @@ public class PANEL_note extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 eventHandler.setCurrentNote(currentNote);
                 eventHandler.getPanelMainmenu().getPanel_noteinfo().addNoteInfo(currentNote);
+                eventHandler.getPanelList().setNoteSelected(true);
 
                 System.out.println(eventHandler.getCurrentNote());
             }

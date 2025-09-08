@@ -1,14 +1,12 @@
 package UserInterface.MainMenu.SubPanels;
 
+import AppLogic.EventHandler;
 import AppLogic.FontLoader;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,30 +17,35 @@ public class PANEL_clock extends JPanel {
     private Timer taskTimer;
     private JLabel timeDisplay = new JLabel() ;
     private boolean active = true;
-    private int totalSeconds;
+    private int totalSeconds = 1;
+
+    private int clockUpdateInSec = 5;
+    private int taskUpdateInSec = 5;
+
+    private EventHandler eventHandler;
 
 
-    public PANEL_clock(){
+    public PANEL_clock() {
         this.setBackground(ColorTheme.getMain_color());
         this.setLayout(null);
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        clockTimer = new Timer(10000,new ActionListener() {
+        clockTimer = new Timer(clockUpdateInSec*1000,new ActionListener() {
            public void actionPerformed(ActionEvent e) {
+               System.out.println("clock working");
                updateTime();
            }
         });
-        taskTimer = new Timer(5000,new ActionListener() {
+        taskTimer = new Timer(taskUpdateInSec*1000,new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                totalSeconds-=5;
+                System.out.println("task working");
+                totalSeconds-=taskUpdateInSec;
                 updateTimeForTaskTimer();
-                if(totalSeconds<=0){
-                    taskTimer.stop();
+                if(totalSeconds<=1){
+                    stopTaskTimerandStartClockTimer();
                     System.out.println("Task Timer Stopped");
                 }
             }
         });
-        clockTimer.start();
-        updateTime();
 
         timeDisplay.setFont(FontLoader.getFont().deriveFont(70f));
         timeDisplay.setHorizontalAlignment(JLabel.CENTER);
@@ -68,7 +71,11 @@ public class PANEL_clock extends JPanel {
     }
     public void activate(){
         active = true;
-        clockTimer.start();
+        if (taskTimer.isRunning()){
+            clockTimer.stop();
+        }else{
+            clockTimer.start();
+        }
         this.setVisible(true);
     }
     public void Switch(){
@@ -87,10 +94,19 @@ public class PANEL_clock extends JPanel {
         active=false;
         this.setVisible(false);
         clockTimer.stop();
+
     }
-    public void startTimer(int minutes){
+    public void startClockTimer(){
+        if (!clockTimer.isRunning()){
+            clockTimer.start();
+            eventHandler.getPanelnavbar().setClockWorkingStatus();
+            updateTime();
+        }
+    }
+    public void startTaskTimer(int minutes){
         totalSeconds = minutes*60;
         clockTimer.stop();
+        eventHandler.getPanelnavbar().setTimerWorkingStatus();
         if (taskTimer != null && taskTimer.isRunning()) {
             taskTimer.stop();
             System.out.println("Task Timer Stopped");
@@ -104,5 +120,23 @@ public class PANEL_clock extends JPanel {
         int seconds = totalSeconds % 60;
         String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         timeDisplay.setText(timeString);
+    }
+    public void stopTaskTimerandStartClockTimer(){
+        taskTimer.stop();
+        startClockTimer();
+    }
+    public void pauseOrunpauseTaskTimer(){
+        if (taskTimer.isRunning()){
+            eventHandler.getPanelnavbar().setTimerPausedStatus();
+            taskTimer.stop();
+        }else {
+            taskTimer.start();
+            eventHandler.getPanelnavbar().setTimerWorkingStatus();
+        }
+    }
+
+    public void setEventHandler(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
+        System.out.println(eventHandler.getPanelnavbar()+" from child");
     }
 }

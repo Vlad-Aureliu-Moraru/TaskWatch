@@ -6,11 +6,13 @@ import AppLogic.TaskLogic.Task;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileHandler {
     private ArrayList<Directory> directoryList ;
     private Directory currentDirectory;
     private Task currentTask;
+    private Note currentNote;
 
     public FileHandler(EventHandler eventHandler) {
         this.directoryList = eventHandler.getDirectoryList();
@@ -22,6 +24,9 @@ public class FileHandler {
     }
     public void setCurrentTask(Task currentTask) {
         this.currentTask = currentTask;
+    }
+    public void setCurrentNote(Note currentNote) {
+        this.currentNote = currentNote;
     }
     public void checkFileStructure() {
         File mainDir = new File("main");
@@ -103,6 +108,77 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
+    public void removeDirectoryFromFiles() {
+        String dirName = currentDirectory.getName();
+            if (dirName == null || dirName.trim().isEmpty()) {
+                System.err.println("Error: Directory name cannot be empty.");
+                return;
+            }
+
+            String cleanedDirName = dirName.trim();
+            File mainFile = new File("main" + File.separator + "main.txt");
+
+            System.out.println("Attempting to remove '" + cleanedDirName + "' from files...");
+
+            // Part 1: Remove the directory from main.txt
+            List<String> directoryList = new ArrayList<>();
+            if (mainFile.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(mainFile))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.trim().isEmpty()) {
+                        String[] dirs = line.split(";");
+                        for (String dir : dirs) {
+                            directoryList.add(dir.trim());
+                        }
+                    }
+                } catch (IOException e) {
+                    System.err.println("An error occurred while reading the main directory file: " + e.getMessage());
+                    return; // Stop if the read fails
+                }
+
+                // Remove the directory name from the list
+                if (directoryList.remove(cleanedDirName)) {
+                    // Now, write the modified list back to the file
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile, false))) {
+                        for (int i = 0; i < directoryList.size(); i++) {
+                            writer.write(directoryList.get(i));
+                            if (i < directoryList.size() - 1) {
+                                writer.write(" ; ");
+                            }
+                        }
+                        System.out.println("Directory '" + cleanedDirName + "' removed from main.txt.");
+                    } catch (IOException e) {
+                        System.err.println("An error occurred while updating the main directory file: " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Directory '" + cleanedDirName + "' not found in main.txt.");
+                }
+            } else {
+                System.err.println("Error: main.txt not found.");
+                return;
+            }
+
+            // Part 2: Delete all files that belong to this directory
+            File mainDir = new File("main");
+            if (mainDir.exists() && mainDir.isDirectory()) {
+                File[] files = mainDir.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        // Check if the file's name starts with the directory name
+                        // and handles both .txt and .md extensions
+                        if (file.getName().startsWith(cleanedDirName + ".") || file.getName().startsWith(cleanedDirName + "-")) {
+                            if (file.delete()) {
+                                System.out.println("Deleted file: " + file.getName());
+                            } else {
+                                System.err.println("Failed to delete file: " + file.getName());
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.err.println("Error: Main directory not found.");
+            }
+    }
     //?TASK
     public void getTaskListFromFile() {
         ArrayList<Task> taskList = new ArrayList<>();
@@ -174,7 +250,37 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
-    //?NOTE
+    public void removeTaskFromFiles() {
+        if (currentTask != null) {
+            currentDirectory.getTasks().remove(currentTask);
+            saveTaskToFile(); // Saves the directory file without the removed task
+        } else {
+            System.err.println("Error: No task is currently selected to be removed.");
+            return;
+        }
+
+        // New logic to remove the notes file
+        try {
+            // Construct the filename using the same pattern as the saveNotesToFile() method
+            String cleanedTaskName = currentTask.getName().replaceAll(" ", "_");
+            String notesFileName = "main" + File.separator + currentDirectory.getName() + "-" + cleanedTaskName + ".md";
+
+            File notesFile = new File(notesFileName);
+
+            if (notesFile.exists()) {
+                if (notesFile.delete()) {
+                    System.out.println("Associated notes file '" + notesFileName + "' deleted successfully.");
+                } else {
+                    System.err.println("Error: Failed to delete notes file '" + notesFileName + "'.");
+                }
+            } else {
+                System.out.println("No notes file found for task '" + currentTask.getName() + "'.");
+            }
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred while trying to delete the notes file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }    //?NOTE
     public void getNotesFromFile(){
         ArrayList<Note> noteList = new ArrayList<>();
         if (currentTask == null) {
@@ -239,4 +345,9 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
+    public void removeNotesFromFile(){
+        currentTask.getNotes().remove(currentNote);
+        saveNotesToFile();
+    }
+
 }

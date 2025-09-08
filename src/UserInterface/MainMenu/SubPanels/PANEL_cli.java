@@ -2,7 +2,6 @@ package UserInterface.MainMenu.SubPanels;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
-import AppLogic.FontLoader;
 import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
 import UserInterface.MainMenu.CommandHelper;
@@ -10,7 +9,6 @@ import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -40,7 +38,10 @@ public class PANEL_cli extends JPanel {
         commandField.setBorder(null);
         commandField.setBounds(0,0,20,20);
     }
-
+    public void setStage(int stage) {
+        this.stage = stage;
+    }
+    public void setStep(int step) {}
     public void setHEIGHTandWIDTH(int height,int width){
         this.HEIGHT=height;
         this.WIDTH=width;
@@ -83,7 +84,7 @@ public class PANEL_cli extends JPanel {
             commandField.setText("Task_Completion_Time:");
         }
         else if(step==6){
-            commandField.setText("Task_Repeatable:");
+            commandField.setText("isRepeatable:");
         }
     }
     private void loadNoteInput(){
@@ -92,10 +93,11 @@ public class PANEL_cli extends JPanel {
     }
     //!ADD ERROR HANDLING AND CANCEL METHOD and removing method
     public void setEventHandler(EventHandler eventHandler) {
+        System.out.println(eventHandler +" from other child");
         this.eventHandler = eventHandler;
         commandField.addActionListener(actionEvent -> {
             String command = commandField.getText();
-            if (command.equals(commandHelper.getAddCommand())){
+            if (command.matches(commandHelper.getAddCommand())){
                 if (eventHandler.getPanelList().getStage()==0){
                     loadDirrectoryInput();
                 } else if (eventHandler.getPanelList().getStage()==1 ) {
@@ -105,10 +107,55 @@ public class PANEL_cli extends JPanel {
                     loadNoteInput();
                 }
 
-            }else if (command.equals(commandHelper.getCancelCommand())){
+            }
+            else if (command.matches(commandHelper.getCancelCommand())){
                 activate();
             }
-            else if (command.matches(commandHelper.getNoteRegEx())){
+            else if (command.matches(commandHelper.getSortByUrgencyCommand())&&eventHandler.getPanelList().getStage()==1) {
+            String value = command.substring(command.indexOf("(")+1, command.indexOf(")"));
+            if (value.equals("a")){
+                eventHandler.getPanelList().sortTasksByUrgency(true);
+            }else{
+                eventHandler.getPanelList().sortTasksByUrgency(false);
+            }
+            activate();
+            }
+            else if (command.matches(commandHelper.getRemoveCommand())) {
+                System.out.println(eventHandler.getPanelList().getStage());
+                if (eventHandler.getPanelList().getStage()==1) {
+                    eventHandler.getFileHandler().removeDirectoryFromFiles();
+                    eventHandler.getPanelnavbar().returnFunction();
+                    activate();
+                }else if (eventHandler.getPanelList().getStage()==2 && !eventHandler.getPanelList().isNoteSelected()) {
+                    System.out.println("trying to remove task");
+                    eventHandler.getFileHandler().removeTaskFromFiles();
+                    eventHandler.getPanelMainmenu().getPanel_taskinfo().deactivate();
+                    eventHandler.getPanelMainmenu().getPanel_clock().activate();
+                    eventHandler.getPanelMainmenu().getPanel_noteinfo().deactivate();
+                    eventHandler.getPanelnavbar().returnFunction();
+                    activate();
+                }
+                else if (eventHandler.getPanelList().isNoteSelected()) {
+                    System.out.println("trying to remove note");
+                    eventHandler.getFileHandler().removeNotesFromFile();
+                    eventHandler.getPanelMainmenu().getPanel_taskinfo().deactivate();
+                    eventHandler.getPanelMainmenu().getPanel_clock().activate();
+                    eventHandler.getPanelMainmenu().getPanel_noteinfo().deactivate();
+                    eventHandler.getPanelnavbar().returnFunction();
+                    activate();
+                }
+            }
+            else if (command.matches(commandHelper.getStartTimerCommand())) {
+                int value = Integer.parseInt(command.substring(command.indexOf("(")+1,command.indexOf(")")));
+                eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(value);
+                activate();
+            }
+            else if (command.matches(commandHelper.getStopTimerCommand())) {
+                eventHandler.getPanelMainmenu().getPanel_clock().stopTaskTimerandStartClockTimer();
+                activate();
+
+            }
+            else if (command.matches(commandHelper.getNoteRegEx()) && stage==3){
                 Note note = new Note();
                 note.setNote(command.substring(command.indexOf(":")+1));
 
@@ -120,23 +167,48 @@ public class PANEL_cli extends JPanel {
                 eventHandler.addNote(note);
                 activate();
             }
-
             else if (command.matches(commandHelper.getDirectoryRegEx()) && stage == 1) {
                 eventHandler.addDirectory(new Directory(command.substring(command.indexOf(":")+1)));
                 activate();
+            }
+            else if(command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage()>=2){
+                int value = eventHandler.getCurrentTask().getTimeDedicated();
+                eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(value);
+                activate();
+            }
+            else if (command.matches(commandHelper.getPauseTimerCommand())) {
+                eventHandler.getPanelMainmenu().getPanel_clock().pauseOrunpauseTaskTimer();
+                activate();
+
             }
             else if (command.matches(commandHelper.getTaskNameRegEx()) && stage == 2) {
                 addedTask.setName(command.substring(command.indexOf(":")+1));
                     step++;
                     loadTaskInput(step);
             }
+            else if(command.matches(commandHelper.getTaskRepeatableRegEx()) &&stage==2 ) {
+                String value=  command.substring(command.indexOf(":")+1);
+                if (value.isEmpty()) {
+                    step = 1;
+                    eventHandler.addTask(addedTask);
+                    activate();
+                }else{
+                    Boolean repeatable = Boolean.parseBoolean(value);
+                    addedTask.setRepeatable(repeatable);
+
+                    step = 1;
+                    eventHandler.addTask(addedTask);
+                    activate();
+                }
+            }
             else if (command.matches(commandHelper.getTaskDescriptionRegEx()) && stage == 2) {
                 addedTask.setDescription(command.substring(command.indexOf(":")+1));
                 step++;
                 loadTaskInput(step);
             }
-            else if ((command.matches(commandHelper.getTaskPriorityRegEx()) || command.substring(command.indexOf(":")+1).equals("")) && stage == 2) {
-                if (command.substring(command.indexOf(":")+1).equals("")) {
+            else if ((command.matches(commandHelper.getTaskPriorityRegEx())) && stage == 2) {
+                String value=  command.substring(command.indexOf(":")+1);
+                if (value.isEmpty()) {
                     step++;
                     loadTaskInput(step);
                 }else{
@@ -146,8 +218,9 @@ public class PANEL_cli extends JPanel {
                 loadTaskInput(step);
                 }
             }
-            else if ((command.matches(commandHelper.getTaskCompletionDateRegEx()) ||command.substring(command.indexOf(":")+1).equals("") ) && stage == 2) {
-                if (command.substring(command.indexOf(":")+1).equals("")) {
+            else if ((command.matches(commandHelper.getTaskCompletionDateRegEx())) && stage == 2) {
+                String value=  command.substring(command.indexOf(":")+1);
+                if (value.isEmpty()) {
                     step++;
                     loadTaskInput(step);}else{
                     addedTask.setDeadline(command.substring(command.indexOf(":")+1));
@@ -156,23 +229,20 @@ public class PANEL_cli extends JPanel {
                 }
             }
             else if (command.matches(commandHelper.getTaskCompletionTimeRegEx()) && stage == 2) {
-                addedTask.setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":")+1)));
-                step++;
-                loadTaskInput(step);
+                String  value=  command.substring(command.indexOf(":")+1);
+                if (value.isEmpty()) {
+                    step++;
+                    loadTaskInput(step);
+                }else{
+                    addedTask.setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":")+1)));
+                    step++;
+                    loadTaskInput(step);
+                }
             }
-            else if (command.matches(commandHelper.getTaskRepeatableRegEx() ) && stage == 2 ) {
-                System.out.println(command.matches(commandHelper.getTaskRepeatableRegEx()));
-                System.out.println(command.substring(command.indexOf(":")+1));
-                Boolean repeatable = Boolean.parseBoolean(command.substring(command.indexOf(":") + 1));
-                addedTask.setRepeatable(repeatable);
-                step = 1;
-                eventHandler.addTask(addedTask);
-                activate();
-
-            }else{
-                System.out.println("COMMAND NOT FOUND ERROR");
+            else{
+                System.out.println("Command not recognized.");
+//                activate();
             }
-
         });
     }
 }

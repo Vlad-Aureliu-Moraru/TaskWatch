@@ -14,20 +14,19 @@ import java.awt.*;
 public class PANEL_mainmenu extends JPanel {
     private PANEL_cli panel_cli = new PANEL_cli();
     private PANEL_taskinfo panel_taskinfo = new PANEL_taskinfo();
-    private PANEL_clock panel_clock = new PANEL_clock();
+    private PANEL_clock panel_clock = new PANEL_clock() ;
     private PANEL_noteinfo panel_noteinfo = new PANEL_noteinfo();
 
     private int HEIGHT;
     private int WIDTH;
     private int textBarHeight = 30;
+    private EventHandler eventHandler;
 
-
-    public PANEL_mainmenu(EventHandler eventHandler) {
+    public PANEL_mainmenu() {
+        System.out.println(eventHandler+ " from parent");
         this.setBackground(ColorTheme.getMain_color());
         this.setLayout(null);
 
-
-        panel_cli.setEventHandler(eventHandler);
 
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
@@ -68,5 +67,10 @@ public class PANEL_mainmenu extends JPanel {
     }
     public   PANEL_noteinfo getPanel_noteinfo() {
         return panel_noteinfo;
+    }
+    public void setEventHandler(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
+        panel_clock.setEventHandler(eventHandler);
+        panel_cli.setEventHandler(eventHandler);
     }
 }

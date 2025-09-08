@@ -54,7 +54,7 @@ public class PANEL_taskinfo extends JPanel {
     public void setHEIGHTandWIDTH(int height, int width){
         this.HEIGHT = height;
         this.WIDTH = width;
-        taskName.setBounds(WIDTH/2-150,0,300,30);
+        taskName.setBounds(WIDTH/2-150,0,width,30);
         taskDescription.setBounds(WIDTH/20,height/5,width/2-40,height);
         taskStatus.setBounds(WIDTH/2,height/6,200,30);
         taskPriority.setBounds(WIDTH/2,height/5+20,200,30);
@@ -65,7 +65,7 @@ public class PANEL_taskinfo extends JPanel {
 
     public void addTaskInfo(Task task){
         activate();
-        taskName.setText("NAME: "+task.getName());
+        taskName.setText("\uF06A  "+task.getName());
         taskDescription.setText("DESC: "+task.getDescription());
         taskStatus.setText(task.isFinished()?"Finished":"Not Finished");
         taskPriority.setText("URGENCY: "+task.getUrgency()+"");

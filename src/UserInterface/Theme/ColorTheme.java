@@ -9,9 +9,16 @@ public class ColorTheme {
     private static Color secnd_accent = new Color(237, 141, 141);      // #ED8D8D
 
     private static Color main_green = new Color(56, 41, 51);           // #382933
-    private static Color secondary_green = new Color(63, 100, 85);      // #3B5249
-    private static Color accent_green = new Color(79, 114, 122);       // #519872
+    private static Color secondary_green = new Color(53, 155, 112);      // #3B5249
+    private static Color accent_green = new Color(33, 50, 73);       // #519872
     private static Color accent_green2 = new Color(114, 128, 101);     // #A4B494
+
+    private static Color dirColor = new Color(55, 56, 103);
+    private static Color taskColor= new Color(103, 82, 82);
+        private static Color taskTextColor = new Color(138, 153, 166);
+    private static Color noteColor = new Color(211, 164, 89);
+
+    private static Color pausedTimerColor = new Color(0xFFFFFF);
 
     private static Color urgency1 = new Color(115, 201, 168);
     private static Color urgency2 = new Color(116, 215, 129);
@@ -22,6 +29,25 @@ public class ColorTheme {
     private static Color consoleColor = new  Color(82, 94, 84);
     private static Color consoleTextColor = new  Color(222, 222, 222);
 
+    public static  Color getPausedTimerColor() {
+        return pausedTimerColor;
+    }
+
+    public static Color getDirColor() {
+        return dirColor;
+    }
+
+    public static Color getTaskTextColor() {
+        return taskTextColor;
+    }
+
+    public static Color getTaskColor() {
+        return taskColor;
+    }
+
+    public static Color getNoteColor() {
+        return noteColor;
+    }
 
     public static Color getMain_color() {
         return main_color;

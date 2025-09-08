@@ -3,6 +3,7 @@ package AppLogic.DirectoryLogic;
 import AppLogic.TaskLogic.Task;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Directory {
     private ArrayList<Task> tasks = new ArrayList<>();
@@ -36,6 +37,14 @@ public class Directory {
 
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public void sortTasksByUrgency(boolean ascending){
+        if(ascending){
+            tasks.sort(Comparator.comparingInt(Task::getUrgency));
+        }else{
+            tasks.sort(Comparator.comparingInt(Task::getUrgency).reversed());
+        }
     }
     public String toString(){
         StringBuilder sb = new StringBuilder();

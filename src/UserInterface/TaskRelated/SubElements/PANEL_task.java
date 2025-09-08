@@ -1,6 +1,7 @@
 package UserInterface.TaskRelated.SubElements;
 
 import AppLogic.EventHandler;
+import AppLogic.FontLoader;
 import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
@@ -11,22 +12,33 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PANEL_task extends JPanel {
-    private int HEIGHT;
-    private int WIDTH;
     private JLabel taskname = new JLabel("Task Name:");
     private EventHandler eventHandler;
     private Task currentTask;
+
+
+    private int WIDTH =250;
+    private int HEIGHT = 30;
 
     private Color bordercolor;
 
     public PANEL_task(Task task) {
         currentTask = task;
         this.setLayout(null);
-        taskname.setText(task.getName());
+        taskname.setText("\uF4A0  "+task.getName());
         taskname.setBounds(0, 0,100,50);
+        taskname.setHorizontalAlignment(JLabel.CENTER);
+        taskname.setFont(new Font("ARIAL",Font.PLAIN,15));
+
         this.add(taskname);
         setUrgencyColor();
-        this.setBackground(ColorTheme.getAccent_green());
+        Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        Border innerBorder = BorderFactory.createLineBorder(bordercolor, 3);
+        Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
+        this.setBorder(compoundBorder);
+        taskname.setForeground(ColorTheme.getTaskTextColor());
+
+        this.setBackground(ColorTheme.getTaskColor());
     }
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -41,36 +53,28 @@ public class PANEL_task extends JPanel {
             }
         });
     }
+
+
+    public void setHEIGHTandWIDTH(int height, int width){
+        taskname.setBounds(0,0,width,height);
+
+    }
+
     private void setUrgencyColor() {
         if (currentTask.getUrgency() == 1) {
-            Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-            Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getUrgency1(), 3);
-            Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
-            this.setBorder(compoundBorder);
+            bordercolor = ColorTheme.getUrgency1();
         }
         if (currentTask.getUrgency() == 2) {
-            Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-            Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getUrgency2(), 3);
-            Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
-            this.setBorder(compoundBorder);
+            bordercolor = ColorTheme.getUrgency2();
         }
         if (currentTask.getUrgency() == 3) {
-            Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-            Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getUrgency3(), 3);
-            Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
-            this.setBorder(compoundBorder);
+            bordercolor = ColorTheme.getUrgency3();
         }
         if (currentTask.getUrgency() == 4) {
-            Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-            Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getUrgency4(), 3);
-            Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
-            this.setBorder(compoundBorder);
+            bordercolor = ColorTheme.getUrgency4();
         }
         if (currentTask.getUrgency() == 5) {
-            Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-            Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getUrgency5(), 3);
-            Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
-            this.setBorder(compoundBorder);
+            bordercolor = ColorTheme.getUrgency5();
         }
     }
 }
