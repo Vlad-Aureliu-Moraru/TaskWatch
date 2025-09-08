@@ -21,6 +21,7 @@ public class PANEL_task extends JPanel {
     private int HEIGHT = 30;
 
     private Color bordercolor;
+    private Color backgroundcolor;
 
     public PANEL_task(Task task) {
         currentTask = task;
@@ -36,9 +37,10 @@ public class PANEL_task extends JPanel {
         Border innerBorder = BorderFactory.createLineBorder(bordercolor, 3);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         this.setBorder(compoundBorder);
+
         taskname.setForeground(ColorTheme.getTaskTextColor());
 
-        this.setBackground(ColorTheme.getTaskColor());
+        this.setBackground(backgroundcolor);
     }
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -63,18 +65,24 @@ public class PANEL_task extends JPanel {
     private void setUrgencyColor() {
         if (currentTask.getUrgency() == 1) {
             bordercolor = ColorTheme.getUrgency1();
+            backgroundcolor = ColorTheme.getTaskColor();
         }
         if (currentTask.getUrgency() == 2) {
             bordercolor = ColorTheme.getUrgency2();
+            backgroundcolor = ColorTheme.getTaskColor();
         }
         if (currentTask.getUrgency() == 3) {
             bordercolor = ColorTheme.getUrgency3();
+            backgroundcolor = ColorTheme.getTaskColor();
         }
         if (currentTask.getUrgency() == 4) {
             bordercolor = ColorTheme.getUrgency4();
+            backgroundcolor = ColorTheme.getTaskColor();
         }
         if (currentTask.getUrgency() == 5) {
             bordercolor = ColorTheme.getUrgency5();
+            backgroundcolor = ColorTheme.getTaskColor();
+
         }
     }
 }

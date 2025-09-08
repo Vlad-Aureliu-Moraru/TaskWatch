@@ -10,6 +10,8 @@ import UserInterface.Theme.ColorTheme;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 public class PANEL_navbar extends JPanel {
@@ -19,7 +21,9 @@ public class PANEL_navbar extends JPanel {
     private int WIDTH;
 
     private JLabel statusDisplay = new JLabel("");
+    private int clockStage  = 0 ; //? 0- clock working | 1 timer working | 2 timer paused ...
     private EventHandler eventHandler;
+    private Timer timer;
 
    public PANEL_navbar() {
         this.setBackground(ColorTheme.getSecondary_color());
@@ -36,6 +40,20 @@ public class PANEL_navbar extends JPanel {
 
         this.add(currentPATH);
         this.add(statusDisplay);
+        timer = new Timer(2000,new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(clockStage == 0){
+                    setClockWorkingStatus();
+                } else if (clockStage==1) {
+                    setClockWorkingStatus();
+                } else if (clockStage == 2) {
+                    setTimerPausedStatus();
+                }
+                timer.stop();
+            }
+
+        });
+        timer.setRepeats(false);
     }
 
     public void setHEIGHTandWIDTH(int WIDTH,int HEIGHT){
@@ -63,6 +81,7 @@ public class PANEL_navbar extends JPanel {
     }
     public void setClockWorkingStatus(){
        statusDisplay.setText("\uDB82\uDD54  :: clock");
+        statusDisplay.setForeground(ColorTheme.getSecondary_green());
     }
     public void setTimerWorkingStatus(){
        statusDisplay.setText("\uDB84\uDCD0  :: timer");
@@ -71,6 +90,11 @@ public class PANEL_navbar extends JPanel {
     public void setTimerPausedStatus(){
        statusDisplay.setText("\uF28B  :: paused");
        statusDisplay.setForeground(ColorTheme.getPausedTimerColor());
+    }
+    public void displayErrorMessage(String message){
+        statusDisplay.setText("Error//"+message);
+        statusDisplay.setForeground(ColorTheme.getUrgency5());
+        timer.start();
     }
 
     public void setEventHandler(EventHandler eventHandler) {

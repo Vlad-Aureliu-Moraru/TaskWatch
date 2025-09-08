@@ -35,6 +35,7 @@ public class PANEL_taskinfo extends JPanel {
         taskDescription.setWrapStyleWord(true);
         taskDescription.setOpaque(false);
         taskDescription.setFocusable(false);
+        taskDescription.setFont(new Font("ARIAL", Font.PLAIN, 14));
 
         taskStatus.setForeground(ColorTheme.getSecnd_accent());
         taskPriority.setForeground(ColorTheme.getSecnd_accent());
@@ -56,11 +57,34 @@ public class PANEL_taskinfo extends JPanel {
         this.WIDTH = width;
         taskName.setBounds(WIDTH/2-150,0,width,30);
         taskDescription.setBounds(WIDTH/20,height/5,width/2-40,height);
-        taskStatus.setBounds(WIDTH/2,height/6,200,30);
-        taskPriority.setBounds(WIDTH/2,height/5+20,200,30);
-        taskTime.setBounds(WIDTH/2,height/4+40,200,30);
-        taskDeadline.setBounds(WIDTH/2,height/3+50,200,30);
-        taskType.setBounds(WIDTH/2,height/2+45,200,30);
+        taskStatus.setBounds(WIDTH/2+70,height/6,200,30);
+        taskPriority.setBounds(WIDTH/2+70,height/5+20,200,30);
+        taskTime.setBounds(WIDTH/2+70,height/4+40,200,30);
+        taskDeadline.setBounds(WIDTH/2+70,height/3+50,200,30);
+        taskType.setBounds(WIDTH/2+70,height/2+45,200,30);
+        if (width<500){
+            taskDescription.setFont(new Font("Arial", Font.PLAIN, 13));
+            taskStatus.setFont(new Font("Arial", Font.PLAIN, 13));
+            taskPriority.setFont(new Font("Arial", Font.PLAIN, 13));
+            taskTime.setFont(new Font("Arial", Font.PLAIN, 13));
+            taskDeadline.setFont(new Font("Arial", Font.PLAIN, 13));
+            taskType.setFont(new Font("Arial", Font.PLAIN, 13));
+        }else if (width<700){
+            taskDescription.setFont(new Font("Arial", Font.PLAIN, 16));
+            taskStatus.setFont(new Font("Arial", Font.PLAIN, 16));
+            taskPriority.setFont(new Font("Arial", Font.PLAIN, 16));
+            taskTime.setFont(new Font("Arial", Font.PLAIN, 16));
+            taskDeadline.setFont(new Font("Arial", Font.PLAIN, 16));
+            taskType.setFont(new Font("Arial", Font.PLAIN, 16));
+        }
+        else{
+            taskDescription.setFont(new Font("Arial", Font.PLAIN, 20));
+            taskStatus.setFont(new Font("Arial", Font.PLAIN, 20));
+            taskPriority.setFont(new Font("Arial", Font.PLAIN, 20));
+            taskTime.setFont(new Font("Arial", Font.PLAIN, 20));
+            taskDeadline.setFont(new Font("Arial", Font.PLAIN, 20));
+            taskType.setFont(new Font("Arial", Font.PLAIN, 20));
+        }
     }
 
     public void addTaskInfo(Task task){

@@ -280,7 +280,9 @@ public class FileHandler {
             System.err.println("An unexpected error occurred while trying to delete the notes file: " + e.getMessage());
             e.printStackTrace();
         }
-    }    //?NOTE
+    }
+
+    //?NOTE
     public void getNotesFromFile(){
         ArrayList<Note> noteList = new ArrayList<>();
         if (currentTask == null) {
@@ -349,5 +351,6 @@ public class FileHandler {
         currentTask.getNotes().remove(currentNote);
         saveNotesToFile();
     }
+
 
 }

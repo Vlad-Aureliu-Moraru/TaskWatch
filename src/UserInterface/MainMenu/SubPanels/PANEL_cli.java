@@ -147,8 +147,12 @@ public class PANEL_cli extends JPanel {
             }
             else if (command.matches(commandHelper.getStartTimerCommand())) {
                 int value = Integer.parseInt(command.substring(command.indexOf("(")+1,command.indexOf(")")));
-                eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(value);
-                activate();
+                if (value<1){
+                    eventHandler.getPanelnavbar().displayErrorMessage("Enter a value >=1");
+                }else{
+                    eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(value);
+                    activate();
+                }
             }
             else if (command.matches(commandHelper.getStopTimerCommand())) {
                 eventHandler.getPanelMainmenu().getPanel_clock().stopTaskTimerandStartClockTimer();
@@ -168,8 +172,12 @@ public class PANEL_cli extends JPanel {
                 activate();
             }
             else if (command.matches(commandHelper.getDirectoryRegEx()) && stage == 1) {
-                eventHandler.addDirectory(new Directory(command.substring(command.indexOf(":")+1)));
-                activate();
+                if (command.substring(command.indexOf(":")+1).isEmpty()){
+                    eventHandler.getPanelnavbar().displayErrorMessage("Directory Name must not be empty");
+                }else{
+                    eventHandler.addDirectory(new Directory(command.substring(command.indexOf(":")+1)));
+                    activate();
+                }
             }
             else if(command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage()>=2){
                 int value = eventHandler.getCurrentTask().getTimeDedicated();
@@ -182,9 +190,13 @@ public class PANEL_cli extends JPanel {
 
             }
             else if (command.matches(commandHelper.getTaskNameRegEx()) && stage == 2) {
-                addedTask.setName(command.substring(command.indexOf(":")+1));
+                if (command.substring(command.indexOf(":")+1).isEmpty()){
+                    eventHandler.getPanelnavbar().displayErrorMessage("Task Name must not be empty");
+                }else{
+                    addedTask.setName(command.substring(command.indexOf(":")+1));
                     step++;
                     loadTaskInput(step);
+                }
             }
             else if(command.matches(commandHelper.getTaskRepeatableRegEx()) &&stage==2 ) {
                 String value=  command.substring(command.indexOf(":")+1);
@@ -195,7 +207,6 @@ public class PANEL_cli extends JPanel {
                 }else{
                     Boolean repeatable = Boolean.parseBoolean(value);
                     addedTask.setRepeatable(repeatable);
-
                     step = 1;
                     eventHandler.addTask(addedTask);
                     activate();
@@ -211,11 +222,13 @@ public class PANEL_cli extends JPanel {
                 if (value.isEmpty()) {
                     step++;
                     loadTaskInput(step);
-                }else{
+                }else if (Integer.parseInt(value)>1&&Integer.parseInt(value)<5){
                 int Urgency =  Integer.parseInt(command.substring(command.indexOf(":")+1));
                 addedTask.setUrgency(Urgency);
                 step++;
                 loadTaskInput(step);
+                }else{
+                    eventHandler.getPanelnavbar().displayErrorMessage("Priority must be between 1 and 5");
                 }
             }
             else if ((command.matches(commandHelper.getTaskCompletionDateRegEx())) && stage == 2) {
@@ -241,6 +254,7 @@ public class PANEL_cli extends JPanel {
             }
             else{
                 System.out.println("Command not recognized.");
+                eventHandler.getPanelnavbar().displayErrorMessage("Command not recognized.");
 //                activate();
             }
         });

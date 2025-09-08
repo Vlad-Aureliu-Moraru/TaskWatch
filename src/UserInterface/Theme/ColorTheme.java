@@ -15,7 +15,7 @@ public class ColorTheme {
 
     private static Color dirColor = new Color(55, 56, 103);
     private static Color taskColor= new Color(103, 82, 82);
-        private static Color taskTextColor = new Color(138, 153, 166);
+        private static Color taskTextColor = new Color(255, 255, 255);
     private static Color noteColor = new Color(211, 164, 89);
 
     private static Color pausedTimerColor = new Color(0xFFFFFF);
@@ -24,7 +24,7 @@ public class ColorTheme {
     private static Color urgency2 = new Color(116, 215, 129);
     private static Color urgency3 = new Color(211, 215, 103);
     private static Color urgency4 = new Color(201, 151, 115);
-    private static Color urgency5 = new Color(197, 76, 76);
+    private static Color urgency5 = new Color(255, 11, 11);
 
     private static Color consoleColor = new  Color(82, 94, 84);
     private static Color consoleTextColor = new  Color(222, 222, 222);
