@@ -12,7 +12,11 @@ import java.io.InputStream;
  */
 public class FontLoader {
 
-    private static Font customFont = null;
+    private static Font terminalFont = null;
+    private static Font cozyFont = null;
+
+    private static String terminalFontPath= "/fonts/terminalFont.ttf";
+    private static String cozyFontPath= "/fonts/cozyFont.ttf";
 
     private FontLoader() {
         // Private constructor to prevent instantiation of the utility class.
@@ -23,33 +27,62 @@ public class FontLoader {
      * The font is loaded only once and then cached for subsequent calls.
      * @return The loaded Font object or a default font if loading fails.
      */
-    public static Font getFont() {
-        if (customFont == null) {
+    public static Font getCozyFont() {
+        if (cozyFont == null) {
             try {
                 // The font path is relative to the classpath root.
                 // Assuming the font is in src/main/resources/font/
-                InputStream fontStream = FontLoader.class.getResourceAsStream("/fonts/BigBlueTermPlusNerdFont-Regular.ttf");
+                InputStream fontStream = FontLoader.class.getResourceAsStream(cozyFontPath);
 
                 if (fontStream != null) {
-                    customFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+                    cozyFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
 
                     // Register the font with the graphics environment
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    ge.registerFont(customFont);
+                    ge.registerFont(cozyFont);
 
                     fontStream.close(); // Close the stream
                 } else {
                     // This is the most likely error case: the file was not found on the classpath.
                     System.err.println("Font file not found at the specified path.");
-                    customFont = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+                    cozyFont = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
                 }
             } catch (IOException | FontFormatException e) {
                 // Handles errors during file reading or invalid font format
                 System.err.println("Error loading custom font.");
                 e.printStackTrace();
-                customFont = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+                cozyFont = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
             }
         }
-        return customFont;
+        return cozyFont;
+    }
+    public static Font getTerminalFont() {
+        if (terminalFont== null) {
+            try {
+                // The font path is relative to the classpath root.
+                // Assuming the font is in src/main/resources/font/
+                InputStream fontStream = FontLoader.class.getResourceAsStream(terminalFontPath);
+
+                if (fontStream != null) {
+                    terminalFont= Font.createFont(Font.TRUETYPE_FONT, fontStream);
+
+                    // Register the font with the graphics environment
+                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    ge.registerFont(terminalFont);
+
+                    fontStream.close(); // Close the stream
+                } else {
+                    // This is the most likely error case: the file was not found on the classpath.
+                    System.err.println("Font file not found at the specified path.");
+                    terminalFont= new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+                }
+            } catch (IOException | FontFormatException e) {
+                // Handles errors during file reading or invalid font format
+                System.err.println("Error loading custom font.");
+                e.printStackTrace();
+                terminalFont= new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+            }
+        }
+        return terminalFont;
     }
 }

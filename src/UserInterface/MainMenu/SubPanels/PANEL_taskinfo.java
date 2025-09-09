@@ -1,5 +1,6 @@
 package UserInterface.MainMenu.SubPanels;
 
+import AppLogic.FontLoader;
 import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
@@ -27,7 +28,6 @@ public class PANEL_taskinfo extends JPanel {
         this.setVisible(false);
 
         taskName.setForeground(ColorTheme.getSecnd_accent());
-        taskName.setFont(new Font("Times New Roman", Font.BOLD, 20));
 
         taskDescription.setForeground(ColorTheme.getSecnd_accent());
         taskDescription.setEditable(false);
@@ -35,7 +35,6 @@ public class PANEL_taskinfo extends JPanel {
         taskDescription.setWrapStyleWord(true);
         taskDescription.setOpaque(false);
         taskDescription.setFocusable(false);
-        taskDescription.setFont(new Font("ARIAL", Font.PLAIN, 14));
 
         taskStatus.setForeground(ColorTheme.getSecnd_accent());
         taskPriority.setForeground(ColorTheme.getSecnd_accent());
@@ -63,27 +62,12 @@ public class PANEL_taskinfo extends JPanel {
         taskDeadline.setBounds(WIDTH/2+70,height/3+50,200,30);
         taskType.setBounds(WIDTH/2+70,height/2+45,200,30);
         if (width<500){
-            taskDescription.setFont(new Font("Arial", Font.PLAIN, 13));
-            taskStatus.setFont(new Font("Arial", Font.PLAIN, 13));
-            taskPriority.setFont(new Font("Arial", Font.PLAIN, 13));
-            taskTime.setFont(new Font("Arial", Font.PLAIN, 13));
-            taskDeadline.setFont(new Font("Arial", Font.PLAIN, 13));
-            taskType.setFont(new Font("Arial", Font.PLAIN, 13));
+            setFontSizeAll(13);
         }else if (width<700){
-            taskDescription.setFont(new Font("Arial", Font.PLAIN, 16));
-            taskStatus.setFont(new Font("Arial", Font.PLAIN, 16));
-            taskPriority.setFont(new Font("Arial", Font.PLAIN, 16));
-            taskTime.setFont(new Font("Arial", Font.PLAIN, 16));
-            taskDeadline.setFont(new Font("Arial", Font.PLAIN, 16));
-            taskType.setFont(new Font("Arial", Font.PLAIN, 16));
+            setFontSizeAll(16);
         }
         else{
-            taskDescription.setFont(new Font("Arial", Font.PLAIN, 20));
-            taskStatus.setFont(new Font("Arial", Font.PLAIN, 20));
-            taskPriority.setFont(new Font("Arial", Font.PLAIN, 20));
-            taskTime.setFont(new Font("Arial", Font.PLAIN, 20));
-            taskDeadline.setFont(new Font("Arial", Font.PLAIN, 20));
-            taskType.setFont(new Font("Arial", Font.PLAIN, 20));
+            setFontSizeAll(20);
         }
     }
 
@@ -126,4 +110,13 @@ public class PANEL_taskinfo extends JPanel {
         this.setVisible(false);
     }
 
+    private void setFontSizeAll(int size){
+        taskName.setFont(new Font("Arial", Font.PLAIN,size));
+        taskDescription.setFont(new Font("Arial", Font.PLAIN,size));
+        taskStatus.setFont(new Font("Arial", Font.PLAIN, size));
+        taskPriority.setFont(new Font("Arial", Font.PLAIN, size));
+        taskTime.setFont(new Font("Arial", Font.PLAIN, size));
+        taskDeadline.setFont(new Font("Arial", Font.PLAIN, size));
+        taskType.setFont(new Font("Arial", Font.PLAIN, size));
+    }
 }

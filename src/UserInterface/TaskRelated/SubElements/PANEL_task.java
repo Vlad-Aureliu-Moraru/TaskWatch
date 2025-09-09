@@ -29,7 +29,8 @@ public class PANEL_task extends JPanel {
         taskname.setText("\uF4A0  "+task.getName());
         taskname.setBounds(0, 0,100,50);
         taskname.setHorizontalAlignment(JLabel.CENTER);
-        taskname.setFont(new Font("ARIAL",Font.PLAIN,15));
+        taskname.setFont(FontLoader.getCozyFont().deriveFont(15f));
+
 
         this.add(taskname);
         setUrgencyColor();

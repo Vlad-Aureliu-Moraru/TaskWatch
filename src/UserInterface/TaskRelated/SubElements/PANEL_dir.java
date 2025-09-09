@@ -2,7 +2,6 @@ package UserInterface.TaskRelated.SubElements;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
-import AppLogic.FileHandler;
 import AppLogic.FontLoader;
 import UserInterface.Theme.ColorTheme;
 
@@ -27,7 +26,7 @@ public class PANEL_dir extends JPanel {
         titleLabel.setText("\uF4D3  "+directory.getName());
         titleLabel.setBackground(ColorTheme.getSecondary_green());
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setFont(FontLoader.getFont().deriveFont(Font.PLAIN, 20));
+        titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
 
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);

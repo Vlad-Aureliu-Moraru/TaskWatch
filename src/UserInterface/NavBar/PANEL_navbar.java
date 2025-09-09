@@ -1,10 +1,7 @@
 package UserInterface.NavBar;
 
-import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
-import AppLogic.NotesLogic.Note;
-import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
@@ -12,7 +9,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 
 public class PANEL_navbar extends JPanel {
     private JLabel currentPATH = new JLabel("~");
@@ -30,7 +26,8 @@ public class PANEL_navbar extends JPanel {
         this.setLayout(null);
         currentPATH.setForeground(ColorTheme.getSecnd_accent());
         statusDisplay.setForeground(ColorTheme.getSecnd_accent());
-        statusDisplay.setFont(FontLoader.getFont().deriveFont(Font.PLAIN, 15));
+        statusDisplay.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15));
+        currentPATH.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15));
         statusDisplay.setForeground(ColorTheme.getSecondary_green());
 
        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);

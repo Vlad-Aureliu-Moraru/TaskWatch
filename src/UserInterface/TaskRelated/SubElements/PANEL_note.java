@@ -1,6 +1,7 @@
 package UserInterface.TaskRelated.SubElements;
 
 import AppLogic.EventHandler;
+import AppLogic.FontLoader;
 import AppLogic.NotesLogic.Note;
 import UserInterface.Theme.ColorTheme;
 
@@ -21,7 +22,7 @@ public class PANEL_note extends JPanel {
         noteName.setText("\uDB85\uDF81  "+currentNote.getDate());
         noteName.setBounds(0, 0,200,50);
         noteName.setHorizontalAlignment(JLabel.CENTER);
-        noteName.setFont(new Font("ARIAL",Font.PLAIN,15));
+        noteName.setFont(FontLoader.getCozyFont().deriveFont(15f));
         this.add(noteName);
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getAccent_green(), 3);
