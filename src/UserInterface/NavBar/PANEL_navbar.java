@@ -20,6 +20,7 @@ public class PANEL_navbar extends JPanel {
     private int clockStage  = 0 ; //? 0- clock working | 1 timer working | 2 timer paused ...
     private EventHandler eventHandler;
     private Timer timer;
+    private JButton backButton = new JButton("test");
 
    public PANEL_navbar() {
         this.setBackground(ColorTheme.getSecondary_color());

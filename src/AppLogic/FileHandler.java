@@ -7,6 +7,7 @@ import AppLogic.TaskLogic.Task;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class FileHandler {
     private ArrayList<Directory> directoryList ;
@@ -165,7 +166,7 @@ public class FileHandler {
                 if (files != null) {
                     for (File file : files) {
                         // Check if the file's name starts with the directory name
-                        // and handles both .txt and .md extensions
+                        // and handles both .txt and .txt extensions
                         if (file.getName().startsWith(cleanedDirName + ".") || file.getName().startsWith(cleanedDirName + "-")) {
                             if (file.delete()) {
                                 System.out.println("Deleted file: " + file.getName());
@@ -208,7 +209,7 @@ public class FileHandler {
                     } else {
                         System.err.println("Failed to rename: " + fileName);
                     }
-                }else if (fileName.matches(oldName+"-.*.md")){
+                }else if (fileName.matches(oldName+"-.*.txt")){
                     String savingPart = fileName.substring(oldName.length()+1);
                     String newFileName = newName+"-"+savingPart;
                     File newFile = new File(directory, newFileName);
@@ -280,6 +281,12 @@ public class FileHandler {
                             case "urgency":
                                 currentTask.setUrgency(Integer.parseInt(value));
                                 break;
+                            case "difficulty":
+                                currentTask.setDifficulty(Integer.parseInt(value));
+                                break;
+                            case "repeatableType":
+                                currentTask.setRepeatableType(value);
+                                break;
                             case "description":
                                 currentTask.setDescription(value);
                                 break;
@@ -292,7 +299,7 @@ public class FileHandler {
                             case "deadline":
                                 currentTask.setDeadline(value);
                                 break;
-                            case "Time":
+                            case "time":
                                 // Catch NumberFormatException to prevent crash
                                 try {
                                     currentTask.setTimeDedicated(Integer.parseInt(value));
@@ -359,7 +366,7 @@ public class FileHandler {
         try {
             // Construct the filename using the same pattern as the saveNotesToFile() method
             String cleanedTaskName = currentTask.getName().replaceAll(" ", "_");
-            String notesFileName = "main" + File.separator + currentDirectory.getName() + "-" + cleanedTaskName + ".md";
+            String notesFileName = "main" + File.separator + currentDirectory.getName() + "-" + cleanedTaskName + ".txt";
 
             File notesFile = new File(notesFileName);
 
@@ -378,8 +385,9 @@ public class FileHandler {
         }
     }
     public void renameCurrentTask(String newName) {
-        String  oldName=currentTask.getName().replaceAll(" ","_");
-        newName = newName.replaceAll(" ","_");
+        String oldName = currentTask.getName().replaceAll(" ", "_");
+        String sanitizedNewName = newName.replaceAll(" ", "_");
+
         File directory = new File("main");
         if (!directory.exists() || !directory.isDirectory()) {
             System.err.println("Error: The provided path is not a valid directory.");
@@ -391,23 +399,43 @@ public class FileHandler {
             return;
         }
 
+        // Escape any special regex characters in the old name
+        String escapedOldName = Pattern.quote(oldName);
+
+        // The pattern now reliably looks for a file ending with "-<escapedOldName>.txt"
+        String pattern = ".*-" + escapedOldName + "\\.txt";
+
+        boolean renamed = false;
         for (File file : files) {
             String fileName = file.getName();
-            if (fileName.matches(".*-"+oldName+".md")) {
-                int mark = fileName.length()-oldName.length()-3;
-                String savingPart = fileName.substring(0,mark);
-                String newFileName =savingPart+newName+".md";
-                System.out.println("saving part :" + savingPart);
-                System.out.println(newFileName);
+
+            if (fileName.matches(pattern)) {
+                // Find the index of the hyphen right before the oldName
+                int hyphenIndex = fileName.lastIndexOf("-" + oldName + ".");
+                if (hyphenIndex == -1) {
+                    // This shouldn't happen if matches() returned true, but as a safeguard.
+                    continue;
+                }
+
+                String savingPart = fileName.substring(0, hyphenIndex + 1);
+                String newFileName = savingPart + sanitizedNewName + ".txt";
 
                 File newFile = new File(directory, newFileName);
 
                 if (file.renameTo(newFile)) {
                     System.out.println("Renamed: " + fileName + " -> " + newFileName);
+                    currentTask.setName(newName); // Update in-memory task name
+                    renamed = true;
+                    break; // Stop after renaming the first match
                 } else {
                     System.err.println("Failed to rename: " + fileName);
+                    // Optionally add more details: System.err.println("Possible reasons: permissions, file is open.");
                 }
             }
+        }
+
+        if (!renamed) {
+            System.err.println("Error: No file found matching the pattern for task '" + oldName + "'.");
         }
     }
     //?NOTE
@@ -423,7 +451,7 @@ public class FileHandler {
             return;
         }
 
-        String fileName = "main" + File.separator + currentDirectory.getName() + "-" + currentTask.getName().replaceAll(" ", "_") + ".md";
+        String fileName = "main" + File.separator + currentDirectory.getName() + "-" + currentTask.getName().replaceAll(" ", "_") + ".txt";
         File notesFile = new File(fileName);
 
         if (!notesFile.exists()) {
@@ -495,7 +523,7 @@ public class FileHandler {
             return;
         }
 
-        String fileName = "main" + File.separator +currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".md";
+        String fileName = "main" + File.separator +currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".txt";
         File taskFile = new File(fileName);
 
         System.out.println("Saving tasks for directory '" +currentDirectory.getName()+"/"+currentTask.getName().replaceAll(" ","_") + "' to " + fileName + "...");

@@ -90,11 +90,13 @@ public class PANEL_cli extends JPanel {
         }else if(step==4){
             if(editing){
                 String content = eventHandler.getCurrentTask().getDeadline();
-                if (!content.trim().equalsIgnoreCase("null")) {
-                    commandField.setText("Task_Completion_Date:"+eventHandler.getCurrentTask().getDeadline());
-                }else {
+                if (content != null) {
+                    if (!content.trim().equalsIgnoreCase("null")) {
+                        commandField.setText("Task_Completion_Date:" + eventHandler.getCurrentTask().getDeadline());
+                    } else {
 
-                    commandField.setText("Task_Completion_Date:"+"");
+                        commandField.setText("Task_Completion_Date:" + "");
+                    }
                 }
             }else{
                 commandField.setText("Task_Completion_Date:");
@@ -107,11 +109,23 @@ public class PANEL_cli extends JPanel {
                 commandField.setText("Task_Completion_Time:");
             }
         }
-        else if(step==6){
+        else if(step==7){
             if(editing){
                 commandField.setText("isRepeatable:"+eventHandler.getCurrentTask().isRepeatable());
             }else{
                 commandField.setText("isRepeatable:");
+            }
+        } else if (step==8) {
+            if(editing){
+                commandField.setText("RepeatableType:"+eventHandler.getCurrentTask().getRepeatableType());
+            }else{
+                commandField.setText("RepeatableType:");
+            }
+        } else if (step==6) {
+            if(editing){
+                commandField.setText("Difficulty:"+eventHandler.getCurrentTask().getDifficulty());
+            }else{
+                commandField.setText("Difficulty:");
             }
         }
     }
@@ -230,9 +244,36 @@ public class PANEL_cli extends JPanel {
             activate();
 
         }
+        else if (command.matches(commandHelper.getRestartTimerCommand())) {
+            eventHandler.getPanelMainmenu().getPanel_clock().resetTimer();
+            activate();
+        }
+        else if (command.matches(commandHelper.getSortByDifficultyCommand())&&eventHandler.getPanelList().getStage()==1) {
+            String value = command.substring(command.indexOf("(")+1, command.indexOf(")"));
+            if (value.equals("a")){
+                eventHandler.getPanelList().sortByDifficulty(true);
+            }else{
+                eventHandler.getPanelList().sortByDifficulty(false);
+            }
+            activate();
+        }
+        else if (command.matches(commandHelper.getFinishTaskCommand())&&eventHandler.getPanelList().getStage()==2) {
+            eventHandler.getCurrentTask().setFinished(true);
+            eventHandler.getFileHandler().saveTaskToFile();
+            activate();
+            eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
+
+        }
+        else if (command.matches(commandHelper.getShowFinishedTasks())&&eventHandler.getPanelList().getStage()==1) {
+            eventHandler.getPanelList().switchShowingFinished();
+            eventHandler.getPanelList().loadCurrentTasks();
+            activate();
+        }
+
         else {
             commandFound=false;
         }
+
     }
     private void HandleDirRelatedCommands(String command){
         commandFound=true;
@@ -307,25 +348,29 @@ public class PANEL_cli extends JPanel {
         }
         else if(command.matches(commandHelper.getTaskRepeatableRegEx()) &&stage==2 ) {
             String value=  command.substring(command.indexOf(":")+1);
-            if (value.isEmpty()) {
-                step = 1;
-                eventHandler.addTask(addedTask);
-                activate();
+            if (value.isEmpty() || value.equals("false")) {
+                if (!editing) {
+                    eventHandler.addTask(addedTask);
+                    step=1;
+                    activate();
+                }else{
+                    step = 1;
+                    eventHandler.getFileHandler().saveTaskToFile();
+                    eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
+                    eventHandler.getPanelnavbar().setCurrentPATH(eventHandler.getCurrentDirectory().getName()+"/"+eventHandler.getCurrentTask().getName());
+                    activate();
+                    editing = false;
+                }
             }else if (!editing){
                 Boolean repeatable = Boolean.parseBoolean(value);
                 addedTask.setRepeatable(repeatable);
-                step = 1;
-                eventHandler.addTask(addedTask);
-                activate();
+                step++;
+                loadTaskInput(step,editing);
             }else if (editing){
                 Boolean repeatable = Boolean.parseBoolean(value);
                 eventHandler.getCurrentTask().setRepeatable(repeatable);
-                step = 1;
-                eventHandler.getFileHandler().saveTaskToFile();
-                eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
-                eventHandler.getPanelnavbar().setCurrentPATH(eventHandler.getCurrentDirectory().getName()+"/"+eventHandler.getCurrentTask().getName());
-                activate();
-                editing = false;
+                step++;
+                loadTaskInput(step,editing);
 
             }
         }
@@ -388,6 +433,43 @@ public class PANEL_cli extends JPanel {
                 }
                 step++;
                 loadTaskInput(step,editing);
+            }
+        }
+        else if (command.matches(commandHelper.getTaskDifficultyRegEx())&& stage==2) {
+            String value=  command.substring(command.indexOf(":")+1);
+            if (value.isEmpty()) {
+                step++;
+                loadTaskInput(step,editing);
+            }else if (Integer.parseInt(value)>=1&&Integer.parseInt(value)<=5){
+                int Urgency =  Integer.parseInt(command.substring(command.indexOf(":")+1));
+                if (!editing){
+                    addedTask.setDifficulty(Urgency);
+                }else {
+                    eventHandler.getCurrentTask().setDifficulty(Urgency);
+                }
+                step++;
+                loadTaskInput(step,editing);
+            }else{
+                eventHandler.getPanelnavbar().displayErrorMessage("Difficulty must be between 1 and 5");
+            }
+        }
+        else if (command.matches(commandHelper.getTaskRepeatableTypeRegEx())&&stage==2){
+            String value=  command.substring(command.indexOf(":")+1);
+            if (!value.isEmpty()) {
+                if (!editing){
+                    addedTask.setRepeatableType(value);
+                    eventHandler.addTask(addedTask);
+                    step=1;
+                    activate();
+                }else{
+                    eventHandler.getCurrentTask().setRepeatableType(value);
+                    step = 1;
+                    eventHandler.getFileHandler().saveTaskToFile();
+                    eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
+                    eventHandler.getPanelnavbar().setCurrentPATH(eventHandler.getCurrentDirectory().getName()+"/"+eventHandler.getCurrentTask().getName());
+                    activate();
+                    editing = false;
+                }
             }
         }
         else{

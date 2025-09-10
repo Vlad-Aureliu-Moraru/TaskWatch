@@ -18,6 +18,7 @@ public class PANEL_clock extends JPanel {
     private JLabel timeDisplay = new JLabel() ;
     private boolean active = true;
     private int totalSeconds = 1;
+    private int originalSeconds = 1;
 
     private int clockUpdateInSec = 5;
     private int taskUpdateInSec = 5;
@@ -105,6 +106,7 @@ public class PANEL_clock extends JPanel {
     }
     public void startTaskTimer(int minutes){
         totalSeconds = minutes*60;
+        originalSeconds = totalSeconds;
         clockTimer.stop();
         eventHandler.getPanelnavbar().setTimerWorkingStatus();
         if (taskTimer != null && taskTimer.isRunning()) {
@@ -133,6 +135,10 @@ public class PANEL_clock extends JPanel {
             taskTimer.start();
             eventHandler.getPanelnavbar().setTimerWorkingStatus();
         }
+    }
+    public void resetTimer(){
+        totalSeconds = originalSeconds;
+        updateTimeForTaskTimer();
     }
 
     public void setEventHandler(EventHandler eventHandler) {

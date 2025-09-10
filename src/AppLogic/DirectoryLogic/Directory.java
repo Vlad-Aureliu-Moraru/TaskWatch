@@ -48,6 +48,21 @@ public class Directory {
             tasks.sort(Comparator.comparingInt(Task::getUrgency).reversed());
         }
     }
+    public void sortTasksByDifficulty(boolean ascending){
+        if(ascending){
+            tasks.sort(Comparator.comparingInt(Task::getDifficulty));
+        }else{
+            tasks.sort(Comparator.comparingInt(Task::getDifficulty).reversed());
+        }
+    }
+    public void sortTaskByFinishedStatus(boolean ascending) {
+        Comparator<Task> finishedComparator = Comparator.comparing(Task::isFinished);
+        if (ascending) {
+            tasks.sort(finishedComparator.reversed());
+        } else {
+            tasks.sort(finishedComparator);
+        }
+    }
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("name: "+Name+"\n ");

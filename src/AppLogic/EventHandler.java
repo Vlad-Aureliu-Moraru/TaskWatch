@@ -48,7 +48,7 @@ public class EventHandler {
         System.out.println("adding task");
         this.getCurrentDirectory().addTask(task);
         getFileHandler().saveTaskToFile();
-        panelList.loadCurrentDirTasks();
+        panelList.loadCurrentTasks();
     }
 
     public ArrayList<Directory> getDirectoryList() {

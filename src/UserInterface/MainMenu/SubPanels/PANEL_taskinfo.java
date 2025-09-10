@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PANEL_taskinfo extends JPanel {
+
     private JLabel taskName = new JLabel("Task Name:");
     private JTextArea taskDescription = new JTextArea("Task Description:");
     private JLabel taskStatus = new JLabel("Task Status:");
@@ -15,6 +16,9 @@ public class PANEL_taskinfo extends JPanel {
     private JLabel taskTime = new JLabel("Task Time:");
     private JLabel taskDeadline = new JLabel("Task Deadline:");
     private JLabel taskType = new JLabel("Task Type:");
+    private JLabel taskRepeatableType= new JLabel("Task Repeatable Type:");
+    private JLabel taskDifficulty= new JLabel("Task Difficulty:");
+
 
     private boolean active = false;
 

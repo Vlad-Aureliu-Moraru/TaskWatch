@@ -14,6 +14,8 @@ public class Task {
     private boolean finished = false;
     private String deadline = null;
     private int urgency =1;
+    private String repeatableType="none";
+    private int difficulty=1;
 
 
     public int getUrgency() {
@@ -67,10 +69,30 @@ public class Task {
     public void addNote(Note note) {
         notes.add(note);
     }
+    public String getRepeatableType() {
+        return repeatableType;
+    }
+    public void setRepeatableType(String repeatableType) {
+        this.repeatableType = repeatableType;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("{name: "+Name+";description:"+Description+";isRepeatable:"+repeatable+";isFinished:"+finished+";deadline:"+deadline+";urgency:"+urgency+";Time:"+TimeDedicated+"}");
+        sb.append("{");
+        sb.append("name:"+Name+";description:"+Description);
+        sb.append(";isRepeatable:"+repeatable+";isFinished:"+finished);
+        sb.append(";deadline:"+deadline+";urgency:"+urgency);
+        sb.append(";time:"+TimeDedicated+";difficulty:"+difficulty);
+        sb.append(";repeatableType:"+repeatableType);
+        sb.append("}");
         sb.append("\n");
         return sb.toString();
     }

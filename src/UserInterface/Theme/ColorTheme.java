@@ -8,29 +8,70 @@ public class ColorTheme {
     private static Color first_accent = new Color(141, 98, 98);        // #8D6262
     private static Color secnd_accent = new Color(237, 141, 141);      // #ED8D8D
 
-    private static Color main_green = new Color(56, 41, 51);           // #382933
     private static Color secondary_green = new Color(53, 155, 112);      // #3B5249
     private static Color accent_green = new Color(33, 50, 73);       // #519872
-    private static Color accent_green2 = new Color(114, 128, 101);     // #A4B494
 
     private static Color dirColor = new Color(55, 56, 103);
-    private static Color taskColor= new Color(103, 82, 82);
+    private static Color dirHoverColor = new Color(36, 37, 72);
+
+    private static Color taskColor= new Color(57, 50, 50);
+    private static Color taskHoverColor= new Color(33, 30, 30);
         private static Color taskTextColor = new Color(255, 255, 255);
     private static Color noteColor = new Color(211, 164, 89);
 
     private static Color pausedTimerColor = new Color(0xFFFFFF);
 
-    private static Color urgency1 = new Color(115, 201, 168);
+    private static Color urgency1 = new Color(156, 246, 213);
     private static Color urgency2 = new Color(116, 215, 129);
-    private static Color urgency3 = new Color(211, 215, 103);
-    private static Color urgency4 = new Color(201, 151, 115);
-    private static Color urgency5 = new Color(255, 11, 11);
+    private static Color urgency3 = new Color(255, 242, 0);
+    private static Color urgency4 = new Color(255, 106, 0);
+    private static Color urgency5 = new Color(255, 0, 0);
+
+    private static Color  difficulty1 = new Color(156, 246, 213);
+    private static Color  difficulty2 = new Color(116, 215, 129);
+    private static Color  difficulty3 = new Color(255, 242, 0);
+    private static Color  difficulty4 = new Color(255, 106, 0);
+    private static Color  difficulty5 = new Color(255, 0, 0);
+
+    private static Color TaskCompletedIconColor = new Color(4, 189, 255);
 
     private static Color consoleColor = new  Color(82, 94, 84);
     private static Color consoleTextColor = new  Color(222, 222, 222);
 
+    public static Color getTaskHoverColor() {
+        return taskHoverColor;
+    }
+
+    public static Color getTaskCompletedIconColor() {
+        return TaskCompletedIconColor;
+    }
+
+    public static Color getDirHoverColor() {
+        return dirHoverColor;
+    }
+
     public static  Color getPausedTimerColor() {
         return pausedTimerColor;
+    }
+
+    public static Color getDifficulty1() {
+        return difficulty1;
+    }
+
+    public static Color getDifficulty2() {
+        return difficulty2;
+    }
+
+    public static Color getDifficulty3() {
+        return difficulty3;
+    }
+
+    public static Color getDifficulty4() {
+        return difficulty4;
+    }
+
+    public static Color getDifficulty5() {
+        return difficulty5;
     }
 
     public static Color getDirColor() {
@@ -65,20 +106,12 @@ public class ColorTheme {
         return secnd_accent;
     }
 
-    public static Color getMain_green() {
-        return main_green;
-    }
-
     public static Color getSecondary_green() {
         return secondary_green;
     }
 
     public static Color getAccent_green() {
         return accent_green;
-    }
-
-    public static Color getAccent_green2() {
-        return accent_green2;
     }
 
     public static Color getUrgency1() {

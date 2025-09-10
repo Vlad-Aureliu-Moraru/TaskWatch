@@ -35,6 +35,18 @@ public class PANEL_dir extends JPanel {
 
         this.setBorder(compoundBorder);
 
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                PANEL_dir.this.setBackground(ColorTheme.getDirHoverColor());
+                titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 25));
+            }
+            public void mouseExited(MouseEvent e) {
+                PANEL_dir.this.setBackground(ColorTheme.getDirColor());
+                titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
+            }
+        });
+
         titleLabel.setBounds(0,0,100,30);
         titleLabel.setForeground(ColorTheme.getSecnd_accent());
         this.add(titleLabel);
@@ -50,7 +62,7 @@ public class PANEL_dir extends JPanel {
                 System.out.println(directory.getName()+"/");
                 eventHandler.setCurrentDirectory(directory);
                 eventHandler.getFileHandler().getTaskListFromFile();
-                eventHandler.getPanelList().loadCurrentDirTasks();
+                eventHandler.getPanelList().loadCurrentTasks();
             }
         });
     }
