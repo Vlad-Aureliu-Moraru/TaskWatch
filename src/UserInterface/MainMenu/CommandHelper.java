@@ -2,8 +2,8 @@ package UserInterface.MainMenu;
 
 public class CommandHelper {
     private String addCommand = "(:a|:add)";
-    private String removeCommand = ":r";
-    private String editCommand = ":e";
+    private String removeCommand = "(:r|:remove)";
+    private String editCommand = "(:e|:edit)";
     private String cancelCommand = "(:c|:cancel)";
 
     //?SORTING RELATED
@@ -15,7 +15,7 @@ public class CommandHelper {
     private String restartTimerCommand = "(:rt|:restartTimer)";
     private String startSelectedTaskTimer= "(:st|:startSelected)";
 
-    private String DirectoryRegEx = "^Directory_Name:.*";
+    private String DirectoryNameRegEx = "^Directory_Name:.*";
 
     private String TaskNameRegEx = "^Task_Name:.*";
     private String TaskDescriptionRegEx = "^Task_Description:.*";
@@ -48,8 +48,8 @@ public class CommandHelper {
     public String getEditCommand() {
         return editCommand;
     }
-    public String getDirectoryRegEx() {
-        return DirectoryRegEx;
+    public String getDirectoryNameRegEx() {
+        return DirectoryNameRegEx;
     }
     public String getTaskNameRegEx() {
         return TaskNameRegEx;

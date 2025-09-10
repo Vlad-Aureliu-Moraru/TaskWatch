@@ -92,6 +92,27 @@ public class PANEL_taskinfo extends JPanel {
 
         taskType.setText(task.isRepeatable()?"Repeatable":"Not Repeatable");
     }
+    public void updateTaskInfo(Task task){
+        taskName.setText("\uF06A  "+task.getName());
+        taskDescription.setText("DESC: "+task.getDescription());
+        taskStatus.setText(task.isFinished()?"Finished":"Not Finished");
+        taskPriority.setText("URGENCY: "+task.getUrgency()+"");
+        taskTime.setText("TIME: "+task.getTimeDedicated()+"min");
+        if (task.getDeadline() != null) {
+            String deadline = task.getDeadline();
+
+            if (!deadline.trim().equalsIgnoreCase("null")) {
+                taskDeadline.setText(deadline);
+            } else {
+                taskDeadline.setText("NO DEADLINE SET");
+            }
+        } else {
+            taskDeadline.setText("NO DEADLINE SET");
+        }
+
+        taskType.setText(task.isRepeatable()?"Repeatable":"Not Repeatable");
+    }
+
     public void activate(){
         if (active){
             this.setVisible(false);

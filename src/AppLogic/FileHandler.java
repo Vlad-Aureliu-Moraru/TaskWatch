@@ -179,15 +179,58 @@ public class FileHandler {
                 System.err.println("Error: Main directory not found.");
             }
     }
+    public void renameCurrentDirectory(String newName) {
+        String  oldName= currentDirectory.getName();
+        File directory = new File("main");
+
+            // Check if the directory exists and is actually a directory
+            if (!directory.exists() || !directory.isDirectory()) {
+                System.err.println("Error: The provided path is not a valid directory.");
+                return;
+            }
+
+            // Get all files and subdirectories in the directory
+            File[] files = directory.listFiles();
+            if (files == null) {
+                System.err.println("Error: Could not list files in the directory.");
+                return;
+            }
+
+            // Iterate through each file and rename it if its name contains the oldName
+            for (File file : files) {
+                String fileName = file.getName();
+                if (fileName.equals(oldName+".txt")) {
+                    String newFileName = fileName.replace(oldName, newName);
+                    File newFile = new File(directory, newFileName);
+
+                    if (file.renameTo(newFile)) {
+                        System.out.println("Renamed: " + fileName + " -> " + newFileName);
+                    } else {
+                        System.err.println("Failed to rename: " + fileName);
+                    }
+                }else if (fileName.matches(oldName+"-.*.md")){
+                    String savingPart = fileName.substring(oldName.length()+1);
+                    String newFileName = newName+"-"+savingPart;
+                    File newFile = new File(directory, newFileName);
+
+                    if (file.renameTo(newFile)) {
+                        System.out.println("Renamed: " + fileName + " -> " + newFileName);
+                    } else {
+                        System.err.println("Failed to rename: " + fileName);
+                    }
+                }
+            }
+    }
     //?TASK
     public void getTaskListFromFile() {
-        ArrayList<Task> taskList = new ArrayList<>();
-
+        // Check for null directory first to prevent a NullPointerException.
         if (currentDirectory == null) {
             System.err.println("Error: No current directory is set to load tasks from.");
             return;
         }
 
+        // Use a platform-independent path.
+        // File.separator is better than hardcoding "\\".
         String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
         File taskFile = new File(fileName);
 
@@ -199,27 +242,80 @@ public class FileHandler {
         System.out.println("Loading tasks from " + fileName + "...");
         try (BufferedReader reader = new BufferedReader(new FileReader(taskFile))) {
             String line;
-            while ((line = reader.readLine()) != null && line.trim().length() > 0) {
-                String[] taskLine = line.split(";");
-                ArrayList<String> items = new ArrayList<>();
-                for (int i = 0; i < taskLine.length; i++) {
-                    if (!taskLine[i].trim().isEmpty()) {
-                        String item =taskLine[i].substring(taskLine[i].indexOf(":")+1).trim().replaceAll("}", "");
-                        items.add(item);
-                    }
+            // Process each line as a potential Task object
+            while ((line = reader.readLine()) != null) {
+                String trimmedLine = line.trim();
+                if (trimmedLine.isEmpty()) {
+                    continue; // Skip empty lines
                 }
-                System.out.println(items.get(0));
-                Task task = new Task();
-                task.setName(items.get(0));
-                task.setDescription(items.get(1));
-                task.setRepeatable(Boolean.parseBoolean(items.get(2)));
-                task.setFinished(Boolean.parseBoolean(items.get(3)));
-                task.setDeadline(items.get(4));
-                task.setUrgency(Integer.parseInt(items.get(5)));
-                task.setTimeDedicated(Integer.parseInt(items.get(6)));
-                taskList.add(task);
+
+                // A single Task object for the current line
+                Task currentTask = new Task();
+                boolean isValidTask = true;
+
+                // Remove outer brackets and split into key-value pairs
+                if (trimmedLine.startsWith("{") && trimmedLine.endsWith("}")) {
+                    String content = trimmedLine.substring(1, trimmedLine.length() - 1);
+                    String[] keyValues = content.split(";");
+
+                    for (String kv : keyValues) {
+                        // Split each key-value pair at the first colon
+                        if (kv == null || kv.trim().isEmpty()) {
+                            break;
+                        }
+                        String[] parts = kv.split(":", 2);
+                        if (parts.length < 2) {
+                            System.err.println("Invalid format: " + kv);
+                            isValidTask = false;
+                            break;
+                        }
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+
+                        // Use a switch statement for cleaner field assignment
+                        switch (key) {
+                            case "name":
+                                currentTask.setName(value);
+                                break;
+                            case "urgency":
+                                currentTask.setUrgency(Integer.parseInt(value));
+                                break;
+                            case "description":
+                                currentTask.setDescription(value);
+                                break;
+                            case "isRepeatable":
+                                currentTask.setRepeatable(Boolean.parseBoolean(value));
+                                break;
+                            case "isFinished":
+                                currentTask.setFinished(Boolean.parseBoolean(value));
+                                break;
+                            case "deadline":
+                                currentTask.setDeadline(value);
+                                break;
+                            case "Time":
+                                // Catch NumberFormatException to prevent crash
+                                try {
+                                    currentTask.setTimeDedicated(Integer.parseInt(value));
+                                } catch (NumberFormatException e) {
+                                    System.err.println("Invalid Time value for task: " + currentTask.getName());
+                                    isValidTask = false;
+                                }
+                                break;
+                            default:
+                                System.err.println("Unknown field: " + key);
+                                break;
+                        }
+                    }
+                } else {
+                    System.err.println("Skipping malformed line: " + line);
+                    isValidTask = false;
+                }
+
+                // Only add the task to the list if it was parsed successfully
+                if (isValidTask) {
+                    currentDirectory.getTasks().add(currentTask);
+                }
             }
-            currentDirectory.setTasks(taskList);
             System.out.println("Tasks loaded successfully.");
         } catch (IOException e) {
             System.err.println("An error occurred while loading tasks: " + e.getMessage());
@@ -281,48 +377,117 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
-
-    //?NOTE
-    public void getNotesFromFile(){
-        ArrayList<Note> noteList = new ArrayList<>();
-        if (currentTask == null) {
-            System.err.println("Error: No current directory is set to load tasks from.");
+    public void renameCurrentTask(String newName) {
+        String  oldName=currentTask.getName().replaceAll(" ","_");
+        newName = newName.replaceAll(" ","_");
+        File directory = new File("main");
+        if (!directory.exists() || !directory.isDirectory()) {
+            System.err.println("Error: The provided path is not a valid directory.");
+            return;
+        }
+        File[] files = directory.listFiles();
+        if (files == null) {
+            System.err.println("Error: Could not list files in the directory.");
             return;
         }
 
-        String fileName = "main" + File.separator +currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".md";
-        File taskFile = new File(fileName);
+        for (File file : files) {
+            String fileName = file.getName();
+            if (fileName.matches(".*-"+oldName+".md")) {
+                int mark = fileName.length()-oldName.length()-3;
+                String savingPart = fileName.substring(0,mark);
+                String newFileName =savingPart+newName+".md";
+                System.out.println("saving part :" + savingPart);
+                System.out.println(newFileName);
 
-        if (!taskFile.exists()) {
-            System.err.println("Error: Task file not found for directory '" + fileName + "'.");
+                File newFile = new File(directory, newFileName);
+
+                if (file.renameTo(newFile)) {
+                    System.out.println("Renamed: " + fileName + " -> " + newFileName);
+                } else {
+                    System.err.println("Failed to rename: " + fileName);
+                }
+            }
+        }
+    }
+    //?NOTE
+    public void getNotesFromFile() {
+        ArrayList<Note> noteList = new ArrayList<>();
+
+        if (currentDirectory == null) {
+            System.err.println("Error: No current directory is set to load notes from.");
+            return;
+        }
+        if (currentTask == null) {
+            System.err.println("Error: No current task is set to load notes from.");
+            return;
+        }
+
+        String fileName = "main" + File.separator + currentDirectory.getName() + "-" + currentTask.getName().replaceAll(" ", "_") + ".md";
+        File notesFile = new File(fileName);
+
+        if (!notesFile.exists()) {
+            System.out.println("No notes file found for task '" + currentTask.getName() + "'. Skipping note loading.");
             return;
         }
 
         System.out.println("Loading notes from " + fileName + "...");
-        try (BufferedReader reader = new BufferedReader(new FileReader(taskFile))) {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(notesFile))) {
             String line;
-            while ((line = reader.readLine()) != null && line.trim().length() > 0) {
-                String[]  noteLine = line.split(";");
-                for (String note : noteLine) {
-                    if (!note.trim().isEmpty()) {
-                        String[] noteItem = note.split("%");
-                        String Date = noteItem[0].substring(noteItem[0].indexOf(":")+1);
-                        String Note = noteItem[1].substring(noteItem[1].indexOf(":")+1);
-                        Note noteObj = new Note();
-                        noteObj.setDate(Date);
-                        noteObj.setNote(Note);
-                        noteList.add(noteObj);
+            while ((line = reader.readLine()) != null) {
+                String trimmedLine = line.trim();
+                if (trimmedLine.isEmpty()) {
+                    continue;
+                }
+
+                if (trimmedLine.startsWith("{") && trimmedLine.endsWith("}")) {
+                    Note currentNote = new Note();
+                    boolean isValidNote = true;
+
+                    String content = trimmedLine.substring(1, trimmedLine.length() - 1);
+                    String[] keyValues = content.split(";");
+
+                    for (String kv : keyValues) {
+                        String[] parts = kv.split(":", 2);
+                        if (parts.length < 2) {
+                            System.err.println("Invalid key-value pair format: " + kv);
+                            isValidNote = false;
+                            break;
                         }
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+
+                        switch (key) {
+                            case "date":
+                                currentNote.setDate(value);
+                                break;
+                            case "note":
+                                currentNote.setNote(value);
+                                break;
+                            default:
+                                System.err.println("Unknown field in note: " + key);
+                                isValidNote = false;
+                                break;
                         }
                     }
 
+                    if (isValidNote) {
+                        noteList.add(currentNote);
+                    }
+                } else {
+                    System.err.println("Skipping malformed note line: " + line);
+                }
+            }
 
         } catch (IOException e) {
             System.err.println("An error occurred while loading notes: " + e.getMessage());
             e.printStackTrace();
         }
+
         currentTask.setNotes(noteList);
-        System.out.println("CURRENT TASK NOTES "+currentTask.getNotes());
+        System.out.println("Notes loaded successfully for task '" + currentTask.getName() + "'. Total notes: " + noteList.size());
+        System.out.println("CURRENT TASK NOTES " + currentTask.getNotes());
     }
     public void saveNotesToFile() {
         if (currentDirectory == null) {
