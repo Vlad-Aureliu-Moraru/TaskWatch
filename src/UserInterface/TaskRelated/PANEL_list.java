@@ -9,7 +9,6 @@ import UserInterface.TaskRelated.SubElements.PANEL_task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -57,28 +56,11 @@ public class PANEL_list extends JScrollPane {
         dirList.add(dir);
 
     }
-    public void addDirsToLayout(){
-        panel.removeAll();
-        int currentY = 10;
-
-        for(int j=0;j<dirList.size();j++){
-            PANEL_dir task =dirList.get(j);
-            task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
-            task.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
-            panel.add(task);
-            currentY+= task.getHeight()+GAP;
-        }
-        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
-        panel.revalidate();
-        panel.repaint();
-        this.revalidate();
-        this.repaint();
-    }
     public void setHEIGHTandWIDTH(int width,int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
         if (stage ==0){
-            addDirsToLayout();
+            loadDirs();
         }else if (stage ==1){
             loadCurrentTasks();
         } else if (stage == 2) {
@@ -88,17 +70,26 @@ public class PANEL_list extends JScrollPane {
 
 
     }
+
     public void loadDirs(){
-        stage=0;
-        dirList.clear();
-        eventHandler.getFileHandler().getDirectoryListFromFile();
         System.out.println("loadDirs");
-        for (Directory dir : eventHandler.getDirectoryList()){
-            PANEL_dir dirPanel = new PANEL_dir(dir);
-            dirPanel.setEventHandler(eventHandler);
-            addToList( dirPanel);
+        stage=0;
+        panel.removeAll();
+        int currentY = 10;
+        eventHandler.getFileHandler().getDirectoryListFromFile();
+        for(Directory dir : eventHandler.getDirectoryList()){
+            PANEL_dir directory = new PANEL_dir(dir);
+            directory.setEventHandler(eventHandler);
+            directory.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            directory.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
+            panel.add(directory);
+            currentY+= directory.getHeight()+GAP;
         }
-        addDirsToLayout();
+        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+        panel.revalidate();
+        panel.repaint();
+        this.revalidate();
+        this.repaint();
     }
     public void loadCurrentDirTasks(){
         stage = 1;
