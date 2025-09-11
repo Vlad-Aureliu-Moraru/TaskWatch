@@ -89,7 +89,10 @@ public class FileHandler {
             return;
         }
 
-        System.out.println("Reading directory list from main.txt...");
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String callerClassName =stackTrace[2].getClassName();
+        System.out.println("getDirList called by : " + callerClassName);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(mainFile))) {
             String line;
@@ -104,10 +107,12 @@ public class FileHandler {
                 }
             }
             System.out.println("Directory list loaded successfully from file.");
+
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
             e.printStackTrace();
         }
+
     }
     public void removeDirectoryFromFiles() {
         String dirName = currentDirectory.getName();
@@ -437,6 +442,116 @@ public class FileHandler {
         if (!renamed) {
             System.err.println("Error: No file found matching the pattern for task '" + oldName + "'.");
         }
+    }
+    public void getTaskListFromFile(Directory currentDirectory) {
+        // Check for null directory first to prevent a NullPointerException.
+        if (currentDirectory == null) {
+            System.err.println("Error: No current directory is set to load tasks from.");
+            return;
+        }
+
+        // Use a platform-independent path.
+        // File.separator is better than hardcoding "\\".
+        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        File taskFile = new File(fileName);
+
+        if (!taskFile.exists()) {
+            System.err.println("Error: Task file not found for directory '" + currentDirectory.getName() + "'.");
+            return;
+        }
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String callerClassName =stackTrace[2].getClassName();
+        System.out.println("getTaskListFromFile" + callerClassName);
+        System.out.println("Loading tasks from " + fileName + "...");
+        try (BufferedReader reader = new BufferedReader(new FileReader(taskFile))) {
+            String line;
+            // Process each line as a potential Task object
+            while ((line = reader.readLine()) != null) {
+                String trimmedLine = line.trim();
+                if (trimmedLine.isEmpty()) {
+                    continue; // Skip empty lines
+                }
+
+                // A single Task object for the current line
+                Task currentTask = new Task();
+                boolean isValidTask = true;
+
+                // Remove outer brackets and split into key-value pairs
+                if (trimmedLine.startsWith("{") && trimmedLine.endsWith("}")) {
+                    String content = trimmedLine.substring(1, trimmedLine.length() - 1);
+                    String[] keyValues = content.split(";");
+
+                    for (String kv : keyValues) {
+                        // Split each key-value pair at the first colon
+                        if (kv == null || kv.trim().isEmpty()) {
+                            break;
+                        }
+                        String[] parts = kv.split(":", 2);
+                        if (parts.length < 2) {
+                            System.err.println("Invalid format: " + kv);
+                            isValidTask = false;
+                            break;
+                        }
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+
+                        // Use a switch statement for cleaner field assignment
+                        switch (key) {
+                            case "name":
+                                currentTask.setName(value);
+                                break;
+                            case "urgency":
+                                currentTask.setUrgency(Integer.parseInt(value));
+                                break;
+                            case "difficulty":
+                                currentTask.setDifficulty(Integer.parseInt(value));
+                                break;
+                            case "repeatableType":
+                                currentTask.setRepeatableType(value);
+                                break;
+                            case "description":
+                                currentTask.setDescription(value);
+                                break;
+                            case "isRepeatable":
+                                currentTask.setRepeatable(Boolean.parseBoolean(value));
+                                break;
+                            case "isFinished":
+                                currentTask.setFinished(Boolean.parseBoolean(value));
+                                break;
+                            case "deadline":
+                                currentTask.setDeadline(value);
+                                break;
+                            case "time":
+                                // Catch NumberFormatException to prevent crash
+                                try {
+                                    currentTask.setTimeDedicated(Integer.parseInt(value));
+                                } catch (NumberFormatException e) {
+                                    System.err.println("Invalid Time value for task: " + currentTask.getName());
+                                    isValidTask = false;
+                                }
+                                break;
+                            default:
+                                System.err.println("Unknown field: " + key);
+                                break;
+                        }
+                    }
+                } else {
+                    System.err.println("Skipping malformed line: " + line);
+                    isValidTask = false;
+                }
+
+                // Only add the task to the list if it was parsed successfully
+                if (isValidTask) {
+                    currentDirectory.getTasks().add(currentTask);
+                }
+            }
+            System.out.println("Tasks loaded successfully.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while loading tasks: " + e.getMessage());
+            e.printStackTrace();
+        }
+//        System.out.println(currentDirectory);
     }
     //?NOTE
     public void getNotesFromFile() {

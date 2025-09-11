@@ -68,13 +68,17 @@ public class PANEL_navbar extends JPanel {
     public void setCurrentPATH(String path){
        currentPATH.setText(path);
     }
-    public void returnFunction()
-    {
+    public void returnFunction(boolean reloading) {
         if (eventHandler.getPanelList().getStage()==2){
             eventHandler.getPanelList().setStage(1);
             eventHandler.getPanelList().setNoteSelected(false);
         } else if (eventHandler.getPanelList().getStage()==1) {
-            eventHandler.getPanelList().setStage(0);
+            if (!reloading){
+                eventHandler.getPanelList().setStage(0);
+            }else{
+//                eventHandler.getPanelList().setStage(0);
+                eventHandler.getPanelList().reloadDirs();
+            }
         }
     }
     public void setClockWorkingStatus(){

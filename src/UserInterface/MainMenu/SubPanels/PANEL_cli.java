@@ -47,14 +47,14 @@ public class PANEL_cli extends JPanel {
     }
     public void activate(){
         if(active){
-            System.out.println("deactivating");
+            System.out.println("FROM CLI func DEACTIVATE");
             stage =0;
             step=1;
             active=false;
             this.setVisible(false);
             commandField.setText("");
         }else {
-            System.out.println("activating");
+            System.out.println("FROM CLI func ACTIVATE");
             active=true;
             this.setVisible(true);
             commandField.setText(":");
@@ -62,7 +62,7 @@ public class PANEL_cli extends JPanel {
         }
     }
     private void loadDirrectoryInput(String dirName){
-        System.out.println("loading dirrectory input");
+        System.out.println("FROM CLI LOADING DIR INPUT");
         stage = 1;
         commandField.setText("Directory_Name:"+dirName);
     }
@@ -135,7 +135,6 @@ public class PANEL_cli extends JPanel {
     }
     //!ADD EDITTING AND FINISHING
     public void setEventHandler(EventHandler eventHandler) {
-        System.out.println(eventHandler +" from other child");
         this.eventHandler = eventHandler;
         commandField.addActionListener(actionEvent -> {
             String command = commandField.getText();
@@ -150,7 +149,6 @@ public class PANEL_cli extends JPanel {
                 HandleTaskRelatedCommands(command);
             }
             if (!commandFound) {
-                System.out.println("Command not recognized.");
                 eventHandler.getPanelnavbar().displayErrorMessage("Command not recognized.");
             }
 
@@ -199,24 +197,22 @@ public class PANEL_cli extends JPanel {
             System.out.println(eventHandler.getPanelList().getStage());
             if (eventHandler.getPanelList().getStage()==1) {
                 eventHandler.getFileHandler().removeDirectoryFromFiles();
-                eventHandler.getPanelnavbar().returnFunction();
+                eventHandler.getPanelnavbar().returnFunction(true);
                 activate();
             }else if (eventHandler.getPanelList().getStage()==2 && !eventHandler.getPanelList().isNoteSelected()) {
-                System.out.println("trying to remove task");
                 eventHandler.getFileHandler().removeTaskFromFiles();
                 eventHandler.getPanelMainmenu().getPanel_taskinfo().deactivate();
                 eventHandler.getPanelMainmenu().getPanel_clock().activate();
                 eventHandler.getPanelMainmenu().getPanel_noteinfo().deactivate();
-                eventHandler.getPanelnavbar().returnFunction();
+                eventHandler.getPanelnavbar().returnFunction(true);
                 activate();
             }
             else if (eventHandler.getPanelList().isNoteSelected()) {
-                System.out.println("trying to remove note");
                 eventHandler.getFileHandler().removeNotesFromFile();
                 eventHandler.getPanelMainmenu().getPanel_taskinfo().deactivate();
                 eventHandler.getPanelMainmenu().getPanel_clock().activate();
                 eventHandler.getPanelMainmenu().getPanel_noteinfo().deactivate();
-                eventHandler.getPanelnavbar().returnFunction();
+                eventHandler.getPanelnavbar().returnFunction(false);
                 activate();
             }
         }
@@ -279,16 +275,16 @@ public class PANEL_cli extends JPanel {
         commandFound=true;
         if (command.matches(commandHelper.getDirectoryNameRegEx()) && stage == 1) {
             String commandParameeter = command.substring(command.indexOf(":")+1);
-            if (commandParameeter.isEmpty() || command.contains(";")){
+            if (commandParameeter.isEmpty() || command.contains(";") || eventHandler.getDirectoryList().stream().anyMatch(directory -> directory.getName().equals(commandParameeter))){
                 eventHandler.getPanelnavbar().displayErrorMessage("INVALID DIR NAME");
             }else if (!editing){
                 eventHandler.addDirectory(new Directory(commandParameeter));
                 activate();
-            } else if (editing) {
+            } else if (editing ) {
                 eventHandler.getFileHandler().renameCurrentDirectory(commandParameeter);
                 eventHandler.getCurrentDirectory().setName(commandParameeter);
                 eventHandler.getFileHandler().saveDirectoryListToFile();
-                eventHandler.getPanelnavbar().returnFunction();
+                eventHandler.getPanelnavbar().returnFunction(true);
                 editing = false;
                 activate();
             }

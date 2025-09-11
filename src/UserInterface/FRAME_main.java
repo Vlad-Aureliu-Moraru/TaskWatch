@@ -39,12 +39,14 @@ public class FRAME_main extends JFrame {
         });
         actionMap.put("returnFunc", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                navbar.returnFunction();
+                navbar.returnFunction(false);
                 mainmenu.getPanel_taskinfo().deactivate();
                 mainmenu.getPanel_clock().activate();
                 mainmenu.getPanel_noteinfo().deactivate();
             }
         });
+
+        eventHandler.loadEverythingInMemory();
 
         eventHandler.setPanelnavbar(navbar);
         eventHandler.setPanelList(tasklist);
@@ -53,7 +55,6 @@ public class FRAME_main extends JFrame {
         tasklist.setEventHandler(eventHandler);
         mainmenu.setEventHandler(eventHandler);
         mainmenu.getPanel_clock().startClockTimer();
-
         updateAllComponents();
 
         this.add(mainmenu);

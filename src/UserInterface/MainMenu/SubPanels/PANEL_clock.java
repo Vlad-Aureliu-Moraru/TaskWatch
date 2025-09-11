@@ -32,13 +32,12 @@ public class PANEL_clock extends JPanel {
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         clockTimer = new Timer(clockUpdateInSec*1000,new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-               System.out.println("clock working");
                updateTime();
+               System.out.println(eventHandler.getDirectoryList());
            }
         });
         taskTimer = new Timer(taskUpdateInSec*1000,new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("task working");
                 totalSeconds-=taskUpdateInSec;
                 updateTimeForTaskTimer();
                 if(totalSeconds<=1){
@@ -143,6 +142,5 @@ public class PANEL_clock extends JPanel {
 
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        System.out.println(eventHandler.getPanelnavbar()+" from child");
     }
 }

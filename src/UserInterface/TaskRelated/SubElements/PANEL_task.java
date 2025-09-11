@@ -86,7 +86,6 @@ public class PANEL_task extends JPanel {
                 eventHandler.getPanelMainmenu().getPanel_clock().deactivate();
                 eventHandler.getFileHandler().getNotesFromFile();
                 eventHandler.getPanelList().loadCurrentTaskNotes();
-                System.out.println(eventHandler.getCurrentTask().getNotes().size());
             }
         });
     }

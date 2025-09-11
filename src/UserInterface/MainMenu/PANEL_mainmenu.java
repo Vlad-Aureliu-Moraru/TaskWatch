@@ -23,7 +23,6 @@ public class PANEL_mainmenu extends JPanel {
     private EventHandler eventHandler;
 
     public PANEL_mainmenu() {
-        System.out.println(eventHandler+ " from parent");
         this.setBackground(ColorTheme.getMain_color());
         this.setLayout(null);
 

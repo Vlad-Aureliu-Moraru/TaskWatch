@@ -22,7 +22,7 @@ public class PANEL_list extends JScrollPane {
     private int WIDTH;
     private int GAP = 20;
     private int MARGIN = 10;
-    private int stage = 0 ;//? 0 - mainmenu | 1 - dirmenu | 2 - taskmenu | 3 - noteclicked ;
+    private int stage = -1 ;//? 0 - mainmenu | 1 - dirmenu | 2 - taskmenu | 3 - noteclicked ;
     private boolean noteSelected = false;
     private boolean showingFinished = false;
 
@@ -48,14 +48,8 @@ public class PANEL_list extends JScrollPane {
         getVerticalScrollBar().setUnitIncrement(80);
 
 
-        System.out.println("PANEL_tasklist created"+this.getWidth()+"x"+HEIGHT);
     }
 
-    public void addToList(PANEL_dir dir) {
-        System.out.println("adding to DIR List ");
-        dirList.add(dir);
-
-    }
     public void setHEIGHTandWIDTH(int width,int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
@@ -72,11 +66,33 @@ public class PANEL_list extends JScrollPane {
     }
 
     public void loadDirs(){
-        System.out.println("loadDirs");
+        System.out.println("FROM PANEL LIST func loading DIRS");
+        if (stage ==0){
+            System.out.println("FROM PANEL LIST DIRS were Already loaded");
+        }
         stage=0;
         panel.removeAll();
         int currentY = 10;
-        eventHandler.getFileHandler().getDirectoryListFromFile();
+        for(Directory dir : eventHandler.getDirectoryList()){
+            PANEL_dir directory = new PANEL_dir(dir);
+            directory.setEventHandler(eventHandler);
+            directory.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            directory.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
+            panel.add(directory);
+            currentY+= directory.getHeight()+GAP;
+        }
+        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+        panel.revalidate();
+        panel.repaint();
+        this.revalidate();
+        this.repaint();
+    }
+    public void reloadDirs(){
+        System.out.println("FROM PANEL LIST func reloading DIRS");
+        stage=0;
+        panel.removeAll();
+        int currentY = 10;
+        eventHandler.loadEverythingInMemory();
         for(Directory dir : eventHandler.getDirectoryList()){
             PANEL_dir directory = new PANEL_dir(dir);
             directory.setEventHandler(eventHandler);
@@ -147,7 +163,6 @@ public class PANEL_list extends JScrollPane {
            showingFinished =true;
        }
     }
-
     public void loadCurrentTaskNotes(){
         stage = 2;
         panel.removeAll();
@@ -167,9 +182,6 @@ public class PANEL_list extends JScrollPane {
         this.revalidate();
         this.repaint();
     }
-
-
-
     public void setStage(int stage) {
         System.out.println("setting stage " + stage);
         if (stage == 0){

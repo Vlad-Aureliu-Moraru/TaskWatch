@@ -27,7 +27,6 @@ public class PANEL_noteinfo extends JPanel {
     }
     public void addNoteInfo(Note note){
         this.setVisible(true);
-        System.out.println("addNoteInfo");
         noteinfo.setText(note.getNote());
         noteDate.setText(note.getDate());
     }

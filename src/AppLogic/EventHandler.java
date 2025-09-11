@@ -7,7 +7,6 @@ import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
 
-import java.io.*;
 import java.util.ArrayList;
 
 public class EventHandler {
@@ -25,9 +24,15 @@ public class EventHandler {
     public EventHandler() {
         fileHandler = new FileHandler(this);
     }
+    public void loadEverythingInMemory(){
+        fileHandler.getDirectoryListFromFile();
+        for(Directory directory : directoryList){
+            fileHandler.getTaskListFromFile(directory);
+        }
+    }
 
     public void addDirectory(Directory directory) {
-        fileHandler.getDirectoryListFromFile();
+    loadEverythingInMemory();
         for (Directory dir : directoryList) {
             if (dir.getName().equals(directory.getName())) {
                 System.out.println("Directory already exists.");
@@ -36,7 +41,7 @@ public class EventHandler {
         }
         directoryList.add(directory);
         fileHandler.saveDirectoryListToFile();
-        panelList.loadDirs();
+        panelList.reloadDirs();
 
     }
     public void addNote(Note note) {
@@ -45,7 +50,7 @@ public class EventHandler {
         getPanelList().loadCurrentTaskNotes();
     }
     public void addTask(Task task) {
-        System.out.println("adding task");
+        System.out.println("FROM EVENTHANDLER func addTASK");
         this.getCurrentDirectory().addTask(task);
         getFileHandler().saveTaskToFile();
         panelList.loadCurrentTasks();
@@ -53,12 +58,6 @@ public class EventHandler {
 
     public ArrayList<Directory> getDirectoryList() {
         return directoryList;
-    }
-
-    public void printDirectoryList() {
-        for (int i = 0; i < directoryList.size(); i++) {
-            System.out.println(i+" "+directoryList.get(i).getName());
-        }
     }
     public Directory getCurrentDirectory() {
         return currentDirectory;
@@ -79,7 +78,7 @@ public class EventHandler {
         return panelnavbar;
     }
     public void setPanelnavbar(PANEL_navbar panelnavbar) {
-        System.out.println("setting panel navbar");
+        System.out.println("FROM EVENTHANDLER func setPanelnavbar");
         this.panelnavbar = panelnavbar;
     }
     public void setDirectoryList(ArrayList<Directory> directoryList) {
@@ -120,6 +119,5 @@ public class EventHandler {
     public FileHandler getFileHandler() {
         return fileHandler;
     }
-    public void setclockstatus(){
-    }
+
 }

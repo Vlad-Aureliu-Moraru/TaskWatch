@@ -61,8 +61,9 @@ public class PANEL_dir extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 System.out.println(directory.getName()+"/");
                 eventHandler.setCurrentDirectory(directory);
-                eventHandler.getFileHandler().getTaskListFromFile();
+//                eventHandler.getFileHandler().getTaskListFromFile();
                 eventHandler.getPanelList().loadCurrentTasks();
+                System.out.println(directory);
             }
         });
     }
