@@ -59,6 +59,10 @@ public class PANEL_taskinfo extends JScrollPane{
         taskTime.setForeground(ColorTheme.getSecnd_accent());
         taskDeadline.setForeground(ColorTheme.getSecnd_accent());
         taskType.setForeground(ColorTheme.getSecnd_accent());
+        taskDifficulty.setForeground(ColorTheme.getSecnd_accent());
+        taskRepeatableType.setForeground(ColorTheme.getSecnd_accent());
+        taskFinishedDate.setForeground(ColorTheme.getSecnd_accent());
+
 
         mirrorPanel.add(taskName);
         mirrorPanel.add(taskDescriptionPane);
@@ -67,6 +71,9 @@ public class PANEL_taskinfo extends JScrollPane{
         mirrorPanel.add(taskTime);
         mirrorPanel.add(taskDeadline);
         mirrorPanel.add(taskType);
+        mirrorPanel.add(taskRepeatableType);
+        mirrorPanel.add(taskDifficulty);
+        mirrorPanel.add(taskFinishedDate);
 
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         mirrorPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -85,19 +92,23 @@ public class PANEL_taskinfo extends JScrollPane{
     public void setHEIGHTandWIDTH(int height, int width){
         this.HEIGHT = height;
         this.WIDTH = width;
-        int currentY = 30;
-        taskName.setBounds(WIDTH/2-150,0,width,30);
-        taskDescriptionPane.setBounds(WIDTH/20,currentY,width/2-40,height);
+        int currentY = 20;
+        taskName.setBounds(80,0,width,30);
+        taskStatus.setBounds(50,0,200,30);
+        taskType.setBounds(30,0,200,30);
 
-        taskStatus.setBounds(WIDTH/2+70,currentY,200,30);
-        currentY+=30;
+        taskDescriptionPane.setBounds(WIDTH/20,40,width/2-40,height);
         taskPriority.setBounds(WIDTH/2+70,currentY,200,30);
+        currentY+=30;
+        taskDifficulty.setBounds(WIDTH/2+70,currentY,200,30);
         currentY+=30;
         taskTime.setBounds(WIDTH/2+70,currentY,200,30);
         currentY+=30;
-        taskDeadline.setBounds(WIDTH/2+70,currentY,200,30);
+        taskFinishedDate.setBounds(WIDTH/2+70,currentY,200,30);
         currentY+=30;
-        taskType.setBounds(WIDTH/2+70,currentY,200,30);
+        taskRepeatableType.setBounds(WIDTH/2+70,currentY,200,30);
+        currentY+=30;
+        taskDeadline.setBounds(WIDTH/2+70,currentY,200,30);
         if (width<500){
             setFontSizeAll(13);
         }else if (width<700){
@@ -106,7 +117,7 @@ public class PANEL_taskinfo extends JScrollPane{
         else{
             setFontSizeAll(20);
         }
-        mirrorPanel.setPreferredSize(new Dimension(WIDTH,currentY));
+        mirrorPanel.setPreferredSize(new Dimension(WIDTH,currentY+30));
         taskDescription.setPreferredSize(new Dimension(WIDTH,currentY*3));
         mirrorPanel.revalidate();
         mirrorPanel.repaint();
@@ -115,44 +126,52 @@ public class PANEL_taskinfo extends JScrollPane{
     }
     public void addTaskInfo(Task task){
         activate();
-        taskName.setText("\uF06A  "+task.getName());
+        taskName.setText(task.getName());
         taskDescription.setText("DESC: "+task.getDescription());
-        taskStatus.setText(task.isFinished()?"Finished":"Not Finished");
-        taskPriority.setText("URGENCY: "+task.getUrgency()+"");
+        taskStatus.setText(task.isFinished()?"\uF4A7":"\uDB80\uDD31");
+        taskPriority.setText("URGENCY: "+task.getUrgency());
         taskTime.setText("TIME: "+task.getTimeDedicated()+"min");
+
         if (task.getDeadline() != null) {
             String deadline = task.getDeadline();
-
             if (!deadline.equals("none")) {
                 taskDeadline.setText(deadline);
             } else {
-                taskDeadline.setText("NO DEADLINE SET");
+                taskDeadline.setVisible(false);
             }
         } else {
-            taskDeadline.setText("NO DEADLINE SET");
+            taskDeadline.setVisible(false);
         }
-
-        taskType.setText(task.isRepeatable()?"Repeatable":"Not Repeatable");
+        taskDifficulty.setText("DIFFICULTY: "+task.getDifficulty());
+        taskType.setText(task.isRepeatable()?"\uDB81\uDC56":"\uDB81\uDC57");
+        taskRepeatableType.setText("\uF01E  "+task.getRepeatableType());
+        taskFinishedDate.setText("\uED7A  "+task.getFinishedDate());
+        taskRepeatableType.setVisible(task.isRepeatable());
+        taskFinishedDate.setVisible(task.isFinished());
     }
     public void updateTaskInfo(Task task){
-        taskName.setText("\uF06A  "+task.getName());
+        taskName.setText(task.getName());
         taskDescription.setText("DESC: "+task.getDescription());
-        taskStatus.setText(task.isFinished()?"Finished":"Not Finished");
-        taskPriority.setText("URGENCY: "+task.getUrgency()+"");
+        taskStatus.setText(task.isFinished()?"\uF4A7":"\uDB80\uDD31");
+        taskPriority.setText("URGENCY: "+task.getUrgency());
         taskTime.setText("TIME: "+task.getTimeDedicated()+"min");
+
         if (task.getDeadline() != null) {
             String deadline = task.getDeadline();
-
-            if (!deadline.trim().equalsIgnoreCase("null")) {
+            if (!deadline.equals("none")) {
                 taskDeadline.setText(deadline);
             } else {
-                taskDeadline.setText("NO DEADLINE SET");
+                taskDeadline.setVisible(false);
             }
         } else {
-            taskDeadline.setText("NO DEADLINE SET");
+            taskDeadline.setVisible(false);
         }
-
-        taskType.setText(task.isRepeatable()?"Repeatable":"Not Repeatable");
+        taskDifficulty.setText("DIFFICULTY: "+task.getDifficulty());
+        taskType.setText(task.isRepeatable()?"\uDB81\uDC56":"\uDB81\uDC57");
+        taskRepeatableType.setText("\uF01E  "+task.getRepeatableType());
+        taskFinishedDate.setText("\uED7A  "+task.getFinishedDate());
+        taskRepeatableType.setVisible(task.isRepeatable());
+        taskFinishedDate.setVisible(task.isFinished());
     }
     public void activate(){
         if (active){
@@ -171,10 +190,13 @@ public class PANEL_taskinfo extends JScrollPane{
     private void setFontSizeAll(int size){
         taskName.setFont(new Font("Arial", Font.PLAIN,size));
         taskDescription.setFont(new Font("Arial", Font.PLAIN,size));
-        taskStatus.setFont(new Font("Arial", Font.PLAIN, size));
+        taskStatus.setFont(new Font("Arial", Font.PLAIN, size+5));
         taskPriority.setFont(new Font("Arial", Font.PLAIN, size));
         taskTime.setFont(new Font("Arial", Font.PLAIN, size));
         taskDeadline.setFont(new Font("Arial", Font.PLAIN, size));
-        taskType.setFont(new Font("Arial", Font.PLAIN, size));
+        taskType.setFont(new Font("Arial", Font.PLAIN, size+5));
+        taskFinishedDate.setFont(new Font("Arial", Font.PLAIN, size));
+        taskRepeatableType.setFont(new Font("Arial", Font.PLAIN, size));
+        taskDifficulty.setFont(new Font("Arial", Font.PLAIN, size));
     }
 }

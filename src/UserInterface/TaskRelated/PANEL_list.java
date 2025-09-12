@@ -45,7 +45,7 @@ public class PANEL_list extends JScrollPane {
         this.setAutoscrolls(true);
         this.setWheelScrollingEnabled(true);
         this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
-        getVerticalScrollBar().setUnitIncrement(80);
+        getVerticalScrollBar().setUnitIncrement(10);
 
 
     }
@@ -66,10 +66,6 @@ public class PANEL_list extends JScrollPane {
     }
 
     public void loadDirs(){
-        System.out.println("FROM PANEL LIST func loading DIRS");
-        if (stage ==0){
-            System.out.println("FROM PANEL LIST DIRS were Already loaded");
-        }
         stage=0;
         panel.removeAll();
         int currentY = 10;
@@ -88,7 +84,6 @@ public class PANEL_list extends JScrollPane {
         this.repaint();
     }
     public void reloadDirs(){
-        System.out.println("FROM PANEL LIST func reloading DIRS");
         stage=0;
         panel.removeAll();
         int currentY = 10;

@@ -22,28 +22,28 @@ public  PANEL_item(Task task){
     titleLabel.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 15));
 
     add(titleLabel);
-    setDifficultyColor();
+    setUrgencyColor();
     this.setBackground(backgroundColor);
 }
     public void setHEIGHTandWIDTH(int height,int width){
         titleLabel.setBounds(5,5,width,20);
     }
 
-    private void setDifficultyColor() {
-        if (currentTask.getDifficulty() == 1) {
-            backgroundColor= ColorTheme.getDifficulty1();
+    private void setUrgencyColor() {
+        if (currentTask.getUrgency() == 1) {
+            backgroundColor= ColorTheme.getUrgency1List();
         }
-        if (currentTask.getDifficulty() == 2) {
-            backgroundColor = ColorTheme.getDifficulty2();
+        if (currentTask.getUrgency() == 2) {
+            backgroundColor = ColorTheme.getUrgency2List();
         }
-        if (currentTask.getDifficulty() == 3) {
-            backgroundColor = ColorTheme.getDifficulty3();
+        if (currentTask.getUrgency() == 3) {
+            backgroundColor = ColorTheme.getUrgency3List();
         }
-        if (currentTask.getDifficulty() == 4) {
-            backgroundColor = ColorTheme.getDifficulty4();
+        if (currentTask.getUrgency() == 4) {
+            backgroundColor = ColorTheme.getUrgency4List();
         }
-        if (currentTask.getDifficulty() == 5) {
-            backgroundColor = ColorTheme.getDifficulty5();
+        if (currentTask.getUrgency() == 5) {
+            backgroundColor = ColorTheme.getUrgency5List();
 
         }
     }

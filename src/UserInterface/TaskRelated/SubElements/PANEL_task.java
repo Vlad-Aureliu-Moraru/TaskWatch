@@ -10,6 +10,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class PANEL_task extends JPanel {
     private JLabel taskname = new JLabel("Task Name:");
@@ -38,12 +40,16 @@ public class PANEL_task extends JPanel {
         taskname.setFont(FontLoader.getCozyFont().deriveFont(15f));
         taskUrgency.setFont(FontLoader.getCozyFont().deriveFont(17f));
         taskFinished.setFont(FontLoader.getCozyFont().deriveFont(23f));
+        taskUrgent.setFont(FontLoader.getCozyFont().deriveFont(25f));
+        taskUrgent.setVisible(false);
 
 
         taskFinished.setForeground(ColorTheme.getTaskCompletedIconColor());
+        taskUrgent.setForeground(ColorTheme.getTaskUrgentIconColor());
         this.add(taskname);
         this.add(taskUrgency);
         this.add(taskFinished);
+        this.add(taskUrgent);
 
         setUrgencyColor();
         setDifficultyColor();
@@ -75,6 +81,20 @@ public class PANEL_task extends JPanel {
             taskFinished.setVisible(false);
             taskUrgency.setVisible(true);
         }
+        if (!task.isFinished() && !task.getDeadline().equals("none")) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate today= LocalDate.now();
+        LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
+        if (taskDeadline.isEqual(today) ) {
+            taskUrgency.setVisible(false);
+            taskUrgent.setVisible(true);
+
+        }else{
+            taskFinished.setVisible(false);
+            taskUrgent.setVisible(false);
+            taskUrgency.setVisible(true);
+        }
+        }
     }
 
     public void setEventHandler(EventHandler eventHandler) {
@@ -95,6 +115,7 @@ public class PANEL_task extends JPanel {
         taskname.setBounds(0, 0, width, height);
         taskUrgency.setBounds(20, 0, width, height);
         taskFinished.setBounds(20,0, width, height);
+        taskUrgent.setBounds(20,0, width, height);
 
     }
 

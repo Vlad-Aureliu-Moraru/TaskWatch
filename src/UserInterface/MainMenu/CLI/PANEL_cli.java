@@ -231,7 +231,8 @@ public class PANEL_cli extends JPanel {
 
         }
         else if(command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage()>=2){
-            eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask());
+            eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask(),eventHandler.getCurrentDirectory());
+
             activate();
         }
         else if (command.matches(commandHelper.getPauseTimerCommand())) {

@@ -27,6 +27,12 @@ public class ColorTheme {
     private static Color urgency4 = new Color(255, 106, 0);
     private static Color urgency5 = new Color(255, 0, 0);
 
+    private static Color urgency1List = new Color(141, 215, 188);
+    private static Color urgency2List = new Color(88, 171, 101);
+    private static Color urgency3List = new Color(190, 185, 64);
+    private static Color urgency4List = new Color(192, 107, 46);
+    private static Color urgency5List = new Color(192, 76, 76);
+
     private static Color  difficulty1 = new Color(156, 246, 213);
     private static Color  difficulty2 = new Color(116, 215, 129);
     private static Color  difficulty3 = new Color(255, 242, 0);
@@ -34,12 +40,37 @@ public class ColorTheme {
     private static Color  difficulty5 = new Color(255, 0, 0);
 
     private static Color TaskCompletedIconColor = new Color(4, 189, 255);
+    private static Color TaskUrgentIconColor = new Color(255, 4, 79);
 
     private static Color consoleColor = new  Color(82, 94, 84);
     private static Color consoleTextColor = new  Color(222, 222, 222);
 
     public static Color getTaskHoverColor() {
         return taskHoverColor;
+    }
+
+    public static Color getTaskUrgentIconColor() {
+        return TaskUrgentIconColor;
+    }
+
+    public static Color getUrgency1List() {
+        return urgency1List;
+    }
+
+    public static Color getUrgency2List() {
+        return urgency2List;
+    }
+
+    public static Color getUrgency3List() {
+        return urgency3List;
+    }
+
+    public static Color getUrgency4List() {
+        return urgency4List;
+    }
+
+    public static Color getUrgency5List() {
+        return urgency5List;
     }
 
     public static Color getTaskCompletedIconColor() {
