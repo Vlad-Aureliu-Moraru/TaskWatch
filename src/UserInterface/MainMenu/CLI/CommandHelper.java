@@ -1,4 +1,4 @@
-package UserInterface.MainMenu;
+package UserInterface.MainMenu.CLI;
 
 public class CommandHelper {
     //?BASIC TASKS

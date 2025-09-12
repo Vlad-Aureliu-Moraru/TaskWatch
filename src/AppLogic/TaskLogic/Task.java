@@ -12,7 +12,7 @@ public class Task {
     private int TimeDedicated = 0 ;
     private boolean repeatable = false;
     private boolean finished = false;
-    private String deadline = null;
+    private String deadline = "none";
     private int urgency =1;
     private String repeatableType="none";
     private int difficulty=1;

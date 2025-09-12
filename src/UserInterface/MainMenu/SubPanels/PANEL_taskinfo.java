@@ -7,10 +7,12 @@ import UserInterface.Theme.ColorTheme;
 import javax.swing.*;
 import java.awt.*;
 
-public class PANEL_taskinfo extends JPanel {
+public class PANEL_taskinfo extends JScrollPane{
 
+    private JPanel mirrorPanel = new JPanel();
     private JLabel taskName = new JLabel("Task Name:");
     private JTextArea taskDescription = new JTextArea("Task Description:");
+    private JScrollPane taskDescriptionPane;
     private JLabel taskStatus = new JLabel("Task Status:");
     private JLabel taskPriority = new JLabel("Task Priority:");
     private JLabel taskTime = new JLabel("Task Time:");
@@ -28,8 +30,8 @@ public class PANEL_taskinfo extends JPanel {
     private int WIDTH;
 
     public PANEL_taskinfo() {
-        this.setBackground(ColorTheme.getMain_color());
-        this.setLayout(null);
+        mirrorPanel.setBackground(ColorTheme.getMain_color());
+        mirrorPanel.setLayout(null);
         this.setVisible(false);
 
         taskName.setForeground(ColorTheme.getSecnd_accent());
@@ -38,8 +40,19 @@ public class PANEL_taskinfo extends JPanel {
         taskDescription.setEditable(false);
         taskDescription.setLineWrap(true);
         taskDescription.setWrapStyleWord(true);
-        taskDescription.setOpaque(false);
+        taskDescription.setBackground(ColorTheme.getMain_color());
+        taskDescription.setOpaque(true);
         taskDescription.setFocusable(false);
+
+        taskDescriptionPane = new JScrollPane(taskDescription);
+        taskDescriptionPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        taskDescriptionPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        taskDescriptionPane.setViewportBorder(BorderFactory.createEmptyBorder());
+        taskDescriptionPane.setBorder(BorderFactory.createEmptyBorder());
+        taskDescriptionPane.setOpaque(true);
+        taskDescriptionPane.setAutoscrolls(true);
+        taskDescriptionPane.setWheelScrollingEnabled(true);
+        taskDescriptionPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 
         taskStatus.setForeground(ColorTheme.getSecnd_accent());
         taskPriority.setForeground(ColorTheme.getSecnd_accent());
@@ -47,25 +60,44 @@ public class PANEL_taskinfo extends JPanel {
         taskDeadline.setForeground(ColorTheme.getSecnd_accent());
         taskType.setForeground(ColorTheme.getSecnd_accent());
 
-        this.add(taskName);
-        this.add(taskDescription);
-        this.add(taskStatus);
-        this.add(taskPriority);
-        this.add(taskTime);
-        this.add(taskDeadline);
-        this.add(taskType);
+        mirrorPanel.add(taskName);
+        mirrorPanel.add(taskDescriptionPane);
+        mirrorPanel.add(taskStatus);
+        mirrorPanel.add(taskPriority);
+        mirrorPanel.add(taskTime);
+        mirrorPanel.add(taskDeadline);
+        mirrorPanel.add(taskType);
+
+        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        mirrorPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        this.setViewportView(mirrorPanel);
+        this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.setViewportBorder(BorderFactory.createEmptyBorder());
+        this.setBorder(BorderFactory.createEmptyBorder());
+        this.setOpaque(false);
+        this.setAutoscrolls(true);
+        this.setWheelScrollingEnabled(true);
+        this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        getVerticalScrollBar().setUnitIncrement(80);
 
     }
     public void setHEIGHTandWIDTH(int height, int width){
         this.HEIGHT = height;
         this.WIDTH = width;
+        int currentY = 30;
         taskName.setBounds(WIDTH/2-150,0,width,30);
-        taskDescription.setBounds(WIDTH/20,height/5,width/2-40,height);
-        taskStatus.setBounds(WIDTH/2+70,height/6,200,30);
-        taskPriority.setBounds(WIDTH/2+70,height/5+20,200,30);
-        taskTime.setBounds(WIDTH/2+70,height/4+40,200,30);
-        taskDeadline.setBounds(WIDTH/2+70,height/3+50,200,30);
-        taskType.setBounds(WIDTH/2+70,height/2+45,200,30);
+        taskDescriptionPane.setBounds(WIDTH/20,currentY,width/2-40,height);
+
+        taskStatus.setBounds(WIDTH/2+70,currentY,200,30);
+        currentY+=30;
+        taskPriority.setBounds(WIDTH/2+70,currentY,200,30);
+        currentY+=30;
+        taskTime.setBounds(WIDTH/2+70,currentY,200,30);
+        currentY+=30;
+        taskDeadline.setBounds(WIDTH/2+70,currentY,200,30);
+        currentY+=30;
+        taskType.setBounds(WIDTH/2+70,currentY,200,30);
         if (width<500){
             setFontSizeAll(13);
         }else if (width<700){
@@ -74,8 +106,13 @@ public class PANEL_taskinfo extends JPanel {
         else{
             setFontSizeAll(20);
         }
+        mirrorPanel.setPreferredSize(new Dimension(WIDTH,currentY));
+        taskDescription.setPreferredSize(new Dimension(WIDTH,currentY*3));
+        mirrorPanel.revalidate();
+        mirrorPanel.repaint();
+        this.revalidate();
+        this.repaint();
     }
-
     public void addTaskInfo(Task task){
         activate();
         taskName.setText("\uF06A  "+task.getName());
@@ -86,7 +123,7 @@ public class PANEL_taskinfo extends JPanel {
         if (task.getDeadline() != null) {
             String deadline = task.getDeadline();
 
-            if (!deadline.trim().equalsIgnoreCase("null")) {
+            if (!deadline.equals("none")) {
                 taskDeadline.setText(deadline);
             } else {
                 taskDeadline.setText("NO DEADLINE SET");
@@ -117,7 +154,6 @@ public class PANEL_taskinfo extends JPanel {
 
         taskType.setText(task.isRepeatable()?"Repeatable":"Not Repeatable");
     }
-
     public void activate(){
         if (active){
             this.setVisible(false);
@@ -132,10 +168,6 @@ public class PANEL_taskinfo extends JPanel {
         this.setVisible(false);
         active = false;
     }
-    public void closeInfo(){
-        this.setVisible(false);
-    }
-
     private void setFontSizeAll(int size){
         taskName.setFont(new Font("Arial", Font.PLAIN,size));
         taskDescription.setFont(new Font("Arial", Font.PLAIN,size));

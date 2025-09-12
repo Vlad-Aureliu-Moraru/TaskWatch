@@ -76,7 +76,6 @@ public class PANEL_navbar extends JPanel {
             if (!reloading){
                 eventHandler.getPanelList().setStage(0);
             }else{
-//                eventHandler.getPanelList().setStage(0);
                 eventHandler.getPanelList().reloadDirs();
             }
         }

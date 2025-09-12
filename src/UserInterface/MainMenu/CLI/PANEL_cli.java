@@ -1,10 +1,9 @@
-package UserInterface.MainMenu.SubPanels;
+package UserInterface.MainMenu.CLI;
 
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
-import UserInterface.MainMenu.CommandHelper;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
@@ -91,11 +90,10 @@ public class PANEL_cli extends JPanel {
             if(editing){
                 String content = eventHandler.getCurrentTask().getDeadline();
                 if (content != null) {
-                    if (!content.trim().equalsIgnoreCase("null")) {
+                    if (content.equals("none")) {
                         commandField.setText("Task_Completion_Date:" + eventHandler.getCurrentTask().getDeadline());
                     } else {
-
-                        commandField.setText("Task_Completion_Date:" + "");
+                        commandField.setText("Task_Completion_Date:");
                     }
                 }
             }else{
@@ -198,6 +196,7 @@ public class PANEL_cli extends JPanel {
             if (eventHandler.getPanelList().getStage()==1) {
                 eventHandler.getFileHandler().removeDirectoryFromFiles();
                 eventHandler.getPanelnavbar().returnFunction(true);
+                eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
                 activate();
             }else if (eventHandler.getPanelList().getStage()==2 && !eventHandler.getPanelList().isNoteSelected()) {
                 eventHandler.getFileHandler().removeTaskFromFiles();
@@ -205,6 +204,7 @@ public class PANEL_cli extends JPanel {
                 eventHandler.getPanelMainmenu().getPanel_clock().activate();
                 eventHandler.getPanelMainmenu().getPanel_noteinfo().deactivate();
                 eventHandler.getPanelnavbar().returnFunction(true);
+                eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
                 activate();
             }
             else if (eventHandler.getPanelList().isNoteSelected()) {
@@ -256,6 +256,7 @@ public class PANEL_cli extends JPanel {
             if (eventHandler.getCurrentTask().isFinished()){
                 eventHandler.getCurrentTask().setFinished(false);
                 eventHandler.getCurrentTask().setFinishedDate(null);
+
             }else{
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -267,6 +268,7 @@ public class PANEL_cli extends JPanel {
             eventHandler.getFileHandler().saveTaskToFile();
             activate();
             eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
+            eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
 
         }
         else if (command.matches(commandHelper.getShowFinishedTasks())&&eventHandler.getPanelList().getStage()==1) {
@@ -358,6 +360,7 @@ public class PANEL_cli extends JPanel {
                     eventHandler.addTask(addedTask);
                     step=1;
                     activate();
+                    eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
                 }else{
                     step = 1;
                     eventHandler.getFileHandler().saveTaskToFile();
@@ -475,6 +478,7 @@ public class PANEL_cli extends JPanel {
                     activate();
                     editing = false;
                 }
+                eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
             }
         }
         else{
