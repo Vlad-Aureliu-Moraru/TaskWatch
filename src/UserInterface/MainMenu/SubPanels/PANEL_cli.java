@@ -254,7 +254,17 @@ public class PANEL_cli extends JPanel {
             activate();
         }
         else if (command.matches(commandHelper.getFinishTaskCommand())&&eventHandler.getPanelList().getStage()==2) {
-            eventHandler.getCurrentTask().setFinished(true);
+            if (eventHandler.getCurrentTask().isFinished()){
+                eventHandler.getCurrentTask().setFinished(false);
+                eventHandler.getCurrentTask().setFinishedDate(null);
+            }else{
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDateTime = now.format(formatter);
+                eventHandler.getCurrentTask().setFinished(true);
+                eventHandler.getCurrentTask().setFinishedDate(formattedDateTime);
+                eventHandler.updateDeadlineForRepeatableTasks(eventHandler.getCurrentTask());
+            }
             eventHandler.getFileHandler().saveTaskToFile();
             activate();
             eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());

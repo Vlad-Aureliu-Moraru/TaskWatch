@@ -26,9 +26,9 @@ public class CommandHelper {
     private String TaskDescriptionRegEx = "^Task_Description:.*";
     private String TaskPriorityRegEx = "^Task_Priority:(\\d{1}|)";
     private String TaskCompletionTimeRegEx = "^Task_Completion_Time:([0-9]*|)";
-    private String TaskCompletionDateRegEx = "^Task_Completion_Date:(\\d{2}-\\d{2}-\\d{4}|)$";
+    private String TaskCompletionDateRegEx = "^Task_Completion_Date:(\\d{2}/\\d{2}/\\d{4}|)$";
     private String TaskRepeatableRegEx = "^isRepeatable:.*$";
-    private String TaskRepeatableTypeRegEx = "^RepeatableType:(daily|weekly|monthly)";
+    private String TaskRepeatableTypeRegEx = "^RepeatableType:(daily|weekly|biweekly|monthly)";
     private String TaskDifficultyRegEx = "^Difficulty:(\\d{1}|)";
     //?NOTE RELATED
     private String NoteRegEx = "^Note:.*";

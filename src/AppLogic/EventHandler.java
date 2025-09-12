@@ -7,6 +7,10 @@ import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class EventHandler {
@@ -30,7 +34,6 @@ public class EventHandler {
             fileHandler.getTaskListFromFile(directory);
         }
     }
-
     public void addDirectory(Directory directory) {
     loadEverythingInMemory();
         for (Directory dir : directoryList) {
@@ -119,5 +122,30 @@ public class EventHandler {
     public FileHandler getFileHandler() {
         return fileHandler;
     }
+
+    public void updateDeadlineForRepeatableTasks(Task task) {
+        if (task.isRepeatable()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate finishedDate = LocalDate.parse(task.getFinishedDate(), formatter);
+            String repeatableType = task.getRepeatableType();
+
+            LocalDate newDeadline;
+
+            if (repeatableType.equals("daily")) {
+                newDeadline = finishedDate.plus(1, ChronoUnit.DAYS);
+            } else if (repeatableType.equals("weekly")) {
+                newDeadline = finishedDate.plus(1, ChronoUnit.WEEKS);
+            } else if (repeatableType.equals("biweekly")) {
+                newDeadline = finishedDate.plus(2, ChronoUnit.WEEKS);
+            } else if (repeatableType.equals("monthly")) {
+                newDeadline = finishedDate.plus(1, ChronoUnit.MONTHS);
+            } else {
+                System.out.println("Unknown repeatable type: " + repeatableType);
+                return;
+            }
+            task.setDeadline(newDeadline.format(formatter));
+        }
+    }
+
 
 }

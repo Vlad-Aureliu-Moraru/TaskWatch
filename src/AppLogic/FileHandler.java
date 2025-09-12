@@ -507,6 +507,9 @@ public class FileHandler {
                             case "difficulty":
                                 currentTask.setDifficulty(Integer.parseInt(value));
                                 break;
+                            case "finishedDate":
+                                currentTask.setFinishedDate(value);
+                                break;
                             case "repeatableType":
                                 currentTask.setRepeatableType(value);
                                 break;

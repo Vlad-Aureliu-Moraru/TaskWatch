@@ -18,6 +18,7 @@ public class PANEL_taskinfo extends JPanel {
     private JLabel taskType = new JLabel("Task Type:");
     private JLabel taskRepeatableType= new JLabel("Task Repeatable Type:");
     private JLabel taskDifficulty= new JLabel("Task Difficulty:");
+    private JLabel taskFinishedDate= new JLabel("Task Finished Date:");
 
 
     private boolean active = false;

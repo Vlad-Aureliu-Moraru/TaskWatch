@@ -33,7 +33,7 @@ public class PANEL_clock extends JPanel {
         clockTimer = new Timer(clockUpdateInSec*1000,new ActionListener() {
            public void actionPerformed(ActionEvent e) {
                updateTime();
-               System.out.println(eventHandler.getDirectoryList());
+//               System.out.println(eventHandler.getDirectoryList());
            }
         });
         taskTimer = new Timer(taskUpdateInSec*1000,new ActionListener() {
