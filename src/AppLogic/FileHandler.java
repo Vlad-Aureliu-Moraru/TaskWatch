@@ -556,6 +556,29 @@ public class FileHandler {
         }
 //        System.out.println(currentDirectory);
     }
+    public void saveTaskToFile(Directory currentDirectory) {
+        if (currentDirectory == null) {
+            System.err.println("Error: No current directory selected.");
+            return;
+        }
+
+        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        File taskFile = new File(fileName);
+
+        System.out.println("Saving tasks for directory '" + currentDirectory.getName() + "' to " + fileName + "...");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(taskFile,false))) {
+            for (Task task : currentDirectory.getTasks()) {
+                String taskLine = task+"";
+                writer.write(taskLine);
+
+            }
+            System.out.println("Tasks saved successfully.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while saving tasks: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     //?NOTE
     public void getNotesFromFile() {
         ArrayList<Note> noteList = new ArrayList<>();

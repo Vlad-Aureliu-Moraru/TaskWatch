@@ -146,6 +146,21 @@ public class EventHandler {
             task.setDeadline(newDeadline.format(formatter));
         }
     }
-
+    public void updateFinishedStatusForRepeatableTasks() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate today= LocalDate.now();
+        for (Directory directory : directoryList) {
+            for (Task task : directory.getTasks()) {
+                if (task.isFinished() && task.isRepeatable()) {
+                    System.out.println("FINISHED TASK: " + task.getName());
+                    LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
+                    if (taskDeadline.isBefore(today)||taskDeadline.isEqual(today) ) {
+                    task.setFinished(false);
+                    }
+                }
+            }
+            fileHandler.saveTaskToFile(directory);
+        }
+    }
 
 }

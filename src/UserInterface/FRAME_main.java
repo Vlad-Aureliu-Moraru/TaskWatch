@@ -47,7 +47,7 @@ public class FRAME_main extends JFrame {
         });
 
         eventHandler.loadEverythingInMemory();
-
+        eventHandler.updateFinishedStatusForRepeatableTasks();
         eventHandler.setPanelnavbar(navbar);
         eventHandler.setPanelList(tasklist);
         eventHandler.setPanelMainmenu(mainmenu);

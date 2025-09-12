@@ -2,11 +2,13 @@ package UserInterface.MainMenu.SubPanels;
 
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
+import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -22,6 +24,8 @@ public class PANEL_clock extends JPanel {
 
     private int clockUpdateInSec = 5;
     private int taskUpdateInSec = 5;
+
+    private Task currentTask;
 
     private EventHandler eventHandler;
 
@@ -41,6 +45,14 @@ public class PANEL_clock extends JPanel {
                 totalSeconds-=taskUpdateInSec;
                 updateTimeForTaskTimer();
                 if(totalSeconds<=1){
+                    if (currentTask!=null){
+                        LocalDateTime now = LocalDateTime.now();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        String formattedDateTime = now.format(formatter);
+                        currentTask.setFinished(true);
+                        currentTask.setFinishedDate(formattedDateTime);
+                        eventHandler.updateDeadlineForRepeatableTasks(currentTask);
+                    }
                     stopTaskTimerandStartClockTimer();
                     System.out.println("Task Timer Stopped");
                 }
@@ -105,6 +117,19 @@ public class PANEL_clock extends JPanel {
     }
     public void startTaskTimer(int minutes){
         totalSeconds = minutes*60;
+        originalSeconds = totalSeconds;
+        clockTimer.stop();
+        eventHandler.getPanelnavbar().setTimerWorkingStatus();
+        if (taskTimer != null && taskTimer.isRunning()) {
+            taskTimer.stop();
+            System.out.println("Task Timer Stopped");
+        }
+        taskTimer.start();
+        updateTimeForTaskTimer();
+    }
+    public void startTaskTimer(Task currentTask){
+        this.currentTask = currentTask;
+        totalSeconds = currentTask.getTimeDedicated()*60;
         originalSeconds = totalSeconds;
         clockTimer.stop();
         eventHandler.getPanelnavbar().setTimerWorkingStatus();
