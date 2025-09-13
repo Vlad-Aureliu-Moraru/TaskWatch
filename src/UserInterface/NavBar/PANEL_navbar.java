@@ -27,8 +27,8 @@ public class PANEL_navbar extends JPanel {
         this.setLayout(null);
         currentPATH.setForeground(ColorTheme.getSecnd_accent());
         statusDisplay.setForeground(ColorTheme.getSecnd_accent());
-        statusDisplay.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15));
-        currentPATH.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15));
+        statusDisplay.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 17));
+        currentPATH.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
         statusDisplay.setForeground(ColorTheme.getSecondary_green());
 
        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -97,7 +97,14 @@ public class PANEL_navbar extends JPanel {
         statusDisplay.setForeground(ColorTheme.getUrgency5());
         timer.start();
     }
-
+    public void setPreparingStatus(){
+        statusDisplay.setText("\uDB80\uDCBB  :: preparing");
+        statusDisplay.setForeground(ColorTheme.getTimerOnPrepColor());
+    }
+    public void setBreakStatus(){
+        statusDisplay.setText("\uDB86\uDEEA  :: break");
+        statusDisplay.setForeground(ColorTheme.getTimerOnBreakColor());
+    }
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
     }

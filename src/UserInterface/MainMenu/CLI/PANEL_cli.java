@@ -341,7 +341,7 @@ public class PANEL_cli extends JPanel {
         commandFound=true;
         if (command.matches(commandHelper.getTaskNameRegEx()) && stage == 2) {
             String commandParameeter = command.substring(command.indexOf(":")+1);
-            if (commandParameeter.isEmpty() || commandParameeter.contains(";")) {
+            if (commandParameeter.trim().isEmpty() || commandParameeter.contains(";")) {
                 eventHandler.getPanelnavbar().displayErrorMessage("INVALID TASK NAME");
             }else {
                 if (!editing && !eventHandler.getCurrentDirectory().taskNameExists(commandParameeter)) {

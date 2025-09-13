@@ -85,7 +85,7 @@ public class PANEL_task extends JPanel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate today= LocalDate.now();
         LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
-        if (taskDeadline.isEqual(today) ) {
+        if (taskDeadline.isEqual(today) || taskDeadline.isBefore(today) ) {
             taskUrgency.setVisible(false);
             taskUrgent.setVisible(true);
 

@@ -79,17 +79,17 @@ public class FRAME_main extends JFrame {
         }
 
 
-        mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
-        tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
-        tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
-        if (navbarHEIGHT<40){
-            navbarHEIGHT = 40;
+        if (navbarHEIGHT<50){
+            navbarHEIGHT = 50;
         }
-        navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
         navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
+        navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
+
+        mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         mainmenu.setHEIGHTandWIDTH(currentWIDTH-tasklistWIDTH,currentHEIGHT-navbarHEIGHT);
 
-
+        tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
+        tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
 
         this.revalidate();
         this.repaint();

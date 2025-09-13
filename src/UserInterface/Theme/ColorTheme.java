@@ -17,6 +17,7 @@ public class ColorTheme {
     private static Color taskColor= new Color(57, 50, 50);
     private static Color taskHoverColor= new Color(33, 30, 30);
         private static Color taskTextColor = new Color(255, 255, 255);
+
     private static Color noteColor = new Color(211, 164, 89);
 
     private static Color pausedTimerColor = new Color(0xFFFFFF);
@@ -45,8 +46,19 @@ public class ColorTheme {
     private static Color consoleColor = new  Color(82, 94, 84);
     private static Color consoleTextColor = new  Color(222, 222, 222);
 
+    private static Color timerOnBreakColor = new Color(75, 111, 122);
+    private static Color timerOnPrepColor = new Color(178, 76, 34);
+
     public static Color getTaskHoverColor() {
         return taskHoverColor;
+    }
+
+    public static Color getTimerOnPrepColor() {
+        return timerOnPrepColor;
+    }
+
+    public static Color getTimerOnBreakColor() {
+        return timerOnBreakColor;
     }
 
     public static Color getTaskUrgentIconColor() {
