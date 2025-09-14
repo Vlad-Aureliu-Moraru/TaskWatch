@@ -107,7 +107,7 @@ public class EventHandler {
     }
     public void resetCurrentDirectory() {
         this.currentDirectory = null;
-        panelnavbar.setCurrentPATH("~");
+        panelnavbar.setCurrentPATH("\uF441 ");
     }
     public void resetCurrentTask() {
         this.currentTask = null;

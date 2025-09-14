@@ -10,7 +10,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class PANEL_navbar extends JPanel {
-    private final JLabel currentPATH = new JLabel("~");
+    private final JLabel currentPATH = new JLabel("\uF441 ");
 
     private final JLabel statusDisplay = new JLabel("");
     private final int clockStage  = 0 ; //? 0- clock working | 1 timer working | 2 timer paused ...
