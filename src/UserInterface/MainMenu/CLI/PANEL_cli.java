@@ -7,6 +7,8 @@ import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.text.Caret;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,16 +33,13 @@ public class PANEL_cli extends JPanel {
         this.add(commandField);
         commandField.setEditable(true);
         commandField.setOpaque(false);
+        commandField.setCaretColor(Color.white);
         setVisible(false);
         commandField.setForeground(ColorTheme.getConsoleTextColor());
         commandField.setFont(new Font("ARIAL",Font.PLAIN, 14));
         commandField.setBorder(null);
         commandField.setBounds(0,0,20,20);
     }
-    public void setStage(int stage) {
-        this.stage = stage;
-    }
-    public void setStep(int step) {}
     public void setHEIGHTandWIDTH(int height,int width){
         commandField.setBounds(2,0,width,height);
     }
@@ -90,7 +89,7 @@ public class PANEL_cli extends JPanel {
             if(editing){
                 String content = eventHandler.getCurrentTask().getDeadline();
                 if (content != null) {
-                    if (content.equals("none")) {
+                    if (!content.equals("none")) {
                         commandField.setText("Task_Completion_Date:" + eventHandler.getCurrentTask().getDeadline());
                     } else {
                         commandField.setText("Task_Completion_Date:");
@@ -131,7 +130,6 @@ public class PANEL_cli extends JPanel {
         stage = 3;
         commandField.setText("Note:"+note);
     }
-    //!ADD EDITTING AND FINISHING
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
         commandField.addActionListener(actionEvent -> {
@@ -231,9 +229,10 @@ public class PANEL_cli extends JPanel {
 
         }
         else if(command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage()>=2){
-            eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask(),eventHandler.getCurrentDirectory());
-
-            activate();
+            if (!eventHandler.getCurrentTask().isFinished()){
+                eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask(),eventHandler.getCurrentDirectory());
+                activate();
+            }
         }
         else if (command.matches(commandHelper.getPauseTimerCommand())) {
             eventHandler.getPanelMainmenu().getPanel_clock().pauseOrunpauseTaskTimer();

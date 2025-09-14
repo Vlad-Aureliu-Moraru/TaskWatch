@@ -87,6 +87,10 @@ public class PANEL_clock extends JPanel {
                 currentTask.setFinishedDate(formattedDateTime);
                 eventHandler.updateDeadlineForRepeatableTasks(currentTask);
                 eventHandler.getFileHandler().saveTaskToFile(directory);
+                eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
+                if (eventHandler.getPanelList().getStage()== 1 ){
+                    eventHandler.getPanelList().loadCurrentTasks();
+                }
             }
             stopTaskTimerandStartClockTimer();
             System.out.println("Task Timer Stopped");

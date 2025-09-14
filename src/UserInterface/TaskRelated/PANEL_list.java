@@ -61,8 +61,6 @@ public class PANEL_list extends JScrollPane {
             loadCurrentTaskNotes();
 
         }
-
-
     }
 
     public void loadDirs(){

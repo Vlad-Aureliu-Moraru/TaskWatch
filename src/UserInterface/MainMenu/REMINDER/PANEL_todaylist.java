@@ -36,7 +36,7 @@ public class PANEL_todaylist extends JScrollPane{
         this.setWheelScrollingEnabled(true);
         this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         getVerticalScrollBar().setUnitIncrement(80);
-        Border outerBorder = BorderFactory.createEmptyBorder(15, 5, 5, 5);
+        Border outerBorder = BorderFactory.createEmptyBorder(15, 0, 5, 0);
         Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         panel.setBorder(compoundBorder);
