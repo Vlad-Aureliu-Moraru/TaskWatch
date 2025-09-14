@@ -7,14 +7,12 @@ import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.text.Caret;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class PANEL_cli extends JPanel {
-    private JTextField commandField= new JTextField();
+    private final JTextField commandField= new JTextField();
     private EventHandler eventHandler;
     private boolean active = false;
     private int stage =0; //? 0 - cmd ; 1 - dir content ; 2 - task content ; 3 note content this prevents the user to manually write DirName:test for exemple
@@ -24,7 +22,7 @@ public class PANEL_cli extends JPanel {
 
     private Task addedTask;
 
-    private CommandHelper commandHelper = new CommandHelper();
+    private final CommandHelper commandHelper = new CommandHelper();
 
 
     public PANEL_cli() {
@@ -132,7 +130,7 @@ public class PANEL_cli extends JPanel {
     }
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        commandField.addActionListener(actionEvent -> {
+        commandField.addActionListener(_ -> {
             String command = commandField.getText();
             HandleBasicCommands(command);
             if (!commandFound){
@@ -182,11 +180,7 @@ public class PANEL_cli extends JPanel {
         }
         else if (command.matches(commandHelper.getSortByUrgencyCommand())&&eventHandler.getPanelList().getStage()==1) {
             String value = command.substring(command.indexOf("(")+1, command.indexOf(")"));
-            if (value.equals("a")){
-                eventHandler.getPanelList().sortTasksByUrgency(true);
-            }else{
-                eventHandler.getPanelList().sortTasksByUrgency(false);
-            }
+            eventHandler.getPanelList().sortTasksByUrgency(value.equals("a"));
             activate();
         }
         else if (command.matches(commandHelper.getRemoveCommand())) {
@@ -245,11 +239,7 @@ public class PANEL_cli extends JPanel {
         }
         else if (command.matches(commandHelper.getSortByDifficultyCommand())&&eventHandler.getPanelList().getStage()==1) {
             String value = command.substring(command.indexOf("(")+1, command.indexOf(")"));
-            if (value.equals("a")){
-                eventHandler.getPanelList().sortByDifficulty(true);
-            }else{
-                eventHandler.getPanelList().sortByDifficulty(false);
-            }
+            eventHandler.getPanelList().sortByDifficulty(value.equals("a"));
             activate();
         }
         else if (command.matches(commandHelper.getFinishTaskCommand())&&eventHandler.getPanelList().getStage()==2) {
@@ -291,7 +281,7 @@ public class PANEL_cli extends JPanel {
             }else if (!editing){
                 eventHandler.addDirectory(new Directory(commandParameeter));
                 activate();
-            } else if (editing ) {
+            } else {
                 eventHandler.getFileHandler().renameCurrentDirectory(commandParameeter);
                 eventHandler.getCurrentDirectory().setName(commandParameeter);
                 eventHandler.getFileHandler().saveDirectoryListToFile();
@@ -319,7 +309,7 @@ public class PANEL_cli extends JPanel {
                 note.setDate(formattedDateTime);
                 eventHandler.addNote(note);
                 activate();
-            }else if (editing){
+            }else {
                 LocalDateTime now = LocalDateTime.now();
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH-mm");
@@ -370,12 +360,12 @@ public class PANEL_cli extends JPanel {
                     editing = false;
                 }
             }else if (!editing){
-                Boolean repeatable = Boolean.parseBoolean(value);
+                boolean repeatable = Boolean.parseBoolean(value);
                 addedTask.setRepeatable(repeatable);
                 step++;
                 loadTaskInput(step,editing);
-            }else if (editing){
-                Boolean repeatable = Boolean.parseBoolean(value);
+            }else {
+                boolean repeatable = Boolean.parseBoolean(value);
                 eventHandler.getCurrentTask().setRepeatable(repeatable);
                 step++;
                 loadTaskInput(step,editing);
@@ -415,33 +405,27 @@ public class PANEL_cli extends JPanel {
         }
         else if ((command.matches(commandHelper.getTaskCompletionDateRegEx())) && stage == 2) {
             String value=  command.substring(command.indexOf(":")+1);
-            if (value.isEmpty()) {
-                step++;
-                loadTaskInput(step,editing);}
-            else{
-                if (!editing){
-                    addedTask.setDeadline(command.substring(command.indexOf(":")+1));
-                }else{
-                    eventHandler.getCurrentTask().setDeadline(command.substring(command.indexOf(":")+1));
+            if (!value.isEmpty()) {
+                if (!editing) {
+                    addedTask.setDeadline(command.substring(command.indexOf(":") + 1));
+                } else {
+                    eventHandler.getCurrentTask().setDeadline(command.substring(command.indexOf(":") + 1));
                 }
-                step++;
-                loadTaskInput(step,editing);
             }
+            step++;
+            loadTaskInput(step,editing);
         }
         else if (command.matches(commandHelper.getTaskCompletionTimeRegEx()) && stage == 2) {
             String  value=  command.substring(command.indexOf(":")+1);
-            if (value.isEmpty()) {
-                step++;
-                loadTaskInput(step,editing);
-            }else{
-                if (!editing){
-                    addedTask.setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":")+1)));
-                }else{
-                    eventHandler.getCurrentTask().setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":")+1)));
+            if (!value.isEmpty()) {
+                if (!editing) {
+                    addedTask.setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":") + 1)));
+                } else {
+                    eventHandler.getCurrentTask().setTimeDedicated(Integer.parseInt(command.substring(command.indexOf(":") + 1)));
                 }
-                step++;
-                loadTaskInput(step,editing);
             }
+            step++;
+            loadTaskInput(step,editing);
         }
         else if (command.matches(commandHelper.getTaskDifficultyRegEx())&& stage==2) {
             String value=  command.substring(command.indexOf(":")+1);

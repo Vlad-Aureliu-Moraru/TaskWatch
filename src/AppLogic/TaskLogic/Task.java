@@ -3,7 +3,6 @@ package AppLogic.TaskLogic;
 import AppLogic.NotesLogic.Note;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Task {
     private ArrayList<Note> notes = new ArrayList<>();
@@ -88,15 +87,13 @@ public class Task {
         this.difficulty = difficulty;
     }
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("name:"+Name+";description:"+Description);
-        sb.append(";isRepeatable:"+repeatable+";isFinished:"+finished);
-        sb.append(";deadline:"+deadline+";urgency:"+urgency);
-        sb.append(";time:"+TimeDedicated+";difficulty:"+difficulty);
-        sb.append(";repeatableType:"+repeatableType+";finishedDate:"+finishedDate);
-        sb.append("}");
-        sb.append("\n");
-        return sb.toString();
+        return "{" +
+                "name:" + Name + ";description:" + Description +
+                ";isRepeatable:" + repeatable + ";isFinished:" + finished +
+                ";deadline:" + deadline + ";urgency:" + urgency +
+                ";time:" + TimeDedicated + ";difficulty:" + difficulty +
+                ";repeatableType:" + repeatableType + ";finishedDate:" + finishedDate +
+                "}" +
+                "\n";
     }
 }

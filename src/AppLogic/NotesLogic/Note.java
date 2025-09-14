@@ -1,7 +1,5 @@
 package AppLogic.NotesLogic;
 
-import java.util.Date;
-
 public class Note {
     private String date;
     private String note;

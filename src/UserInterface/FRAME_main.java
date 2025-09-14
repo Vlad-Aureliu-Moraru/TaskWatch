@@ -1,8 +1,6 @@
 package UserInterface;
 
-import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
-import AppLogic.FontLoader;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
@@ -11,18 +9,16 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class FRAME_main extends JFrame {
-    //?addons
-    private EventHandler  eventHandler = new EventHandler() ;
-    private int WIDTH = 1000;
-    private int HEIGHT= 500;
-    private PANEL_navbar navbar = new PANEL_navbar() ;
-    private PANEL_list tasklist  = new PANEL_list() ;
-    private PANEL_mainmenu mainmenu = new PANEL_mainmenu() ;
+    private final int HEIGHT= 500;
+    private final PANEL_navbar navbar = new PANEL_navbar() ;
+    private final PANEL_list tasklist  = new PANEL_list() ;
+    private final PANEL_mainmenu mainmenu = new PANEL_mainmenu() ;
 
 
     public FRAME_main() {
         this.setTitle("PRODUCTIVITY-APP");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        int WIDTH = 1000;
         this.setSize(WIDTH,HEIGHT);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -46,6 +42,8 @@ public class FRAME_main extends JFrame {
             }
         });
 
+        //?addons
+        EventHandler eventHandler = new EventHandler();
         eventHandler.loadEverythingInMemory();
         eventHandler.updateFinishedStatusForRepeatableTasks();
 
@@ -83,7 +81,7 @@ public class FRAME_main extends JFrame {
             navbarHEIGHT = 50;
         }
         navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
-        navbar.setHEIGHTandWIDTH(currentWIDTH,navbarHEIGHT);
+        navbar.setHEIGHTandWIDTH(currentWIDTH);
 
         mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         mainmenu.setHEIGHTandWIDTH(currentWIDTH-tasklistWIDTH,currentHEIGHT-navbarHEIGHT);

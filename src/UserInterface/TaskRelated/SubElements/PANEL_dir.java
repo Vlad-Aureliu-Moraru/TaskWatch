@@ -12,9 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PANEL_dir extends JPanel {
-    private JLabel titleLabel =  new JLabel();
-    private EventHandler eventHandler = new EventHandler();
-    private Directory directory;
+    private final JLabel titleLabel =  new JLabel();
+    private final Directory directory;
 
     private int WIDTH = 200;
     private int HEIGHT = 30;
@@ -56,7 +55,6 @@ public class PANEL_dir extends JPanel {
     }
 
     public void setEventHandler(EventHandler eventHandler) {
-        this.eventHandler = eventHandler;
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 System.out.println(directory.getName()+"/");

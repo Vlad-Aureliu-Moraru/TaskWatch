@@ -1,6 +1,5 @@
 package UserInterface.MainMenu.SubPanels;
 
-import AppLogic.FontLoader;
 import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
@@ -9,18 +8,18 @@ import java.awt.*;
 
 public class PANEL_taskinfo extends JScrollPane{
 
-    private JPanel mirrorPanel = new JPanel();
-    private JLabel taskName = new JLabel("Task Name:");
-    private JTextArea taskDescription = new JTextArea("Task Description:");
-    private JScrollPane taskDescriptionPane;
-    private JLabel taskStatus = new JLabel("Task Status:");
-    private JLabel taskPriority = new JLabel("Task Priority:");
-    private JLabel taskTime = new JLabel("Task Time:");
-    private JLabel taskDeadline = new JLabel("Task Deadline:");
-    private JLabel taskType = new JLabel("Task Type:");
-    private JLabel taskRepeatableType= new JLabel("Task Repeatable Type:");
-    private JLabel taskDifficulty= new JLabel("Task Difficulty:");
-    private JLabel taskFinishedDate= new JLabel("Task Finished Date:");
+    private final JPanel mirrorPanel = new JPanel();
+    private final JLabel taskName = new JLabel("Task Name:");
+    private final JTextArea taskDescription = new JTextArea("Task Description:");
+    private final JScrollPane taskDescriptionPane;
+    private final JLabel taskStatus = new JLabel("Task Status:");
+    private final JLabel taskPriority = new JLabel("Task Priority:");
+    private final JLabel taskTime = new JLabel("Task Time:");
+    private final JLabel taskDeadline = new JLabel("Task Deadline:");
+    private final JLabel taskType = new JLabel("Task Type:");
+    private final JLabel taskRepeatableType= new JLabel("Task Repeatable Type:");
+    private final JLabel taskDifficulty= new JLabel("Task Difficulty:");
+    private final JLabel taskFinishedDate= new JLabel("Task Finished Date:");
 
 
     private boolean active = false;

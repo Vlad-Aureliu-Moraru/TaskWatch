@@ -7,8 +7,6 @@ import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -24,20 +22,16 @@ public class PANEL_clock extends JPanel {
             { 46,  48,  49,  57,  70 }  // D=5
     };
 
-    private int determinatedWorkProcentage;
-
-    private DateTimeFormatter dtf ;
-    private Timer clockTimer;
-    private Timer taskTimer;
-    private JLabel timeDisplay = new JLabel() ;
-    private boolean active = true;
+    private final DateTimeFormatter dtf ;
+    private final Timer clockTimer;
+    private final Timer taskTimer;
+    private final JLabel timeDisplay = new JLabel() ;
     private int totalSeconds = 1;
     private int originalSeconds = 1;
 
-    private int clockUpdateInSec = 5;
+    private final int clockUpdateInSec = 5;
     private int taskUpdateInSec = 1;
 
-    private boolean isWorkingPhase = false;
     private int workingSeconds = 1;
     private int breakSeconds = 1;
 
@@ -55,16 +49,8 @@ public class PANEL_clock extends JPanel {
         this.setBackground(ColorTheme.getMain_color());
         this.setLayout(null);
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        clockTimer = new Timer(clockUpdateInSec*1000,new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                updateTime();
-            }
-        });
-        taskTimer = new Timer(taskUpdateInSec*1000,new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-             TimerLogicUpdate();
-            }
-        });
+        clockTimer = new Timer(clockUpdateInSec*1000, _ -> updateTime());
+        taskTimer = new Timer(taskUpdateInSec*1000, _ -> TimerLogicUpdate());
 
         timeDisplay.setFont(FontLoader.getTerminalFont().deriveFont(70f));
         timeDisplay.setHorizontalAlignment(JLabel.CENTER);
@@ -97,8 +83,8 @@ public class PANEL_clock extends JPanel {
             }else{
                 CurrentScheduleIndex++;
                 CurrentSchedule=schedule.get(CurrentScheduleIndex);
-                isWorkingPhase = CurrentScheduleIndex%2==1;
-                timeDisplay.setForeground(isWorkingPhase==true?ColorTheme.getSecnd_accent():ColorTheme.getTimerOnBreakColor());
+                boolean isWorkingPhase = CurrentScheduleIndex % 2 == 1;
+                timeDisplay.setForeground(isWorkingPhase ?ColorTheme.getSecnd_accent():ColorTheme.getTimerOnBreakColor());
                 if (isWorkingPhase){
                     eventHandler.getPanelnavbar().setTimerWorkingStatus();
                 }else{
@@ -124,7 +110,6 @@ public class PANEL_clock extends JPanel {
         timeDisplay.setText(time);
     }
     public void activate(){
-        active = true;
         if (taskTimer.isRunning()){
             clockTimer.stop();
         }else{
@@ -133,7 +118,6 @@ public class PANEL_clock extends JPanel {
         this.setVisible(true);
     }
     public void deactivate(){
-        active=false;
         this.setVisible(false);
         clockTimer.stop();
 
@@ -156,6 +140,7 @@ public class PANEL_clock extends JPanel {
             taskTimer.stop();
             System.out.println("Task Timer Stopped");
         }
+        assert taskTimer != null;
         taskTimer.start();
         updateTimeForTaskTimer();
     }
@@ -173,6 +158,7 @@ public class PANEL_clock extends JPanel {
             taskTimer.stop();
             System.out.println("Task Timer Stopped");
         }
+        assert taskTimer != null;
         taskTimer.start();
         updateTimeForTaskTimer();
     }
@@ -211,14 +197,12 @@ public class PANEL_clock extends JPanel {
         schedule = new ArrayList<>();
         CurrentScheduleIndex = 0;
 
-        determinatedWorkProcentage = WORK_PERCENTAGE_MATRIX[difficulty - 1][urgency - 1];
+        int determinatedWorkProcentage = WORK_PERCENTAGE_MATRIX[difficulty - 1][urgency - 1];
         double workPercentAsDouble = determinatedWorkProcentage / 100.0;
         workingSeconds = (int) Math.round(totalSeconds * workPercentAsDouble);
         breakSeconds = totalSeconds - workingSeconds;
 
         // Step 2: Calculate max work session length (30 - 5 * D) minutes
-        int maxWorkSessionMinutes = 30 - 5 * difficulty;
-        int maxWorkSessionSeconds = maxWorkSessionMinutes * 60;
 
         schedule.add(15); //start with a preparing sesh
         breakSeconds-=15;
@@ -233,7 +217,6 @@ public class PANEL_clock extends JPanel {
         displayAllocation();
     }
     public void displayAllocation() {
-        double totalMinutes = totalSeconds/ 60.0;
         double workMinutes = workingSeconds/ 60.0;
         double breakMinutes = breakSeconds/ 60.0;
 

@@ -8,8 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PANEL_noteinfo extends JPanel {
-    private JTextArea noteinfo =  new JTextArea();
-    private JLabel noteDate =  new JLabel();
+    private final JTextArea noteinfo =  new JTextArea();
+    private final JLabel noteDate =  new JLabel();
     public PANEL_noteinfo() {
         this.setBackground(ColorTheme.getMain_color());
         this.setVisible(false);
@@ -34,9 +34,7 @@ public class PANEL_noteinfo extends JPanel {
         noteinfo.setText(note.getNote());
         noteDate.setText(note.getDate());
     }
-    public void activate(){
-        this.setVisible(true);
-    }
+
     public void deactivate(){
         this.setVisible(false);
     }

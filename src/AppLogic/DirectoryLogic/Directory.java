@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Directory {
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
     private String Name;
 
     public void addTask(Task task){
@@ -37,10 +37,6 @@ public class Directory {
         return tasks;
     }
 
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
-    }
-
     public void sortTasksByUrgency(boolean ascending){
         if(ascending){
             tasks.sort(Comparator.comparingInt(Task::getUrgency));
@@ -65,9 +61,9 @@ public class Directory {
     }
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("name: "+Name+"\n ");
+        sb.append("name: ").append(Name).append("\n ");
         for(Task t:tasks){
-            sb.append(t+"\n");
+            sb.append(t).append("\n");
         }
         return sb.toString();
     }

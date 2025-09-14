@@ -1,110 +1,85 @@
 package UserInterface.MainMenu.CLI;
 
 public class CommandHelper {
-    //?BASIC TASKS
-    private String addCommand = "(:a|:add)";
-    private String removeCommand = "(:r|:remove)";
-    private String editCommand = "(:e|:edit)";
-    private String cancelCommand = "(:c|:cancel)";
-    private String finishTaskCommand= "(:f|:finish)";
-    private String showFinishedTasks= "(:shf|:showFinished)";
-
-    //?SORTING RELATED
-    private String sortByUrgencyCommand = "^\\s*:(su|sortByUrgency)\\((a|d)\\)\\s*$";
-    private String sortByDifficultyCommand= "^\\s*:(sd|sortByDifficuly)\\((a|d)\\)\\s*$";
-    //?TIMER RELATED
-    private String startTimerCommand= ":st\\([0-9]*\\)";
-    private String stopTimerCommand = "(:ts|:stopTimer)";
-    private String pauseTimerCommand = "(:pt|:pauseTimer)";
-    private String restartTimerCommand = "(:rt|:restartTimer)";
-    private String startSelectedTaskTimer= "(:st|:startSelected)";
-
-    //?DIR RELATED
-    private String DirectoryNameRegEx = "^Directory_Name:\\w+";
-    //?TASK RELATED
-    private String TaskNameRegEx = "^Task_Name:\\w+";
-    private String TaskDescriptionRegEx = "^Task_Description:.*";
-    private String TaskPriorityRegEx = "^Task_Priority:(\\d{1}|)";
-    private String TaskCompletionTimeRegEx = "^Task_Completion_Time:([0-9]*|)";
-    private String TaskCompletionDateRegEx = "^Task_Completion_Date:(\\d{2}/\\d{2}/\\d{4}|)$";
-    private String TaskRepeatableRegEx = "^isRepeatable:.*$";
-    private String TaskRepeatableTypeRegEx = "^RepeatableType:(daily|weekly|biweekly|monthly)";
-    private String TaskDifficultyRegEx = "^Difficulty:(\\d{1}|)";
-    //?NOTE RELATED
-    private String NoteRegEx = "^Note:.*";
 
     public String getShowFinishedTasks() {
-        return showFinishedTasks;
+        return "(:shf|:showFinished)";
     }
 
     public String getTaskRepeatableTypeRegEx() {
-        return TaskRepeatableTypeRegEx;
+        return "^RepeatableType:(daily|weekly|biweekly|monthly)";
     }
 
     public String getTaskDifficultyRegEx() {
-        return TaskDifficultyRegEx;
+        return "^Difficulty:(\\d{1}|)";
     }
 
     public String getSortByDifficultyCommand() {
-        return sortByDifficultyCommand;
+        return "^\\s*:(sd|sortByDifficulty)\\((a|d)\\)\\s*$";
     }
 
     public String getFinishTaskCommand() {
-        return finishTaskCommand;
+        return "(:f|:finish)";
     }
 
     public String getStopTimerCommand(){
-        return stopTimerCommand;
+        return "(:ts|:stopTimer)";
     }
     public String getStartTimerCommand(){
-        return startTimerCommand;
+        //?TIMER RELATED
+        return ":st\\([0-9]*\\)";
     }
     public String getCancelCommand() {
-        return cancelCommand;
+        return "(:c|:cancel)";
     }
     public String getNoteRegEx(){
-        return NoteRegEx;
+        //?NOTE RELATED
+        return "^Note:.*";
     }
     public String getAddCommand() {
-        return addCommand;
+        //?BASIC TASKS
+        return "(:a|:add)";
     }
     public String getRemoveCommand() {
-        return removeCommand;
+        return "(:r|:remove)";
     }
     public String getEditCommand() {
-        return editCommand;
+        return "(:e|:edit)";
     }
     public String getDirectoryNameRegEx() {
-        return DirectoryNameRegEx;
+        //?DIR RELATED
+        return "^Directory_Name:\\w+";
     }
     public String getTaskNameRegEx() {
-        return TaskNameRegEx;
+        //?TASK RELATED
+        return "^Task_Name:\\w+";
     }
     public String getTaskDescriptionRegEx() {
-        return TaskDescriptionRegEx;
+        return "^Task_Description:.*";
     }
     public String getTaskPriorityRegEx() {
-        return TaskPriorityRegEx;
+        return "^Task_Priority:(\\d{1}|)";
     }
     public String getTaskCompletionTimeRegEx() {
-        return TaskCompletionTimeRegEx;
+        return "^Task_Completion_Time:([0-9]*|)";
     }
     public String getTaskCompletionDateRegEx() {
-        return TaskCompletionDateRegEx;
+        return "^Task_Completion_Date:(\\d{2}/\\d{2}/\\d{4}|)$";
     }
     public String getTaskRepeatableRegEx() {
-        return TaskRepeatableRegEx;
+        return "^isRepeatable:.*$";
     }
     public String getPauseTimerCommand() {
-        return pauseTimerCommand;
+        return "(:pt|:pauseTimer)";
     }
     public String getRestartTimerCommand() {
-        return restartTimerCommand;
+        return "(:rt|:restartTimer)";
     }
     public String getStartSelectedTaskTimer() {
-        return startSelectedTaskTimer;
+        return "(:st|:startSelected)";
     }
     public String getSortByUrgencyCommand() {
-        return sortByUrgencyCommand;
+        //?SORTING RELATED
+        return "^\\s*:(su|sortByUrgency)\\((a|d)\\)\\s*$";
     }
 }

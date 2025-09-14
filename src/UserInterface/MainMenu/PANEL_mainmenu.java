@@ -10,16 +10,11 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class PANEL_mainmenu extends JPanel {
-    private PANEL_cli panel_cli = new PANEL_cli();
-    private PANEL_taskinfo panel_taskinfo = new PANEL_taskinfo();
-    private PANEL_clock panel_clock = new PANEL_clock() ;
-    private PANEL_noteinfo panel_noteinfo = new PANEL_noteinfo();
-    private PANEL_reminder panel_reminder = new PANEL_reminder();
-
-    private int HEIGHT;
-    private int WIDTH;
-    private int textBarHeight = 30;
-    private EventHandler eventHandler;
+    private final PANEL_cli panel_cli = new PANEL_cli();
+    private final PANEL_taskinfo panel_taskinfo = new PANEL_taskinfo();
+    private final PANEL_clock panel_clock = new PANEL_clock() ;
+    private final PANEL_noteinfo panel_noteinfo = new PANEL_noteinfo();
+    private final PANEL_reminder panel_reminder = new PANEL_reminder();
 
     public PANEL_mainmenu() {
         this.setBackground(ColorTheme.getMain_color());
@@ -40,19 +35,18 @@ public class PANEL_mainmenu extends JPanel {
 
     }
     public void setHEIGHTandWIDTH ( int width, int height){
-        this.HEIGHT = height;
-        this.WIDTH = width;
-        panel_clock.setBounds(20, 20, width-40, (height-textBarHeight)/2);
-        panel_cli.setBounds(0, HEIGHT-textBarHeight, width,textBarHeight);
-        panel_taskinfo.setBounds(20, 20, width-40, (height-textBarHeight)/2);
-        panel_noteinfo.setBounds(20,height-panel_taskinfo.getHeight(), width-40,height-textBarHeight-panel_taskinfo.getHeight()-20);
-        panel_reminder.setBounds(20,height-panel_taskinfo.getHeight(), width-40,height-textBarHeight-panel_taskinfo.getHeight()-20);
+        int textBarHeight = 30;
+        panel_clock.setBounds(20, 20, width-40, (height- textBarHeight)/2);
+        panel_cli.setBounds(0, height - textBarHeight, width, textBarHeight);
+        panel_taskinfo.setBounds(20, 20, width-40, (height- textBarHeight)/2);
+        panel_noteinfo.setBounds(20,height-panel_taskinfo.getHeight(), width-40,height- textBarHeight -panel_taskinfo.getHeight()-20);
+        panel_reminder.setBounds(20,height-panel_taskinfo.getHeight(), width-40,height- textBarHeight -panel_taskinfo.getHeight()-20);
 
         panel_cli.setHEIGHTandWIDTH(textBarHeight,width);
-        panel_taskinfo.setHEIGHTandWIDTH((height-textBarHeight)/2,width-40);
-        panel_clock.setHEIGHTandWIDTH((height-textBarHeight)/2,width-40);
-        panel_noteinfo.setHEIGHTandWIDTH(height-textBarHeight-panel_taskinfo.getHeight()-20,width-40);
-        panel_reminder.setHEIGHTandWIDTH(height-textBarHeight-panel_taskinfo.getHeight()-20,width-40);
+        panel_taskinfo.setHEIGHTandWIDTH((height- textBarHeight)/2,width-40);
+        panel_clock.setHEIGHTandWIDTH((height- textBarHeight)/2,width-40);
+        panel_noteinfo.setHEIGHTandWIDTH(height- textBarHeight -panel_taskinfo.getHeight()-20,width-40);
+        panel_reminder.setHEIGHTandWIDTH(height- textBarHeight -panel_taskinfo.getHeight()-20,width-40);
 
 
     }
@@ -73,7 +67,6 @@ public class PANEL_mainmenu extends JPanel {
         return panel_noteinfo;
     }
     public void setEventHandler(EventHandler eventHandler) {
-        this.eventHandler = eventHandler;
         panel_clock.setEventHandler(eventHandler);
         panel_cli.setEventHandler(eventHandler);
         panel_reminder.setEventHandler(eventHandler);

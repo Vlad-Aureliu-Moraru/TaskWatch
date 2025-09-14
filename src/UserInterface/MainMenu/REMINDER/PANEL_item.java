@@ -5,7 +5,6 @@ import AppLogic.TaskLogic.Task;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class PANEL_item extends JPanel {

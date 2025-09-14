@@ -15,8 +15,8 @@ public class FontLoader {
     private static Font terminalFont = null;
     private static Font cozyFont = null;
 
-    private static String terminalFontPath= "/fonts/terminalFont.ttf";
-    private static String cozyFontPath= "/fonts/cozyFont.ttf";
+    private static final String terminalFontPath= "/fonts/terminalFont.ttf";
+    private static final String cozyFontPath= "/fonts/cozyFont.ttf";
 
     private FontLoader() {
         // Private constructor to prevent instantiation of the utility class.

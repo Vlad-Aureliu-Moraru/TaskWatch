@@ -7,14 +7,13 @@ import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PANEL_note extends JPanel {
-    private Note currentNote;
-    private JLabel noteName = new JLabel();
-    private EventHandler eventHandler;
+    private final Note currentNote;
+    private final JLabel noteName = new JLabel();
+
     public PANEL_note(Note note) {
         this.currentNote = note;
         this.setBackground(ColorTheme.getNoteColor());
@@ -36,7 +35,6 @@ public class PANEL_note extends JPanel {
 
     }
     public void setEventHandler(EventHandler eventHandler) {
-        this.eventHandler= eventHandler;
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 eventHandler.setCurrentNote(currentNote);

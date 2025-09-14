@@ -14,17 +14,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class PANEL_task extends JPanel {
-    private JLabel taskname = new JLabel("Task Name:");
-    private JLabel taskUrgency = new JLabel("\uEEBF");
-    private JLabel taskFinished = new JLabel("\uDB81\uDF91");
-    private JLabel taskUrgent= new JLabel("\uDB81\uDEBD");
+    private final JLabel taskname = new JLabel("Task Name:");
+    private final JLabel taskUrgency = new JLabel("\uEEBF");
+    private final JLabel taskFinished = new JLabel("\uDB81\uDF91");
+    private final JLabel taskUrgent= new JLabel("\uDB81\uDEBD");
 
-    private EventHandler eventHandler;
-    private Task currentTask;
+    private final Task currentTask;
 
 
-    private int WIDTH = 250;
-    private int HEIGHT = 30;
+    private final int WIDTH = 250;
+    private final int HEIGHT = 30;
 
     private Color iconColor;
     private Color borderColor;
@@ -98,7 +97,6 @@ public class PANEL_task extends JPanel {
     }
 
     public void setEventHandler(EventHandler eventHandler) {
-        this.eventHandler = eventHandler;
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 eventHandler.setCurrentTask(currentTask);

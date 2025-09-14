@@ -7,22 +7,16 @@ import UserInterface.Theme.ColorTheme;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PANEL_navbar extends JPanel {
-    private JLabel currentPATH = new JLabel("~");
+    private final JLabel currentPATH = new JLabel("~");
 
-    private int HEIGHT;
-    private int WIDTH;
-
-    private JLabel statusDisplay = new JLabel("");
-    private int clockStage  = 0 ; //? 0- clock working | 1 timer working | 2 timer paused ...
+    private final JLabel statusDisplay = new JLabel("");
+    private final int clockStage  = 0 ; //? 0- clock working | 1 timer working | 2 timer paused ...
     private EventHandler eventHandler;
     private Timer timer;
-    private JButton backButton = new JButton("test");
 
-   public PANEL_navbar() {
+    public PANEL_navbar() {
         this.setBackground(ColorTheme.getSecondary_color());
         this.setLayout(null);
         currentPATH.setForeground(ColorTheme.getSecnd_accent());
@@ -38,25 +32,20 @@ public class PANEL_navbar extends JPanel {
 
         this.add(currentPATH);
         this.add(statusDisplay);
-        timer = new Timer(2000,new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(clockStage == 0){
-                    setClockWorkingStatus();
-                } else if (clockStage==1) {
-                    setClockWorkingStatus();
-                } else if (clockStage == 2) {
-                    setTimerPausedStatus();
-                }
-                timer.stop();
+        timer = new Timer(2000, _ -> {
+            if(clockStage == 0){
+                setClockWorkingStatus();
+            } else if (clockStage==1) {
+                setClockWorkingStatus();
+            } else if (clockStage == 2) {
+                setTimerPausedStatus();
             }
-
+            timer.stop();
         });
         timer.setRepeats(false);
     }
 
-    public void setHEIGHTandWIDTH(int WIDTH,int HEIGHT){
-        this.HEIGHT=HEIGHT;
-        this.WIDTH=WIDTH;
+    public void setHEIGHTandWIDTH(int WIDTH){
         statusDisplay.setBounds(30,10,WIDTH/3,30);
         currentPATH.setBounds((WIDTH/2)-100,10,300,30);
         if (currentPATH.getX()<0){

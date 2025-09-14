@@ -8,18 +8,16 @@ import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class EventHandler {
     private PANEL_list panelList;
     private PANEL_mainmenu panelMainmenu;
     private PANEL_navbar panelnavbar;
-    private FileHandler fileHandler ;
+    private final FileHandler fileHandler ;
 
-    private ArrayList<Directory> directoryList = new ArrayList();
+    private final ArrayList<Directory> directoryList = new ArrayList<>();
     private Directory currentDirectory;
     private Task currentTask;
     private Note currentNote;
@@ -84,9 +82,7 @@ public class EventHandler {
         System.out.println("FROM EVENTHANDLER func setPanelnavbar");
         this.panelnavbar = panelnavbar;
     }
-    public void setDirectoryList(ArrayList<Directory> directoryList) {
-        this.directoryList = directoryList;
-    }
+
     public void setCurrentDirectory(Directory currentDirectory) {
         this.currentDirectory = currentDirectory;
         fileHandler.setCurrentDirectory(currentDirectory);
@@ -115,10 +111,7 @@ public class EventHandler {
         this.currentTask = null;
         panelnavbar.setCurrentPATH(currentDirectory.getName()+"/");
     }
-    public void resetCurrentNote() {
-        panelnavbar.setCurrentPATH("FIXEVENT HANDLER");
-        this.currentNote = null;
-    }
+
     public FileHandler getFileHandler() {
         return fileHandler;
     }
@@ -131,17 +124,15 @@ public class EventHandler {
 
             LocalDate newDeadline;
 
-            if (repeatableType.equals("daily")) {
-                newDeadline = finishedDate.plus(1, ChronoUnit.DAYS);
-            } else if (repeatableType.equals("weekly")) {
-                newDeadline = finishedDate.plus(1, ChronoUnit.WEEKS);
-            } else if (repeatableType.equals("biweekly")) {
-                newDeadline = finishedDate.plus(2, ChronoUnit.WEEKS);
-            } else if (repeatableType.equals("monthly")) {
-                newDeadline = finishedDate.plus(1, ChronoUnit.MONTHS);
-            } else {
-                System.out.println("Unknown repeatable type: " + repeatableType);
-                return;
+            switch (repeatableType) {
+                case "daily" -> newDeadline = finishedDate.plusDays(1);
+                case "weekly" -> newDeadline = finishedDate.plusWeeks(1);
+                case "biweekly" -> newDeadline = finishedDate.plusWeeks(2);
+                case "monthly" -> newDeadline = finishedDate.plusMonths(1);
+                default -> {
+                    System.out.println("Unknown repeatable type: " + repeatableType);
+                    return;
+                }
             }
             task.setDeadline(newDeadline.format(formatter));
         }

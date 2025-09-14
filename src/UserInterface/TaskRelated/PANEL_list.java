@@ -10,18 +10,16 @@ import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class PANEL_list extends JScrollPane {
 
-    private JPanel panel = new JPanel();
-    private ArrayList<PANEL_dir> dirList = new ArrayList();
+    private final JPanel panel = new JPanel();
 
 
     private int HEIGHT;
     private int WIDTH;
-    private int GAP = 20;
-    private int MARGIN = 10;
+    private final int GAP = 20;
+    private final int MARGIN = 10;
     private int stage = -1 ;//? 0 - mainmenu | 1 - dirmenu | 2 - taskmenu | 3 - noteclicked ;
     private boolean noteSelected = false;
     private boolean showingFinished = false;
@@ -150,11 +148,7 @@ public class PANEL_list extends JScrollPane {
         }
     }
     public void switchShowingFinished(){
-       if(showingFinished){
-           showingFinished =false;
-       } else {
-           showingFinished =true;
-       }
+        showingFinished = !showingFinished;
     }
     public void loadCurrentTaskNotes(){
         stage = 2;
