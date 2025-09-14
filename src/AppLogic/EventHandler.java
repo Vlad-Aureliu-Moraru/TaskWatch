@@ -3,6 +3,7 @@ package AppLogic;
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.NotesLogic.Note;
 import AppLogic.TaskLogic.Task;
+import UserInterface.FRAME_main;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
@@ -15,6 +16,7 @@ public class EventHandler {
     private PANEL_list panelList;
     private PANEL_mainmenu panelMainmenu;
     private PANEL_navbar panelnavbar;
+    private FRAME_main mainFrame;
     private final FileHandler fileHandler ;
 
     private final ArrayList<Directory> directoryList = new ArrayList<>();
@@ -154,4 +156,11 @@ public class EventHandler {
         }
     }
 
+    public void setMainFrame(FRAME_main mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
+    public FRAME_main getMainFrame() {
+        return mainFrame;
+    }
 }

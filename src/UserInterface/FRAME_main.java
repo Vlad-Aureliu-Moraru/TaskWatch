@@ -17,10 +17,10 @@ public class FRAME_main extends JFrame {
 
     public FRAME_main() {
         this.setTitle("PRODUCTIVITY-APP");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int WIDTH = 1000;
         this.setSize(WIDTH,HEIGHT);
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.requestFocus();
@@ -38,23 +38,29 @@ public class FRAME_main extends JFrame {
                 navbar.returnFunction(false);
                 mainmenu.getPanel_taskinfo().deactivate();
                 mainmenu.getPanel_clock().activate();
+                mainmenu.getPanel_help().setVisible(false);
                 mainmenu.getPanel_noteinfo().deactivate();
             }
         });
 
         //?addons
         EventHandler eventHandler = new EventHandler();
+
         eventHandler.loadEverythingInMemory();
         eventHandler.updateFinishedStatusForRepeatableTasks();
 
         eventHandler.setPanelnavbar(navbar);
         eventHandler.setPanelList(tasklist);
         eventHandler.setPanelMainmenu(mainmenu);
+        eventHandler.setMainFrame(this);
         navbar.setEventHandler(eventHandler);
         tasklist.setEventHandler(eventHandler);
         mainmenu.setEventHandler(eventHandler);
         mainmenu.getPanel_clock().startClockTimer();
+
+
         updateAllComponents();
+
 
         this.add(mainmenu);
         this.add(navbar);

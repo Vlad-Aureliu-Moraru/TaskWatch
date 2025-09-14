@@ -1,54 +1,88 @@
 package UserInterface.Theme;
 
+import ConfigRelated.ThemeLoader;
+
 import java.awt.*;
 
 public class ColorTheme {
-    private final static Color main_color = new Color(57, 50, 50);          // #393232
-    private final static Color secondary_color = new Color(77, 69, 69);      // #4D4545
-    private final static Color first_accent = new Color(141, 98, 98);        // #8D6262
-    private final static Color secnd_accent = new Color(237, 141, 141);      // #ED8D8D
+    private final static Color main_color = ThemeLoader.getMainColor();
+    private final static Color secondary_color = ThemeLoader.getSecondaryColor();
+    private final static Color first_accent = ThemeLoader.getFirstAccent();
+    private final static Color secnd_accent = ThemeLoader.getSecndAccent();
 
-    private final static Color secondary_green = new Color(53, 155, 112);      // #3B5249
-    private final static Color accent_green = new Color(33, 50, 73);       // #519872
+    private final static Color secondary_green = ThemeLoader.getSecondaryGreen();
+    private final static Color accent_green = ThemeLoader.getAccentGreen();
 
-    private final static Color dirColor = new Color(55, 56, 103);
-    private final static Color dirHoverColor = new Color(36, 37, 72);
+    private final static Color dirColor = ThemeLoader.getDirColor();
+    private final static Color dirHoverColor = ThemeLoader.getDirHoverColor();
 
-    private final static Color taskColor= new Color(57, 50, 50);
-    private final static Color taskHoverColor= new Color(33, 30, 30);
-        private final static Color taskTextColor = new Color(255, 255, 255);
+    private final static Color taskColor= ThemeLoader.getTaskColor();
+    private final static Color taskHoverColor= ThemeLoader.getTaskHoverColor();
+    private final static Color taskTextColor = ThemeLoader.getTaskTextColor();
 
-    private final static Color noteColor = new Color(211, 164, 89);
+    private final static Color noteColor = ThemeLoader.getNoteColor();
 
-    private final static Color pausedTimerColor = new Color(0xFFFFFF);
+    private final static Color pausedTimerColor = ThemeLoader.getPausedTimerColor();
 
-    private final static Color urgency1 = new Color(156, 246, 213);
-    private final static Color urgency2 = new Color(116, 215, 129);
-    private final static Color urgency3 = new Color(255, 242, 0);
-    private final static Color urgency4 = new Color(255, 106, 0);
-    private final static Color urgency5 = new Color(255, 0, 0);
+    private final static Color urgency1 = ThemeLoader.getUrgency1();
+    private final static Color urgency2 = ThemeLoader.getUrgency2();
+    private final static Color urgency3 =ThemeLoader.getUrgency3();
+    private final static Color urgency4 =ThemeLoader.getUrgency4();
+    private final static Color urgency5 =ThemeLoader.getUrgency5();
 
-    private final static Color urgency1List = new Color(141, 215, 188);
-    private final static Color urgency2List = new Color(88, 171, 101);
-    private final static Color urgency3List = new Color(190, 185, 64);
-    private final static Color urgency4List = new Color(192, 107, 46);
-    private final static Color urgency5List = new Color(192, 76, 76);
+    private final static Color urgency1List =ThemeLoader.getUrgency1List();
+    private final static Color urgency2List =ThemeLoader.getUrgency2List();
+    private final static Color urgency3List =ThemeLoader.getUrgency3List();
+    private final static Color urgency4List =ThemeLoader.getUrgency4List();
+    private final static Color urgency5List =ThemeLoader.getUrgency5List();
 
-    private final static Color  difficulty1 = new Color(156, 246, 213);
-    private final static Color  difficulty2 = new Color(116, 215, 129);
-    private final static Color  difficulty3 = new Color(255, 242, 0);
-    private final static Color  difficulty4 = new Color(255, 106, 0);
-    private final static Color  difficulty5 = new Color(255, 0, 0);
+    private final static Color  difficulty1 = ThemeLoader.getDifficulty1();
+    private final static Color  difficulty2 =ThemeLoader.getDifficulty2();
+    private final static Color  difficulty3 =ThemeLoader.getDifficulty3();
+    private final static Color  difficulty4 =ThemeLoader.getDifficulty4();
+    private final static Color  difficulty5 =ThemeLoader.getDifficulty5();
 
-    private final static Color TaskCompletedIconColor = new Color(4, 189, 255);
-    private final static Color TaskUrgentIconColor = new Color(255, 4, 79);
+    private final static Color TaskCompletedIconColor = ThemeLoader.getTaskCompletedIconColor();
+    private final static Color TaskUrgentIconColor = ThemeLoader.getTaskUrgentIconColor();
+    private final static Color TaskUrgentPassed = ThemeLoader.getTaskUrgentPassed();
 
-    private final static Color consoleColor = new  Color(82, 94, 84);
-    private final static Color consoleTextColor = new  Color(222, 222, 222);
+    private final static Color consoleColor = ThemeLoader.getConsoleColor();
+    private final static Color consoleTextColor = ThemeLoader.getConsoleTextColor();
 
-    private final static Color timerOnBreakColor = new Color(75, 111, 122);
-    private final static Color timerOnPrepColor = new Color(178, 76, 34);
+    private final static Color timerOnBreakColor = ThemeLoader.getTimerOnBreakColor();
+    private final static Color timerOnPrepColor = ThemeLoader.getTimerOnPrepColor();
 
+
+    public static Color getUrgency(int urgency){
+        switch (urgency){
+            case 1:
+                return urgency1;
+                case 2:
+                return urgency2;
+                case 3:
+                return urgency3;
+                case 4:
+                return urgency4;
+                case 5:
+                return urgency5;
+        }
+        return null;
+    }
+    public static Color getDifficulty(int difficulty){
+        switch (difficulty){
+            case 1:
+                return difficulty1;
+            case 2:
+                return difficulty2;
+            case 3:
+                return difficulty3;
+            case 4:
+                return difficulty4;
+            case 5:
+                return difficulty5;
+        }
+        return null;
+    }
     public static Color getTaskHoverColor() {
         return taskHoverColor;
     }
@@ -97,26 +131,6 @@ public class ColorTheme {
         return pausedTimerColor;
     }
 
-    public static Color getDifficulty1() {
-        return difficulty1;
-    }
-
-    public static Color getDifficulty2() {
-        return difficulty2;
-    }
-
-    public static Color getDifficulty3() {
-        return difficulty3;
-    }
-
-    public static Color getDifficulty4() {
-        return difficulty4;
-    }
-
-    public static Color getDifficulty5() {
-        return difficulty5;
-    }
-
     public static Color getDirColor() {
         return dirColor;
     }
@@ -157,22 +171,6 @@ public class ColorTheme {
         return accent_green;
     }
 
-    public static Color getUrgency1() {
-        return urgency1;
-    }
-
-    public static Color getUrgency2() {
-        return urgency2;
-    }
-
-    public static Color getUrgency3() {
-        return urgency3;
-    }
-
-    public static Color getUrgency4() {
-        return urgency4;
-    }
-
     public static Color getUrgency5() {
         return urgency5;
     }
@@ -183,6 +181,10 @@ public class ColorTheme {
 
     public static Color getConsoleTextColor() {
         return consoleTextColor;
+    }
+
+    public static Color getTaskUrgentPassed() {
+        return TaskUrgentPassed;
     }
 }
 

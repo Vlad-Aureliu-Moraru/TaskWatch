@@ -135,6 +135,7 @@ public class PANEL_taskinfo extends JScrollPane{
             String deadline = task.getDeadline();
             if (!deadline.equals("none")) {
                 taskDeadline.setText(deadline);
+                taskDeadline.setVisible(true);
             } else {
                 taskDeadline.setVisible(false);
             }
@@ -159,6 +160,7 @@ public class PANEL_taskinfo extends JScrollPane{
             String deadline = task.getDeadline();
             if (!deadline.equals("none")) {
                 taskDeadline.setText(deadline);
+                taskDeadline.setVisible(true);
             } else {
                 taskDeadline.setVisible(false);
             }

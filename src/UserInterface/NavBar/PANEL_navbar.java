@@ -2,6 +2,7 @@ package UserInterface.NavBar;
 
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
+import ConfigRelated.ThemeLoader;
 import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class PANEL_navbar extends JPanel {
         this.setLayout(null);
         currentPATH.setForeground(ColorTheme.getSecnd_accent());
         statusDisplay.setForeground(ColorTheme.getSecnd_accent());
-        statusDisplay.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 17));
+        statusDisplay.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 14));
         currentPATH.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
         statusDisplay.setForeground(ColorTheme.getSecondary_green());
 
@@ -81,9 +82,9 @@ public class PANEL_navbar extends JPanel {
        statusDisplay.setText("\uF28B  :: paused");
        statusDisplay.setForeground(ColorTheme.getPausedTimerColor());
     }
-    public void displayErrorMessage(String message){
-        statusDisplay.setText("Error//"+message);
-        statusDisplay.setForeground(ColorTheme.getUrgency5());
+    public void displayTempMessage(String message,boolean error){
+        statusDisplay.setText(error?"Error//"+message:message);
+        statusDisplay.setForeground(error?ColorTheme.getUrgency5(): ThemeLoader.getTaskCompletedIconColor());
         timer.start();
     }
     public void setPreparingStatus(){

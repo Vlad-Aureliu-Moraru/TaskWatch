@@ -1,5 +1,6 @@
 package UserInterface.MainMenu.SubPanels;
 
+import ConfigRelated.ConfigLoader;
 import AppLogic.DirectoryLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
@@ -29,7 +30,7 @@ public class PANEL_clock extends JPanel {
     private int totalSeconds = 1;
     private int originalSeconds = 1;
 
-    private final int clockUpdateInSec = 5;
+    private final int clockUpdateInSec = ConfigLoader.getClockUpdateTime();
     private int taskUpdateInSec = 1;
 
     private int workingSeconds = 1;
@@ -116,6 +117,9 @@ public class PANEL_clock extends JPanel {
             clockTimer.start();
         }
         this.setVisible(true);
+    }
+    public void switchVisible(){
+        this.setVisible(!this.isVisible());
     }
     public void deactivate(){
         this.setVisible(false);

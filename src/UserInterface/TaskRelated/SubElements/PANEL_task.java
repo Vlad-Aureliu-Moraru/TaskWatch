@@ -25,9 +25,6 @@ public class PANEL_task extends JPanel {
     private final int WIDTH = 250;
     private final int HEIGHT = 30;
 
-    private Color iconColor;
-    private Color borderColor;
-    private Color backgroundcolor;
 
 
     public PANEL_task(Task task) {
@@ -44,34 +41,20 @@ public class PANEL_task extends JPanel {
 
 
         taskFinished.setForeground(ColorTheme.getTaskCompletedIconColor());
-        taskUrgent.setForeground(ColorTheme.getTaskUrgentIconColor());
         this.add(taskname);
         this.add(taskUrgency);
         this.add(taskFinished);
         this.add(taskUrgent);
 
-        setUrgencyColor();
-        setDifficultyColor();
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Border innerBorder = BorderFactory.createLineBorder(borderColor, 2);
+        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getDifficulty(currentTask.getDifficulty()), 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         this.setBorder(compoundBorder);
 
-        taskUrgency.setForeground(iconColor);
+        taskUrgency.setForeground(ColorTheme.getUrgency(currentTask.getUrgency()));
         taskname.setForeground(ColorTheme.getTaskTextColor());
 
-        this.setBackground(backgroundcolor);
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                PANEL_task.this.setBackground(ColorTheme.getTaskHoverColor());
-                taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
-            }
-            public void mouseExited(MouseEvent e) {
-                PANEL_task.this.setBackground(ColorTheme.getTaskColor());
-                taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN,15));
-            }
-        });
+        this.setBackground(ColorTheme.getMain_color());
         if (task.isFinished()) {
             taskFinished.setVisible(true);
             taskUrgency.setVisible(false);
@@ -86,6 +69,7 @@ public class PANEL_task extends JPanel {
         LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
         if (taskDeadline.isEqual(today) || taskDeadline.isBefore(today) ) {
             taskUrgency.setVisible(false);
+            taskUrgent.setForeground(taskDeadline.isBefore(today)?ColorTheme.getTaskUrgentPassed():ColorTheme.getTaskUrgentIconColor());
             taskUrgent.setVisible(true);
 
         }else{
@@ -104,6 +88,15 @@ public class PANEL_task extends JPanel {
                 eventHandler.getPanelMainmenu().getPanel_clock().deactivate();
                 eventHandler.getFileHandler().getNotesFromFile();
                 eventHandler.getPanelList().loadCurrentTaskNotes();
+                eventHandler.getPanelMainmenu().getPanel_help().setVisible(false);
+            }
+            public void mouseEntered(MouseEvent e) {
+                PANEL_task.this.setBackground(ColorTheme.getTaskHoverColor());
+                taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
+            }
+            public void mouseExited(MouseEvent e) {
+                PANEL_task.this.setBackground(ColorTheme.getTaskColor());
+                taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN,15));
             }
         });
     }
@@ -117,46 +110,4 @@ public class PANEL_task extends JPanel {
 
     }
 
-    private void setUrgencyColor() {
-        if (currentTask.getUrgency() == 1) {
-            iconColor = ColorTheme.getUrgency1();
-        }
-        if (currentTask.getUrgency() == 2) {
-            iconColor = ColorTheme.getUrgency2();
-        }
-        if (currentTask.getUrgency() == 3) {
-            iconColor = ColorTheme.getUrgency3();
-        }
-        if (currentTask.getUrgency() == 4) {
-            iconColor = ColorTheme.getUrgency4();
-        }
-        if (currentTask.getUrgency() == 5) {
-            iconColor = ColorTheme.getUrgency5();
-
-        }
-    }
-
-    private void setDifficultyColor() {
-        if (currentTask.getDifficulty() == 1) {
-            borderColor = ColorTheme.getDifficulty1();
-            backgroundcolor = ColorTheme.getTaskColor();
-        }
-        if (currentTask.getDifficulty() == 2) {
-            borderColor = ColorTheme.getDifficulty2();
-            backgroundcolor = ColorTheme.getTaskColor();
-        }
-        if (currentTask.getDifficulty() == 3) {
-            borderColor = ColorTheme.getDifficulty3();
-            backgroundcolor = ColorTheme.getTaskColor();
-        }
-        if (currentTask.getDifficulty() == 4) {
-            borderColor = ColorTheme.getDifficulty4();
-            backgroundcolor = ColorTheme.getTaskColor();
-        }
-        if (currentTask.getDifficulty() == 5) {
-            borderColor = ColorTheme.getDifficulty5();
-            backgroundcolor = ColorTheme.getTaskColor();
-
-        }
-    }
 }

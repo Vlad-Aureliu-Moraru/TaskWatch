@@ -1,6 +1,7 @@
 package UserInterface.MainMenu;
 
 import AppLogic.EventHandler;
+import ConfigRelated.ThemeLoader;
 import UserInterface.MainMenu.CLI.PANEL_cli;
 import UserInterface.MainMenu.REMINDER.PANEL_reminder;
 import UserInterface.MainMenu.SubPanels.*;
@@ -15,9 +16,10 @@ public class PANEL_mainmenu extends JPanel {
     private final PANEL_clock panel_clock = new PANEL_clock() ;
     private final PANEL_noteinfo panel_noteinfo = new PANEL_noteinfo();
     private final PANEL_reminder panel_reminder = new PANEL_reminder();
+    private final PANEL_help panel_help = new PANEL_help();
 
     public PANEL_mainmenu() {
-        this.setBackground(ColorTheme.getMain_color());
+        this.setBackground(ThemeLoader.getMainColor());
         this.setLayout(null);
 
 
@@ -27,6 +29,7 @@ public class PANEL_mainmenu extends JPanel {
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         this.setBorder(compoundBorder);
         this.add(panel_cli);
+        this.add(panel_help);
         this.add(panel_taskinfo);
         this.add(panel_clock);
         this.add(panel_noteinfo);
@@ -41,8 +44,10 @@ public class PANEL_mainmenu extends JPanel {
         panel_taskinfo.setBounds(20, 20, width-40, (height- textBarHeight)/2);
         panel_noteinfo.setBounds(20,height-panel_taskinfo.getHeight(), width-40,height- textBarHeight -panel_taskinfo.getHeight()-20);
         panel_reminder.setBounds(20,height-panel_taskinfo.getHeight(), width-40,height- textBarHeight -panel_taskinfo.getHeight()-20);
+        panel_help.setBounds(20,20,width-40,height-40);
 
         panel_cli.setHEIGHTandWIDTH(textBarHeight,width);
+        panel_help.setHEIGHTandWIDTH(height-40,width-40);
         panel_taskinfo.setHEIGHTandWIDTH((height- textBarHeight)/2,width-40);
         panel_clock.setHEIGHTandWIDTH((height- textBarHeight)/2,width-40);
         panel_noteinfo.setHEIGHTandWIDTH(height- textBarHeight -panel_taskinfo.getHeight()-20,width-40);
@@ -66,9 +71,13 @@ public class PANEL_mainmenu extends JPanel {
     public   PANEL_noteinfo getPanel_noteinfo() {
         return panel_noteinfo;
     }
+    public  PANEL_help getPanel_help() {
+        return panel_help;
+    }
     public void setEventHandler(EventHandler eventHandler) {
         panel_clock.setEventHandler(eventHandler);
         panel_cli.setEventHandler(eventHandler);
         panel_reminder.setEventHandler(eventHandler);
     }
+
 }
