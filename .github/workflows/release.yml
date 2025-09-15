@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   # This job creates the GitHub Release. It runs first and provides an upload URL
   # for the build jobs to upload their artifacts (assets) to.
