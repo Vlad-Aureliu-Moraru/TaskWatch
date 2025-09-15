@@ -45,21 +45,63 @@ jobs:
       - name: Create bin directory
         run: mkdir -p bin
 
-      - name: Verify icon file exists
+      - name: Verify source and icon files
         run: |
+          echo "Listing all source files:"
+          find src -name "*.java" -type f || { echo "Error: No .java files found in src/"; exit 1; }
+          echo "Checking critical files:"
+          for file in src/Main.java \
+                     src/AppLogic/DirectoryLogic/Directory.java \
+                     src/AppLogic/TaskLogic/Task.java \
+                     src/AppLogic/NotesLogic/Note.java \
+                     src/UserInterface/MainMenu/PANEL_mainmenu.java \
+                     src/UserInterface/NavBar/PANEL_navbar.java \
+                     src/UserInterface/TaskRelated/PANEL_list.java \
+                     src/AppLogic/EventHandler.java \
+                     src/AppLogic/FileHandler.java \
+                     src/UserInterface/MainMenu/CLI/CommandHelper.java \
+                     src/UserInterface/MainMenu/CLI/PANEL_cli.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_item.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_reminder.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_thisweek.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_todaylist.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_clock.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_help.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_noteinfo.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_taskinfo.java \
+                     src/UserInterface/MainMenu/SubPanels/modifiedTextArea.java \
+                     src/UserInterface/TaskRelated/SubElements/PANEL_dir.java \
+                     src/UserInterface/TaskRelated/SubElements/PANEL_note.java \
+                     src/UserInterface/TaskRelated/SubElements/PANEL_task.java \
+                     src/UserInterface/Theme/ColorTheme.java \
+                     src/AppLogic/FontLoader.java \
+                     src/ConfigRelated/ConfigLoader.java \
+                     src/ConfigRelated/ThemeLoader.java \
+                     src/ConfigRelated/ThemeManager.java; do
+            if [ ! -f "$file" ]; then
+              echo "Error: $file not found"
+              exit 1
+            fi
+          done
           if [ ! -f TaskWatch.png ]; then
             echo "Error: TaskWatch.png not found in project root"
             exit 1
           fi
+          if [ ! -d src/fonts ]; then
+            echo "Error: src/fonts directory not found"
+            exit 1
+          fi
+          echo "Listing root directory:"
+          ls -l
 
       - name: Compile Java code
-        run: javac -d bin src/**/*.java
+        run: /usr/lib/jvm/java-17-openjdk-amd64/bin/javac -d bin src/**/*.java
 
       - name: List compiled files
         run: ls -R bin  # Debug: Show compiled .class files
 
       - name: Create JAR file
-        run: jar --create --file TaskWatch.jar --main-class Main -C bin .
+        run: /usr/lib/jvm/java-17-openjdk-amd64/bin/jar --create --file TaskWatch.jar --main-class Main -C bin .
 
       - name: Package for Linux using jpackage
         run: |
@@ -69,7 +111,7 @@ jobs:
                    --main-jar TaskWatch.jar \
                    --main-class Main \
                    --icon TaskWatch.png \
-                   --input . \
+                   --input src/fonts \
                    --dest dist
           tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch
 
@@ -98,14 +140,56 @@ jobs:
 
       - name: Create bin directory
         run: mkdir bin
-        shell: bash  # Use bash for consistency
+        shell: bash
 
-      - name: Verify icon file exists
+      - name: Verify source and icon files
         run: |
+          echo "Listing all source files:"
+          find src -name "*.java" -type f || { echo "Error: No .java files found in src/"; exit 1; }
+          echo "Checking critical files:"
+          for file in src/Main.java \
+                     src/AppLogic/DirectoryLogic/Directory.java \
+                     src/AppLogic/TaskLogic/Task.java \
+                     src/AppLogic/NotesLogic/Note.java \
+                     src/UserInterface/MainMenu/PANEL_mainmenu.java \
+                     src/UserInterface/NavBar/PANEL_navbar.java \
+                     src/UserInterface/TaskRelated/PANEL_list.java \
+                     src/AppLogic/EventHandler.java \
+                     src/AppLogic/FileHandler.java \
+                     src/UserInterface/MainMenu/CLI/CommandHelper.java \
+                     src/UserInterface/MainMenu/CLI/PANEL_cli.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEl_item.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_reminder.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_thisweek.java \
+                     src/UserInterface/MainMenu/REMINDER/PANEL_todaylist.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_clock.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_help.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_noteinfo.java \
+                     src/UserInterface/MainMenu/SubPanels/PANEL_taskinfo.java \
+                     src/UserInterface/MainMenu/SubPanels/modifiedTextArea.java \
+                     src/UserInterface/TaskRelated/SubElements/PANEL_dir.java \
+                     src/UserInterface/TaskRelated/SubElements/PANEL_note.java \
+                     src/UserInterface/TaskRelated/SubElements/PANEL_task.java \
+                     src/UserInterface/Theme/ColorTheme.java \
+                     src/AppLogic/FontLoader.java \
+                     src/ConfigRelated/ConfigLoader.java \
+                     src/ConfigRelated/ThemeLoader.java \
+                     src/ConfigRelated/ThemeManager.java; do
+            if [ ! -f "$file" ]; then
+              echo "Error: $file not found"
+              exit 1
+            fi
+          done
           if [ ! -f TaskWatch.ico ]; then
             echo "Error: TaskWatch.ico not found in project root"
             exit 1
           fi
+          if [ ! -d src/fonts ]; then
+            echo "Error: src/fonts directory not found"
+            exit 1
+          fi
+          echo "Listing root directory:"
+          ls -l
         shell: bash
 
       - name: Compile Java code
@@ -128,7 +212,7 @@ jobs:
                    --main-jar TaskWatch.jar \
                    --main-class Main \
                    --icon TaskWatch.ico \
-                   --input . \
+                   --input src/fonts \
                    --dest dist
         shell: bash
 
