@@ -112,7 +112,7 @@ jobs:
                    --main-jar TaskWatch.jar \
                    --main-class Main \
                    --icon TaskWatch.png \
-                   --input src/fonts \
+                   --input . \
                    --dest dist
           tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch
 
@@ -214,7 +214,7 @@ jobs:
                    --main-jar TaskWatch.jar \
                    --main-class Main \
                    --icon TaskWatch.ico \
-                   --input src/fonts \
+                   --input . \
                    --dest dist
         shell: bash
 
