@@ -126,8 +126,8 @@ jobs:
         shell: powershell
 
       - name: Compile Java code
-        run: javac -d bin src/**/*.java
-        shell: powershell
+        run: javac -d bin (Get-ChildItem -Recurse -Filter *.java src | ForEach-Object { $_.FullName })
+        shell: pwsh
 
       - name: Create JAR file with fonts
         run: jar --create --file TaskWatch.jar --main-class Main -C bin . -C src fonts
