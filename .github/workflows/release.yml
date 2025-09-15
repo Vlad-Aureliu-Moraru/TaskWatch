@@ -1,6 +1,5 @@
 name: Release TaskWatch Application
 
-# This workflow is triggered on a push event for tags matching the pattern v* (e.g., v1.0, v1.2.3)
 on:
   push:
     tags:
@@ -10,8 +9,6 @@ permissions:
   contents: write
 
 jobs:
-  # This job creates the GitHub Release. It runs first and provides an upload URL
-  # for the build jobs to upload their artifacts (assets) to.
   create_release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -30,7 +27,6 @@ jobs:
           draft: false
           prerelease: false
 
-  # This job builds the application for Linux (Ubuntu)
   build-linux:
     name: Build for Linux
     needs: create_release
@@ -49,15 +45,13 @@ jobs:
         run: echo "APP_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
 
       - name: Compile Java code
-        run: javac -d bin src/*.java
+        # Use **/*.java to recursively find all .java files in the src directory
+        run: javac -d bin src/**/*.java
 
       - name: Create JAR file
-        # The --main-class is set to 'Main', as it is not in a package.
-        # -C bin . tells jar to take all files from the 'bin' directory.
         run: jar --create --file TaskWatch.jar --main-class Main -C bin .
 
       - name: Package for Linux using jpackage
-        # --icon points to the PNG file in the root directory.
         run: >
           jpackage --type tar.gz
           --name "TaskWatch"
@@ -76,7 +70,6 @@ jobs:
           asset_name: TaskWatch-Linux-${{ env.APP_VERSION }}.tar.gz
           asset_content_type: application/gzip
 
-  # This job builds the application for Windows
   build-windows:
     name: Build for Windows
     needs: create_release
@@ -96,15 +89,13 @@ jobs:
         shell: pwsh
 
       - name: Compile Java code
-        run: javac -d bin src/*.java
+        # Use **/*.java to recursively find all .java files in the src directory
+        run: javac -d bin src/**/*.java
 
       - name: Create JAR file
-        # The --main-class is set to 'Main'.
         run: jar --create --file TaskWatch.jar --main-class Main -C bin .
 
       - name: Package for Windows using jpackage
-        # --icon points to the ICO file in the root directory.
-        # --type exe creates a .exe installer.
         run: >
           jpackage --type exe
           --name "TaskWatch"
