@@ -1,7 +1,7 @@
-package UserInterface.MainMenu.SubPanels;
+package SubPanels;
 
-import AppLogic.TaskLogic.Task;
-import UserInterface.Theme.ColorTheme;
+import AppLogic.Task;
+import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;

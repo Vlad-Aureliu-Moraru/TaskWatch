@@ -1,12 +1,9 @@
 package AppLogic;
 
-import AppLogic.DirectoryLogic.Directory;
-import AppLogic.NotesLogic.Note;
-import AppLogic.TaskLogic.Task;
 import UserInterface.FRAME_main;
-import UserInterface.MainMenu.PANEL_mainmenu;
-import UserInterface.NavBar.PANEL_navbar;
-import UserInterface.TaskRelated.PANEL_list;
+import UserInterface.PANEL_mainmenu;
+import UserInterface.PANEL_navbar;
+import UserInterface.PANEL_list;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

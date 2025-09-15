@@ -1,9 +1,8 @@
-package UserInterface.NavBar;
+package UserInterface;
 
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
 import ConfigRelated.ThemeLoader;
-import UserInterface.Theme.ColorTheme;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,4 +1,4 @@
-package AppLogic.NotesLogic;
+package AppLogic;
 
 public class Note {
     private String date;

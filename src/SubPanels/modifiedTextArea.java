@@ -1,4 +1,4 @@
-package UserInterface.MainMenu.SubPanels;
+package SubPanels;
 
 import javax.swing.*;
 

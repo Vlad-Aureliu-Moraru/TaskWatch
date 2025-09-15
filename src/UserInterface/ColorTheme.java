@@ -1,4 +1,4 @@
-package UserInterface.Theme;
+package UserInterface;
 
 import ConfigRelated.ThemeLoader;
 

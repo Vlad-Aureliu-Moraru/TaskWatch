@@ -1,13 +1,13 @@
-package UserInterface.MainMenu.CLI;
+package CLI;
 
-import AppLogic.DirectoryLogic.Directory;
+import AppLogic.Directory;
 import AppLogic.EventHandler;
-import AppLogic.NotesLogic.Note;
-import AppLogic.TaskLogic.Task;
+import AppLogic.Note;
+import AppLogic.Task;
 import ConfigRelated.ConfigLoader;
 import ConfigRelated.ThemeLoader;
 import ConfigRelated.ThemeManager;
-import UserInterface.Theme.ColorTheme;
+import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;

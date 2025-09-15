@@ -1,11 +1,10 @@
-package UserInterface.MainMenu;
+package UserInterface;
 
 import AppLogic.EventHandler;
 import ConfigRelated.ThemeLoader;
-import UserInterface.MainMenu.CLI.PANEL_cli;
-import UserInterface.MainMenu.REMINDER.PANEL_reminder;
-import UserInterface.MainMenu.SubPanels.*;
-import UserInterface.Theme.ColorTheme;
+import CLI.PANEL_cli;
+import REMINDER.PANEL_reminder;
+import SubPanels.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;

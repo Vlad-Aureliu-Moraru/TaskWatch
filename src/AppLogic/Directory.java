@@ -1,6 +1,4 @@
-package AppLogic.DirectoryLogic;
-
-import AppLogic.TaskLogic.Task;
+package AppLogic;
 
 import java.util.ArrayList;
 import java.util.Comparator;

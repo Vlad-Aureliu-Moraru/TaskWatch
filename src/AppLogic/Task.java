@@ -1,6 +1,4 @@
-package AppLogic.TaskLogic;
-
-import AppLogic.NotesLogic.Note;
+package AppLogic;
 
 import java.util.ArrayList;
 

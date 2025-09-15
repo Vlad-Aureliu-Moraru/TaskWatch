@@ -1,6 +1,4 @@
-package UserInterface.MainMenu.CLI;
-
-import java.util.regex.Pattern;
+package CLI;
 
 public class CommandHelper {
     private static final String RGB_PATTERN = "\\s*\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)";

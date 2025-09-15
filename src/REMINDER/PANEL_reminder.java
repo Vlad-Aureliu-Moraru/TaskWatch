@@ -1,9 +1,9 @@
-package UserInterface.MainMenu.REMINDER;
+package REMINDER;
 
-import AppLogic.DirectoryLogic.Directory;
+import AppLogic.Directory;
 import AppLogic.EventHandler;
-import AppLogic.TaskLogic.Task;
-import UserInterface.Theme.ColorTheme;
+import AppLogic.Task;
+import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.time.LocalDate;

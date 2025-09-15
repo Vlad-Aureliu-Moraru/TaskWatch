@@ -1,10 +1,6 @@
 package UserInterface;
 
 import AppLogic.EventHandler;
-import ConfigRelated.ConfigLoader;
-import UserInterface.MainMenu.PANEL_mainmenu;
-import UserInterface.NavBar.PANEL_navbar;
-import UserInterface.TaskRelated.PANEL_list;
 
 import javax.swing.*;
 import java.awt.event.*;

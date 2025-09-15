@@ -1,11 +1,11 @@
-package UserInterface.MainMenu.SubPanels;
+package SubPanels;
 
 import ConfigRelated.ConfigLoader;
-import AppLogic.DirectoryLogic.Directory;
+import AppLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
-import AppLogic.TaskLogic.Task;
-import UserInterface.Theme.ColorTheme;
+import AppLogic.Task;
+import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.time.LocalDateTime;

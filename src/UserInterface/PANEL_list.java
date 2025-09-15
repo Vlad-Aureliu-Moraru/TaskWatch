@@ -1,12 +1,11 @@
-package UserInterface.TaskRelated;
+package UserInterface;
 
-import AppLogic.DirectoryLogic.Directory;
+import AppLogic.Directory;
 import AppLogic.EventHandler;
-import AppLogic.TaskLogic.Task;
-import UserInterface.TaskRelated.SubElements.PANEL_dir;
-import UserInterface.TaskRelated.SubElements.PANEL_note;
-import UserInterface.TaskRelated.SubElements.PANEL_task;
-import UserInterface.Theme.ColorTheme;
+import AppLogic.Task;
+import SubElements.PANEL_dir;
+import SubElements.PANEL_note;
+import SubElements.PANEL_task;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,9 @@
-package UserInterface.TaskRelated.SubElements;
+package SubElements;
 
-import AppLogic.DirectoryLogic.Directory;
+import AppLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
-import UserInterface.Theme.ColorTheme;
+import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import javax.swing.border.Border;

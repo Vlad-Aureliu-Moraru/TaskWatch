@@ -1,9 +1,5 @@
 package AppLogic;
 
-import AppLogic.DirectoryLogic.Directory;
-import AppLogic.NotesLogic.Note;
-import AppLogic.TaskLogic.Task;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

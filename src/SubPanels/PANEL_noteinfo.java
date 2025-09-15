@@ -1,8 +1,8 @@
-package UserInterface.MainMenu.SubPanels;
+package SubPanels;
 
 import AppLogic.FontLoader;
-import AppLogic.NotesLogic.Note;
-import UserInterface.Theme.ColorTheme;
+import AppLogic.Note;
+import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;
