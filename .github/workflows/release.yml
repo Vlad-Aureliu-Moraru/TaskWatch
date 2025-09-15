@@ -112,11 +112,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install WiX Toolset
+      - name: Ensure WiX Toolset is available
         run: |
-          choco install wixtoolset --version 3.11.2
-          echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
-        shell: powershell
+          if (-not (Get-Command candle.exe -ErrorAction SilentlyContinue)) {
+            choco install wixtoolset --yes
+          } else {
+            Write-Output "WiX Toolset already installed."
+          }
+        shell: pwsh
 
       - name: Create bin and resources directories
         run: mkdir bin; mkdir dist; mkdir dist/resources
