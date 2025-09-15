@@ -160,8 +160,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Create bin and resources directories
-        run: mkdir bin dist/resources
+        run: mkdir -p bin dist/resources
         shell: bash
+
+      - name: Verify directory creation
+        run: dir dist /s
+        shell: cmd
 
       - name: Verify source and icon files
         run: |
