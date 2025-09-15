@@ -3,33 +3,34 @@ name: Release TaskWatch Application
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'  # Trigger on tags like v1.0, v2.1, etc.
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 permissions:
-  contents: write
+  contents: write  # Required for creating releases and uploading assets
 
 jobs:
-  create_release:
-    name: Create Release
+  create-release:
+    name: Create GitHub Release
     runs-on: ubuntu-latest
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      upload_url: ${{ steps.create-release.outputs.upload_url }}
     steps:
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+        id: create-release
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: "Official release of TaskWatch version ${{ github.ref_name }}."
+          tag_name: ${{ github.ref_name }}
+          name: TaskWatch v${{ github.ref_name }}
+          body: "Official release of TaskWatch version ${{ github.ref_name }}.\n\nA complex to-do app with reminders and an adaptive Pomodoro timer."
           draft: false
           prerelease: false
 
   build-linux:
-    name: Build for Linux
-    needs: create_release
+    name: Build and Package for Linux
+    needs: create-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -41,38 +42,49 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Extract version from tag
-        run: echo "APP_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+      - name: Create bin directory
+        run: mkdir -p bin
+
+      - name: Verify icon file exists
+        run: |
+          if [ ! -f TaskWatch.png ]; then
+            echo "Error: TaskWatch.png not found in project root"
+            exit 1
+          fi
 
       - name: Compile Java code
-        # Use **/*.java to recursively find all .java files in the src directory
         run: javac -d bin src/**/*.java
+
+      - name: List compiled files
+        run: ls -R bin  # Debug: Show compiled .class files
 
       - name: Create JAR file
         run: jar --create --file TaskWatch.jar --main-class Main -C bin .
 
       - name: Package for Linux using jpackage
-        run: >
-          jpackage --type tar.gz
-          --name "TaskWatch"
-          --app-version ${{ env.APP_VERSION }}
-          --main-jar TaskWatch.jar
-          --main-class Main
-          --icon TaskWatch.png
+        run: |
+          jpackage --type app-image \
+                   --name TaskWatch \
+                   --app-version ${{ github.ref_name }} \
+                   --main-jar TaskWatch.jar \
+                   --main-class Main \
+                   --icon TaskWatch.png \
+                   --input . \
+                   --dest dist
+          tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch
 
       - name: Upload Linux Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./TaskWatch-${{ env.APP_VERSION }}.tar.gz
-          asset_name: TaskWatch-Linux-${{ env.APP_VERSION }}.tar.gz
-          asset_content_type: application/gzip
+          files: TaskWatch-${{ github.ref_name }}-Linux.tar.gz
+          tag_name: ${{ github.ref_name }}
+          name: TaskWatch v${{ github.ref_name }}
 
   build-windows:
-    name: Build for Windows
-    needs: create_release
+    name: Build and Package for Windows
+    needs: create-release
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -84,32 +96,51 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Extract version from tag
-        run: echo "APP_VERSION=$(${{ github.ref_name }} -replace '^v', '')" >> $env:GITHUB_ENV
-        shell: pwsh
+      - name: Create bin directory
+        run: mkdir bin
+        shell: bash  # Use bash for consistency
+
+      - name: Verify icon file exists
+        run: |
+          if [ ! -f TaskWatch.ico ]; then
+            echo "Error: TaskWatch.ico not found in project root"
+            exit 1
+          fi
+        shell: bash
 
       - name: Compile Java code
-        # Use **/*.java to recursively find all .java files in the src directory
         run: javac -d bin src/**/*.java
+        shell: bash
+
+      - name: List compiled files
+        run: dir bin /s  # Debug: Show compiled .class files
+        shell: cmd
 
       - name: Create JAR file
         run: jar --create --file TaskWatch.jar --main-class Main -C bin .
+        shell: bash
 
       - name: Package for Windows using jpackage
-        run: >
-          jpackage --type exe
-          --name "TaskWatch"
-          --app-version ${{ env.APP_VERSION }}
-          --main-jar TaskWatch.jar
-          --main-class Main
-          --icon TaskWatch.ico
+        run: |
+          jpackage --type exe \
+                   --name TaskWatch \
+                   --app-version ${{ github.ref_name }} \
+                   --main-jar TaskWatch.jar \
+                   --main-class Main \
+                   --icon TaskWatch.ico \
+                   --input . \
+                   --dest dist
+        shell: bash
 
       - name: Upload Windows Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./TaskWatch-${{ env.APP_VERSION }}.exe
-          asset_name: TaskWatch-Windows-${{ env.APP_VERSION }}.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
+          files: dist/TaskWatch.exe
+          tag_name: ${{ github.ref_name }}
+          name: TaskWatch v${{ github.ref_name }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
