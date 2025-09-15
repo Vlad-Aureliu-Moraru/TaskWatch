@@ -3,7 +3,7 @@ name: Release TaskWatch Application
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'  # Trigger on tags like 1.1.8
+      - '[0-9]+.[0-9]+.[0-9]+'  # Trigger on tags like 1.1.9
   workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 permissions:
@@ -134,7 +134,10 @@ jobs:
                    --icon dist/resources/TaskWatch.png \
                    --input dist/resources \
                    --dest dist
+          ls -lR dist  # Debug: List dist contents after jpackage
           tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch
+          ls -l TaskWatch-${{ github.ref_name }}-Linux.tar.gz  # Debug: Confirm tar file
+        continue-on-error: true
 
       - name: Upload Linux Release Asset
         uses: softprops/action-gh-release@v2
@@ -158,6 +161,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Install WiX Toolset
+        run: |
+          choco install wixtoolset --version 3.11.2
+          echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
+        shell: bash
 
       - name: Create bin and resources directories
         run: mkdir -p bin dist/resources
@@ -267,6 +276,7 @@ jobs:
                    --icon dist/resources/TaskWatch.ico \
                    --input dist/resources \
                    --dest dist
+          dir dist /s  # Debug: List dist contents after jpackage
         shell: bash
 
       - name: Upload Windows Release Asset
