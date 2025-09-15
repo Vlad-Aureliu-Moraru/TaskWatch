@@ -238,7 +238,8 @@ jobs:
           )
           echo TaskWatch.jar created successfully
           dir TaskWatch.jar
-          jar tf TaskWatch.jar | findstr ".ttf"  # Verify fonts in JAR
+          REM Verify fonts in JAR
+          jar tf TaskWatch.jar | findstr ".ttf"
         shell: cmd
 
       - name: Copy JAR and icon to resources
