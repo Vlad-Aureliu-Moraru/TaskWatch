@@ -250,7 +250,10 @@ jobs:
         shell: cmd
 
       - name: Clean dist directory
-        run: rmdir /s /q dist\TaskWatch
+        run: |
+          if exist dist\TaskWatch (
+            rmdir /s /q dist\TaskWatch
+          )
         shell: cmd
         continue-on-error: true
 
