@@ -1,0 +1,89 @@
+name: Release App
+
+# This workflow is triggered when a new tag is pushed to the repository.
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  # Job to build and package the app for Linux
+  linux-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Compile and Package App (Linux)
+      run: |
+        # Compile all Java files
+        mkdir -p bin
+        javac -d bin src/**/*.java
+        
+        # Create the executable JAR
+        jar --create --file TaskWatch.jar --main-class ConfigRelated.Main -C bin .
+        
+        # Create a custom JRE with jlink
+        /usr/lib/jvm/java-17-temurin/bin/jlink --module-path /usr/lib/jvm/java-17-temurin/jmods --add-modules java.base,java.desktop --output my-runtime
+        
+        # Package the app into a tar.gz with jpackage, including the icon
+        /usr/lib/jvm/java-17-temurin/bin/jpackage --input . --name "TaskWatch" --main-jar TaskWatch.jar --runtime-image my-runtime --type tar.gz --dest . --icon icon.png
+
+    - name: Upload .tar.gz Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./TaskWatch-1.0.tar.gz
+        asset_name: TaskWatch-1.0.tar.gz
+        asset_content_type: application/gzip
+  
+  # Job to build and package the app for Windows
+  windows-build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Compile and Package App (Windows)
+      run: |
+        # Compile all Java files
+        mkdir bin
+        javac -d bin src/**/*.java
+        
+        # Create the executable JAR
+        jar --create --file TaskWatch.jar --main-class ConfigRelated.Main -C bin .
+        
+        # Create a custom JRE with jlink
+        $Env:JAVA_HOME\bin\jlink --module-path $Env:JAVA_HOME\jmods --add-modules java.base,java.desktop --output my-runtime
+        
+        # Package the app into an exe with jpackage, including the icon
+        $Env:JAVA_HOME\bin\jpackage --input . --name "TaskWatch" --main-jar TaskWatch.jar --runtime-image my-runtime --type exe --icon icon.ico
+
+    - name: Upload .exe Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./TaskWatch.exe
+        asset_name: TaskWatch.exe
+        asset_content_type: application/vnd.microsoft.portable-executable
+
