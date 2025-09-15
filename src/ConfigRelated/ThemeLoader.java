@@ -61,7 +61,7 @@ public final class ThemeLoader {
         difficulty5=(255, 0, 0);
         TaskCompletedIconColor=(4, 189, 255);
         TaskUrgentIconColor=(255, 4, 79);
-        TaskUrgentPassed=(162, 161, 171, 255);
+        TaskUrgentPassed=(162, 161, 171);
         consoleColor=(82, 94, 84);
         consoleTextColor=(222, 222, 222);
         timerOnBreakColor=(75, 111, 122);
@@ -72,27 +72,23 @@ public final class ThemeLoader {
     static {
         // NOTE: In a real app, this would get the theme file name from your ConfigLoader.
         // For this runnable example, we'll use a hardcoded value.
-        String themeFileName = "theme_"+ConfigLoader.getTheme();
 
-        File themeFile = new File(CONFIG_DIR + themeFileName);
-
-        // Check if the file exists, if not, create it with default values
-        if (!themeFile.exists()) {
-            System.out.println("Theme file not found. Creating a default theme file: " + themeFile.getName());
-            createThemeFile(themeFile);
-        }
-
-        loadTheme(themeFile);
+        loadTheme();
     }
 
     // Private constructor to prevent instantiation
     private ThemeLoader() {}
 
-    /**
-     * Loads color values from a specified theme file into the color map.
-     * @param file The theme file to load.
-     */
-    private static void loadTheme(File file) {
+
+    public static void loadTheme() {
+        String themeFileName = "theme_"+ConfigLoader.getTheme();
+        System.out.println("loaded theme " + ConfigLoader.getTheme());
+        File file = new File(CONFIG_DIR + themeFileName);
+
+        if (!file.exists()) {
+            System.out.println("Theme file not found. Creating a default theme file: " +file.getName());
+            createThemeFile(file);
+        }
         colorMap.clear();
         currentThemeFile = file.getPath();
 

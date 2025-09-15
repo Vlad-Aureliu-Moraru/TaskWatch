@@ -15,6 +15,7 @@ public class PANEL_dir extends JPanel {
     private final JLabel titleLabel =  new JLabel();
     private final Directory directory;
 
+
     private int WIDTH = 200;
     private int HEIGHT = 30;
 

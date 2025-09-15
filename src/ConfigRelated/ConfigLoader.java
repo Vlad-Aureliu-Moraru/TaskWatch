@@ -30,6 +30,10 @@ public final class ConfigLoader {
      * It also creates a default file if one is not found.
      */
     static {
+     loadConfig();
+    }
+
+    public static void  loadConfig(){
         File configFile = new File(CONFIG_FILE_PATH);
 
         // Check if the file exists, if not, create it with default values
@@ -67,9 +71,6 @@ public final class ConfigLoader {
         }
     }
 
-    /**
-     * Creates the default config file with initial values.
-     */
     private static void createDefaultConfigFile(File file) {
         // Ensure the parent directories exist
         file.getParentFile().mkdirs();

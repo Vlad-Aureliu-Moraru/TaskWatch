@@ -44,7 +44,7 @@ public final class ThemeManager {
         difficulty5=(255, 0, 0);
         TaskCompletedIconColor=(4, 189, 255);
         TaskUrgentIconColor=(255, 4, 79);
-        TaskUrgentPassed=(162, 161, 171, 255);
+        TaskUrgentPassed=(162, 161, 171);
         consoleColor=(82, 94, 84);
         consoleTextColor=(222, 222, 222);
         timerOnBreakColor=(75, 111, 122);

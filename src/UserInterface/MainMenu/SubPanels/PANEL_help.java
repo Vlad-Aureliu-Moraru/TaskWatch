@@ -54,10 +54,10 @@ public class PANEL_help extends JScrollPane{
         currentHeight+=70;
         difficultyExplanation.setBounds((boxSpace*5)+20,55,width-30,50);
         currentHeight+=70;
-        commandInfo.setBounds(20,105,width-30,300);
-        currentHeight+=300;
-        themeSettingsInfo.setBounds(20,475,width-30,1200);
-        currentHeight+=1200;
+        commandInfo.setBounds(20,105,width-30,700);
+        currentHeight+=700;
+        themeSettingsInfo.setBounds(20,currentHeight+12,width-30,1600);
+        currentHeight+=1600;
         panel_help.setPreferredSize(new Dimension(width,currentHeight));
     }
     private void addCommandInfo(){
@@ -83,6 +83,8 @@ public class PANEL_help extends JScrollPane{
                 :set(name) | :setTheme(name) - SETS THE CURRENT THEME TO THE GIVEN NAME
                 :theme                    - SHOWS THE CURRENTLY ACTIVE THEME
                 :lst | :listThemes          - LISTS ALL AVAILABLE THEME FILES
+                
+                                              
                 """
                 ;
         commandInfo.setText(commandinfo);

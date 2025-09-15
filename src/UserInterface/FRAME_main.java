@@ -1,6 +1,7 @@
 package UserInterface;
 
 import AppLogic.EventHandler;
+import ConfigRelated.ConfigLoader;
 import UserInterface.MainMenu.PANEL_mainmenu;
 import UserInterface.NavBar.PANEL_navbar;
 import UserInterface.TaskRelated.PANEL_list;
@@ -45,7 +46,6 @@ public class FRAME_main extends JFrame {
 
         //?addons
         EventHandler eventHandler = new EventHandler();
-
         eventHandler.loadEverythingInMemory();
         eventHandler.updateFinishedStatusForRepeatableTasks();
 

@@ -1,2 +1,0 @@
-THEME:default.txt
-CLOCK_UPDATE_TIME:1

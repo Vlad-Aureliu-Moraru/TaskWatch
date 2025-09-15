@@ -84,7 +84,7 @@ public class PANEL_navbar extends JPanel {
     }
     public void displayTempMessage(String message,boolean error){
         statusDisplay.setText(error?"Error//"+message:message);
-        statusDisplay.setForeground(error?ColorTheme.getUrgency5(): ThemeLoader.getTaskCompletedIconColor());
+        statusDisplay.setForeground(error?ColorTheme.getUrgency5(): ThemeLoader.getFirstAccent());
         timer.start();
     }
     public void setPreparingStatus(){

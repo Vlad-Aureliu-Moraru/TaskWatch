@@ -505,6 +505,8 @@ public class PANEL_cli extends JPanel {
       else if (command.matches(commandHelper.getSetThemeCommand())) {
           String themename = command.substring(command.indexOf("(")+1, command.indexOf(")"));
           ConfigLoader.setTheme(themename+".txt");
+          ConfigLoader.loadConfig();
+          ThemeLoader.loadTheme();
           activate();
       }
       else if(command.matches(commandHelper.getCurrentThemeCommand())){

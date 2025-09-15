@@ -54,7 +54,7 @@ public class PANEL_task extends JPanel {
         taskUrgency.setForeground(ColorTheme.getUrgency(currentTask.getUrgency()));
         taskname.setForeground(ColorTheme.getTaskTextColor());
 
-        this.setBackground(ColorTheme.getMain_color());
+        this.setBackground(ColorTheme.getTaskColor());
         if (task.isFinished()) {
             taskFinished.setVisible(true);
             taskUrgency.setVisible(false);
