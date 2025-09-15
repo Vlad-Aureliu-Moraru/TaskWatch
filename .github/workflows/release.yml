@@ -42,8 +42,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create bin directory
-        run: mkdir -p bin
+      - name: Create bin and resources directories
+        run: mkdir -p bin dist/resources
 
       - name: Verify source and icon files
         run: |
@@ -101,8 +101,28 @@ jobs:
       - name: List compiled files
         run: ls -R bin  # Debug: Show compiled .class files
 
-      - name: Create JAR file
-        run: jar --create --file TaskWatch.jar --main-class Main -C bin .
+      - name: Create JAR file with fonts
+        run: jar --create --file TaskWatch.jar --main-class Main -C bin . -C src fonts
+
+      - name: Verify JAR file
+        run: |
+          if [ ! -f TaskWatch.jar ]; then
+            echo "Error: TaskWatch.jar not found in project root"
+            exit 1
+          fi
+          echo "TaskWatch.jar created successfully"
+          ls -l TaskWatch.jar
+          jar tf TaskWatch.jar | grep ".ttf"  # Verify fonts in JAR
+
+      - name: Copy JAR and icon to resources
+        run: |
+          cp TaskWatch.jar dist/resources/
+          cp TaskWatch.png dist/resources/
+          echo "Listing resources directory:"
+          ls -l dist/resources/
+
+      - name: Clean dist directory
+        run: rm -rf dist/TaskWatch
 
       - name: Package for Linux using jpackage
         run: |
@@ -111,8 +131,8 @@ jobs:
                    --app-version ${{ github.ref_name }} \
                    --main-jar TaskWatch.jar \
                    --main-class Main \
-                   --icon TaskWatch.png \
-                   --input . \
+                   --icon dist/resources/TaskWatch.png \
+                   --input dist/resources \
                    --dest dist
           tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch
 
@@ -139,8 +159,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create bin directory
-        run: mkdir bin
+      - name: Create bin and resources directories
+        run: mkdir bin dist/resources
         shell: bash
 
       - name: Verify source and icon files
@@ -202,9 +222,32 @@ jobs:
         run: dir bin /s  # Debug: Show compiled .class files
         shell: cmd
 
-      - name: Create JAR file
-        run: jar --create --file TaskWatch.jar --main-class Main -C bin .
+      - name: Create JAR file with fonts
+        run: jar --create --file TaskWatch.jar --main-class Main -C bin . -C src fonts
         shell: bash
+
+      - name: Verify JAR file
+        run: |
+          if not exist TaskWatch.jar (
+            echo Error: TaskWatch.jar not found in project root
+            exit /b 1
+          )
+          echo TaskWatch.jar created successfully
+          dir TaskWatch.jar
+          jar tf TaskWatch.jar | findstr ".ttf"  # Verify fonts in JAR
+        shell: cmd
+
+      - name: Copy JAR and icon to resources
+        run: |
+          copy TaskWatch.jar dist\resources\
+          copy TaskWatch.ico dist\resources\
+          dir dist\resources\
+        shell: cmd
+
+      - name: Clean dist directory
+        run: rmdir /s /q dist\TaskWatch
+        shell: cmd
+        continue-on-error: true
 
       - name: Package for Windows using jpackage
         run: |
@@ -213,8 +256,8 @@ jobs:
                    --app-version ${{ github.ref_name }} \
                    --main-jar TaskWatch.jar \
                    --main-class Main \
-                   --icon TaskWatch.ico \
-                   --input . \
+                   --icon dist/resources/TaskWatch.ico \
+                   --input dist/resources \
                    --dest dist
         shell: bash
 
