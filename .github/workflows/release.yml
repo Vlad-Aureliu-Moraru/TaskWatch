@@ -51,31 +51,31 @@ jobs:
           find src -name "*.java" -type f || { echo "Error: No .java files found in src/"; exit 1; }
           echo "Checking critical files:"
           for file in src/Main.java \
-                     src/mainlogic/logic.java \
-                     src/mainlogic/Task.java \
-                     src/mainlogic/Note.java \
-                     src/mainlogic/EventHandler.java \
-                     src/mainlogic/FileHandler.java \
-                     src/mainlogic/FontLoader.java \
-                     src/userinterface/FRAME_main.java \
-                     src/userinterface/PANEL_mainmenu.java \
-                     src/userinterface/PANEL_navbar.java \
-                     src/userinterface/PANEL_list.java \
-                     src/userinterface/CLI/CommandHelper.java \
-                     src/userinterface/CLI/PANEL_cli.java \
-                     src/userinterface/REMINDER/PANEL_item.java \
-                     src/userinterface/REMINDER/PANEL_reminder.java \
-                     src/userinterface/REMINDER/PANEL_thisweek.java \
-                     src/userinterface/REMINDER/PANEL_todaylist.java \
-                     src/userinterface/SubPanels/PANEL_clock.java \
-                     src/userinterface/SubPanels/PANEL_help.java \
-                     src/userinterface/SubPanels/PANEL_noteinfo.java \
-                     src/userinterface/SubPanels/PANEL_taskinfo.java \
-                     src/userinterface/SubPanels/modifiedTextArea.java \
-                     src/userinterface/TaskRelated/PANEL_dir.java \
-                     src/userinterface/TaskRelated/PANEL_note.java \
-                     src/userinterface/TaskRelated/PANEL_task.java \
-                     src/userinterface/Theme/ColorTheme.java \
+                     src/AppLogic/Directory.java \
+                     src/AppLogic/Task.java \
+                     src/AppLogic/Note.java \
+                     src/AppLogic/EventHandler.java \
+                     src/AppLogic/FileHandler.java \
+                     src/AppLogic/FontLoader.java \
+                     src/UserInterface/FRAME_main.java \
+                     src/UserInterface/PANEL_mainmenu.java \
+                     src/UserInterface/PANEL_navbar.java \
+                     src/UserInterface/PANEL_list.java \
+                     src/UserInterface/ColorTheme.java \
+                     src/CLI/PANEL_cli.java \
+                     src/CLI/CommandHelper.java \
+                     src/REMINDER/PANEL_item.java \
+                     src/REMINDER/PANEL_reminder.java \
+                     src/REMINDER/PANEL_thisweek.java \
+                     src/REMINDER/PANEL_todaylist.java \
+                     src/SubPanels/modifiedTextArea.java \
+                     src/SubPanels/PANEL_taskinfo.java \
+                     src/SubPanels/PANEL_help.java \
+                     src/SubPanels/PANEL_clock.java \
+                     src/SubPanels/PANEL_noteinfo.java \
+                     src/SubElements/PANEL_dir.java \
+                     src/SubElements/PANEL_note.java \
+                     src/SubElements/PANEL_task.java \
                      src/ConfigRelated/ConfigLoader.java \
                      src/ConfigRelated/ThemeLoader.java \
                      src/ConfigRelated/ThemeManager.java; do
@@ -149,31 +149,31 @@ jobs:
           find src -name "*.java" -type f || { echo "Error: No .java files found in src/"; exit 1; }
           echo "Checking critical files:"
           for file in src/Main.java \
-                     src/mainlogic/logic.java \
-                     src/mainlogic/Task.java \
-                     src/mainlogic/Note.java \
-                     src/mainlogic/EventHandler.java \
-                     src/mainlogic/FileHandler.java \
-                     src/mainlogic/FontLoader.java \
-                     src/userinterface/FRAME_main.java \
-                     src/userinterface/PANEL_mainmenu.java \
-                     src/userinterface/PANEL_navbar.java \
-                     src/userinterface/PANEL_list.java \
-                     src/userinterface/CLI/CommandHelper.java \
-                     src/userinterface/CLI/PANEL_cli.java \
-                     src/userinterface/REMINDER/PANEL_item.java \
-                     src/userinterface/REMINDER/PANEL_reminder.java \
-                     src/userinterface/REMINDER/PANEL_thisweek.java \
-                     src/userinterface/REMINDER/PANEL_todaylist.java \
-                     src/userinterface/SubPanels/PANEL_clock.java \
-                     src/userinterface/SubPanels/PANEL_help.java \
-                     src/userinterface/SubPanels/PANEL_noteinfo.java \
-                     src/userinterface/SubPanels/PANEL_taskinfo.java \
-                     src/userinterface/SubPanels/modifiedTextArea.java \
-                     src/userinterface/TaskRelated/PANEL_dir.java \
-                     src/userinterface/TaskRelated/PANEL_note.java \
-                     src/userinterface/TaskRelated/PANEL_task.java \
-                     src/userinterface/Theme/ColorTheme.java \
+                     src/AppLogic/Directory.java \
+                     src/AppLogic/Task.java \
+                     src/AppLogic/Note.java \
+                     src/AppLogic/EventHandler.java \
+                     src/AppLogic/FileHandler.java \
+                     src/AppLogic/FontLoader.java \
+                     src/UserInterface/FRAME_main.java \
+                     src/UserInterface/PANEL_mainmenu.java \
+                     src/UserInterface/PANEL_navbar.java \
+                     src/UserInterface/PANEL_list.java \
+                     src/UserInterface/ColorTheme.java \
+                     src/CLI/PANEL_cli.java \
+                     src/CLI/CommandHelper.java \
+                     src/REMINDER/PANEL_item.java \
+                     src/REMINDER/PANEL_reminder.java \
+                     src/REMINDER/PANEL_thisweek.java \
+                     src/REMINDER/PANEL_todaylist.java \
+                     src/SubPanels/modifiedTextArea.java \
+                     src/SubPanels/PANEL_taskinfo.java \
+                     src/SubPanels/PANEL_help.java \
+                     src/SubPanels/PANEL_clock.java \
+                     src/SubPanels/PANEL_noteinfo.java \
+                     src/SubElements/PANEL_dir.java \
+                     src/SubElements/PANEL_note.java \
+                     src/SubElements/PANEL_task.java \
                      src/ConfigRelated/ConfigLoader.java \
                      src/ConfigRelated/ThemeLoader.java \
                      src/ConfigRelated/ThemeManager.java; do
