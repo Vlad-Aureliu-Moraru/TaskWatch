@@ -261,7 +261,7 @@ jobs:
         run: |
           jpackage --type exe \
                    --name TaskWatch \
-                   --app-version ${{ github.ref_name == 'v*' ? github.ref_name : github.ref_name }}
+                   --app-version ${{ replace(github.ref_name, 'v', '') }} \
                    --main-jar TaskWatch.jar \
                    --main-class Main \
                    --icon dist/resources/TaskWatch.ico \
