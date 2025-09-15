@@ -179,7 +179,7 @@ public class FileHandler {
                     }
                 }
             } else {
-                System.err.println("Error: Main directory not found.");
+                System.err.println("Error: app.Main directory not found.");
             }
     }
     public void renameCurrentDirectory(String newName) {

@@ -1,3 +1,5 @@
+package app;
+
 import UserInterface.FRAME_main;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
