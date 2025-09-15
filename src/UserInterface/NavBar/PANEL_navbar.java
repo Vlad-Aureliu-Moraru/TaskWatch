@@ -33,7 +33,7 @@ public class PANEL_navbar extends JPanel {
 
         this.add(currentPATH);
         this.add(statusDisplay);
-        timer = new Timer(2000, _ -> {
+        timer = new Timer(2000, e -> {
             if(clockStage == 0){
                 setClockWorkingStatus();
             } else if (clockStage==1) {

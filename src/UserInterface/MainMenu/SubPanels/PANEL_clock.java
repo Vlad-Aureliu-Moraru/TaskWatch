@@ -50,8 +50,8 @@ public class PANEL_clock extends JPanel {
         this.setBackground(ColorTheme.getMain_color());
         this.setLayout(null);
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        clockTimer = new Timer(clockUpdateInSec*1000, _ -> updateTime());
-        taskTimer = new Timer(taskUpdateInSec*1000, _ -> TimerLogicUpdate());
+        clockTimer = new Timer(clockUpdateInSec*1000, e -> updateTime());
+        taskTimer = new Timer(taskUpdateInSec*1000, e -> TimerLogicUpdate());
 
         timeDisplay.setFont(FontLoader.getTerminalFont().deriveFont(70f));
         timeDisplay.setHorizontalAlignment(JLabel.CENTER);

@@ -133,7 +133,7 @@ public class PANEL_cli extends JPanel {
     }
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        commandField.addActionListener(_ -> {
+        commandField.addActionListener(e -> {
             String command = commandField.getText();
             HandleBasicCommands(command);
             if (!commandFound){
