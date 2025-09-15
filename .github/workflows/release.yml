@@ -20,8 +20,8 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'maven'
-
+        # Removed the "cache: 'maven'" line that was causing the error
+        
     - name: Compile and Package App (Linux)
       run: |
         # Compile all Java files
@@ -35,7 +35,7 @@ jobs:
         /usr/lib/jvm/java-17-temurin/bin/jlink --module-path /usr/lib/jvm/java-17-temurin/jmods --add-modules java.base,java.desktop --output my-runtime
         
         # Package the app into a tar.gz with jpackage, including the icon
-        /usr/lib/jvm/java-17-temurin/bin/jpackage --input . --name "TaskWatch" --main-jar TaskWatch.jar --runtime-image my-runtime --type tar.gz --dest . --icon TaskWatch.png
+        /usr/lib/jvm/java-17-temurin/bin/jpackage --input . --name "TaskWatch" --main-jar TaskWatch.jar --runtime-image my-runtime --type tar.gz --dest . --icon icon.png
 
     - name: Upload .tar.gz Release Asset
       uses: actions/upload-release-asset@v1
@@ -60,7 +60,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'maven'
+        # Removed the "cache: 'maven'" line that was causing the error
 
     - name: Compile and Package App (Windows)
       run: |
@@ -75,7 +75,7 @@ jobs:
         $Env:JAVA_HOME\bin\jlink --module-path $Env:JAVA_HOME\jmods --add-modules java.base,java.desktop --output my-runtime
         
         # Package the app into an exe with jpackage, including the icon
-        $Env:JAVA_HOME\bin\jpackage --input . --name "TaskWatch" --main-jar TaskWatch.jar --runtime-image my-runtime --type exe --icon TaskWatch.ico
+        $Env:JAVA_HOME\bin\jpackage --input . --name "TaskWatch" --main-jar TaskWatch.jar --runtime-image my-runtime --type exe --icon icon.ico
 
     - name: Upload .exe Release Asset
       uses: actions/upload-release-asset@v1
