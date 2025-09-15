@@ -52,7 +52,7 @@ jobs:
         run: javac -d bin src/**/*.java
 
       - name: Create JAR file with fonts
-        run: jar --create --file TaskWatch.jar --main-class Main -C bin . -C src fonts
+        run: jar --create --file TaskWatch.jar --main-class app.Main -C bin . -C src fonts
 
       - name: Verify JAR file
         run: |
@@ -78,7 +78,7 @@ jobs:
                    --name TaskWatch \
                    --app-version ${{ github.ref_name }} \
                    --main-jar TaskWatch.jar \
-                   --main-class Main \
+                   --main-class app.Main \
                    --icon dist/resources/TaskWatch.png \
                    --input dist/resources \
                    --dest dist
@@ -130,7 +130,7 @@ jobs:
         shell: pwsh
 
       - name: Create JAR file with fonts
-        run: jar --create --file TaskWatch.jar --main-class Main -C bin . -C src fonts
+        run: jar --create --file TaskWatch.jar --main-class app.Main -C bin . -C src fonts
         shell: powershell
 
       - name: Verify JAR file
@@ -159,7 +159,7 @@ jobs:
                    --name TaskWatch `
                    --app-version ${{ github.ref_name }} `
                    --main-jar TaskWatch.jar `
-                   --main-class Main `
+                   --main-class app.Main `
                    --icon dist/resources/TaskWatch.ico `
                    --input dist/resources `
                    --dest dist
