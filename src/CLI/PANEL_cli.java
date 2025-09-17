@@ -34,6 +34,7 @@ public class PANEL_cli extends JPanel {
         this.add(commandField);
         commandField.setEditable(true);
         commandField.setOpaque(false);
+        commandField.setBackground(new Color(0, 0, 0, 0));
         commandField.setCaretColor(Color.white);
         setVisible(false);
         commandField.setForeground(ColorTheme.getConsoleTextColor());
