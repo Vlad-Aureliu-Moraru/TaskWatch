@@ -68,7 +68,7 @@ if [ "$USER_CHOICE" = "1" ]; then
   mkdir -p "$DEST_DIR" "$ICON_DIR" "$HOME/.local/share/applications" "$HOME/.local/bin"
   confirm_overwrite "$DEST_DIR"
   rm -rf "$DEST_DIR"
-  cp -r "$SRC_DIR" "$DEST_DIR"
+  cp -r "$APP_IMAGE_DIR" "$DEST_DIR"
   echo "Copied app to $DEST_DIR"
 
 # copy icon to icon theme
@@ -120,7 +120,7 @@ elif [ "$USER_CHOICE" = "2" ]; then
     esac
   fi
 
-  $SUDO cp -r "$SRC_DIR" "$DEST_DIR"
+  $SUDO cp -r "$APP_IMAGE_DIR" "$DEST_DIR"
   echo "Copied app to $DEST_DIR"
 
 # copy icon to system icon theme
