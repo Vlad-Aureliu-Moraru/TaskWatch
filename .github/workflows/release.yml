@@ -92,7 +92,6 @@ jobs:
           mkdir -p dist/install-scripts
           cp installer/install.sh dist/install-scripts/
           cp installer/uninstall.sh dist/install-scripts/
-          cp installer/TaskWatch.desktop dist/install-scripts/
           chmod +x dist/install-scripts/install.sh
           chmod +x dist/install-scripts/uninstall.sh
           ls -l dist/install-scripts
