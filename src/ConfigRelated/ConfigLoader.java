@@ -62,7 +62,7 @@ public final class ConfigLoader {
         }
 
         // Initialize fields from the map, using defaults if a key is missing
-        theme = configMap.getOrDefault("THEME", "config.txt");
+        theme = configMap.getOrDefault("THEME", "default.txt");
         try {
             clockUpdateTime = Integer.parseInt(configMap.getOrDefault("CLOCK_UPDATE_TIME", "5"));
         } catch (NumberFormatException e) {
@@ -76,7 +76,7 @@ public final class ConfigLoader {
         file.getParentFile().mkdirs();
 
         String defaultContent = """
-            THEME:config.txt
+            THEME:default.txt
             CLOCK_UPDATE_TIME:5
             """;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {

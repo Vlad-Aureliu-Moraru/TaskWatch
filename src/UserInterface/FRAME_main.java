@@ -4,6 +4,7 @@ import AppLogic.EventHandler;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.net.URL;
 
 public class FRAME_main extends JFrame {
     private final int HEIGHT= 500;
@@ -13,7 +14,9 @@ public class FRAME_main extends JFrame {
 
 
     public FRAME_main() {
-        this.setTitle("PRODUCTIVITY-APP");
+        this.setTitle("TaskWatch");
+        URL iconURL = getClass().getResource("/fonts/TaskWatch.png");
+        setIconImage(new ImageIcon(iconURL).getImage());
         int WIDTH = 1000;
         this.setSize(WIDTH,HEIGHT);
         this.setVisible(true);
@@ -70,8 +73,8 @@ public class FRAME_main extends JFrame {
         });
     }
     public void updateAllComponents() {
-        int currentWIDTH = this.getSize().width;
-        int currentHEIGHT = this.getSize().height;
+        int currentWIDTH = DPIscale.scale(this.getSize().width);
+        int currentHEIGHT = DPIscale.scale(this.getSize().height);
         int navbarHEIGHT = currentHEIGHT / 10;
         int tasklistWIDTH = (currentWIDTH / 2) - 150;
         if (navbarHEIGHT>50){
