@@ -9,12 +9,13 @@ DESKTOP_FILENAME="taskwatch.desktop"
 USER_CHOICE=""
 
 # helper: absolute path to the app dir (the install script assumes you run it from the archive root)
-SRC_DIR="$(pwd)/${APP_DIR_NAME}"
+# inside install.sh
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+APP_IMAGE_DIR="$SCRIPT_DIR/../TaskWatch"
 
-if [ ! -d "$SRC_DIR" ]; then
-  echo "Error: expected application folder '$APP_DIR_NAME' in current directory."
-  echo "Contents: $(ls -A .)"
-  exit 1
+if [ ! -d "$APP_IMAGE_DIR" ]; then
+    echo "Error: TaskWatch app-image not found in $APP_IMAGE_DIR"
+    exit 1
 fi
 
 echo "Install TaskWatch"

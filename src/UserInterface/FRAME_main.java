@@ -15,8 +15,12 @@ public class FRAME_main extends JFrame {
 
     public FRAME_main() {
         this.setTitle("TaskWatch");
-        URL iconURL = getClass().getResource("/fonts/TaskWatch.png");
-        setIconImage(new ImageIcon(iconURL).getImage());
+        try {
+            URL iconURL = getClass().getResource("/fonts/TaskWatch.png");
+            setIconImage(new ImageIcon(iconURL).getImage());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         int WIDTH = 1000;
         this.setSize(WIDTH,HEIGHT);
         this.setVisible(true);
