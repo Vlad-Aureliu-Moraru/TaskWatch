@@ -54,6 +54,9 @@ jobs:
       - name: Create JAR file with resources
         run: jar --create --file TaskWatch.jar --main-class app.Main -C bin . -C resources .
 
+      - name: List JAR contents
+        run: jar tf TaskWatch.jar | tee jar_contents.txt
+
       - name: Verify JAR file
         run: |
           if [ ! -f TaskWatch.jar ]; then
