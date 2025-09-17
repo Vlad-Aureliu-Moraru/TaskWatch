@@ -49,10 +49,10 @@ jobs:
         run: mkdir -p bin dist/resources
 
       - name: Compile Java code
-        run: javac -d bin src/**/*.java
+        run: javac -d bin $(find src -name "*.java")
 
       - name: Create JAR file with fonts
-        run: jar --create --file TaskWatch.jar --main-class app.Main -C bin . -C src fonts
+        run: jar --create --file TaskWatch.jar --main-class app.Main -C bin . -C src/fonts .
 
       - name: Verify JAR file
         run: |
@@ -66,7 +66,7 @@ jobs:
       - name: Copy JAR and icon to resources
         run: |
           cp TaskWatch.jar dist/resources/
-          cp TaskWatch.png dist/resources/
+          cp lib/TaskWatch.png dist/resources/TaskWatch.png
           ls -l dist/resources/
 
       - name: Clean dist directory
@@ -86,7 +86,20 @@ jobs:
             echo "Error: dist/TaskWatch not found, jpackage likely failed"
             exit 1
           fi
-          tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch
+
+      - name: Add install scripts and desktop file
+        run: |
+          mkdir -p dist/install-scripts
+          cp installer/install.sh dist/install-scripts/
+          cp installer/uninstall.sh dist/install-scripts/
+          cp installer/TaskWatch.desktop dist/install-scripts/
+          chmod +x dist/install-scripts/install.sh
+          chmod +x dist/install-scripts/uninstall.sh
+          ls -l dist/install-scripts
+
+      - name: Package release tarball
+        run: |
+          tar -czf TaskWatch-${{ github.ref_name }}-Linux.tar.gz -C dist TaskWatch install-scripts
           ls -l TaskWatch-${{ github.ref_name }}-Linux.tar.gz
 
       - name: Upload Linux Release Asset
@@ -96,8 +109,7 @@ jobs:
         with:
           files: TaskWatch-${{ github.ref_name }}-Linux.tar.gz
           tag_name: ${{ github.ref_name }}
-          name: TaskWatch v${{ github.ref_name }}
-
+          name: TaskWatch v${{ github.ref_name }} (Linux)
   build-windows:
     name: Build and Package for Windows
     needs: create-release
