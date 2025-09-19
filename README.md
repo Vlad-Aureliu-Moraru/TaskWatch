@@ -30,4 +30,9 @@
    ```bash
    tar -xvzf TaskWatch-<version>-Linux.tar.gz
    cd TaskWatch
-   ./install-scripts/install.sh
+   ./install-scripts/install.sh/
+
+### Windows 
+1. Download the latest **Exe** from [Releases](https://github.com/Vlad-Aureliu-Moraru/TaskWatch/releases).  
+
+
