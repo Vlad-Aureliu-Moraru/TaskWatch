@@ -19,8 +19,7 @@ import java.util.regex.Pattern;
 public final class ThemeLoader {
 
     // Regex patterns for parsing color values from the file
-    private static final Pattern RGB_PATTERN = Pattern.compile("\\s*\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)");
-    private static final Pattern HEX_PATTERN = Pattern.compile("\\s*\\(0x([0-9a-fA-F]+)\\)");
+    private static final Pattern RGB_PATTERN = Pattern.compile("rgb\\s*\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)");
 
     // The in-memory storage for color values
     private static final Map<String, Color> colorMap = new HashMap<>();
@@ -29,43 +28,44 @@ public final class ThemeLoader {
     private static String currentThemeFile;
     private static final String CONFIG_DIR = "config/";
 
-    // Default theme content for creating new files
     private static final String DEFAULT_THEME_CONTENT = """
-        main_color=(57, 50, 50);
-        secondary_color=(77, 69, 69);
-        first_accent=(141, 98, 98);
-        secnd_accent=(237, 141, 141);
-        secondary_green=(53, 155, 112);
-        accent_green=(33, 50, 73);
-        dirColor=(55, 56, 103);
-        dirHoverColor=(36, 37, 72);
-        taskColor=(57, 50, 50);
-        taskHoverColor=(33, 30, 30);
-        taskTextColor=(255, 255, 255);
-        noteColor=(211, 164, 89);
-        pausedTimerColor=(0xFFFFFF);
-        urgency1=(156, 246, 213);
-        urgency2=(116, 215, 129);
-        urgency3=(255, 242, 0);
-        urgency4=(255, 106, 0);
-        urgency5=(255, 0, 0);
-        urgency1List=(141, 215, 188);
-        urgency2List=(88, 171, 101);
-        urgency3List=(190, 185, 64);
-        urgency4List=(192, 107, 46);
-        urgency5List=(192, 76, 76);
-        difficulty1=(156, 246, 213);
-        difficulty2=(116, 215, 129);
-        difficulty3=(255, 242, 0);
-        difficulty4=(255, 106, 0);
-        difficulty5=(255, 0, 0);
-        TaskCompletedIconColor=(4, 189, 255);
-        TaskUrgentIconColor=(255, 4, 79);
-        TaskUrgentPassed=(162, 161, 171);
-        consoleColor=(82, 94, 84);
-        consoleTextColor=(222, 222, 222);
-        timerOnBreakColor=(75, 111, 122);
-        timerOnPrepColor=(8, 76, 34);
+        {
+        --main_color: rgb(57, 50, 50);
+        --secondary_color: rgb(77, 69, 69);
+        --first_accent: rgb(141, 98, 98);
+        --secnd_accent: rgb(237, 141, 141);
+        --secondary_green: rgb(53, 155, 112);
+        --accent_green: rgb(33, 50, 73);
+        --dirColor: rgb(55, 56, 103);
+        --dirHoverColor: rgb(36, 37, 72);
+        --taskColor: rgb(57, 50, 50);
+        --taskHoverColor: rgb(33, 30, 30);
+        --taskTextColor: rgb(255, 255, 255);
+        --noteColor: rgb(211, 164, 89);
+        --pausedTimerColor: rgb(255,255,255);
+        --urgency1: rgb(156, 246, 213);
+        --urgency2: rgb(116, 215, 129);
+        --urgency3: rgb(255, 242, 0);
+        --urgency4: rgb(255, 106, 0);
+        --urgency5: rgb(255, 0, 0);
+        --urgency1List: rgb(141, 215, 188);
+        --urgency2List: rgb(88, 171, 101);
+        --urgency3List: rgb(190, 185, 64);
+        --urgency4List: rgb(192, 107, 46);
+        --urgency5List: rgb(192, 76, 76);
+        --difficulty1: rgb(156, 246, 213);
+        --difficulty2: rgb(116, 215, 129);
+        --difficulty3: rgb(255, 242, 0);
+        --difficulty4: rgb(255, 106, 0);
+        --difficulty5: rgb(255, 0, 0);
+        --TaskCompletedIconColor: rgb(4, 189, 255);
+        --TaskUrgentIconColor: rgb(255, 4, 79);
+        --TaskUrgentPassed: rgb(162, 161, 171);
+        --consoleColor: rgb(82, 94, 84);
+        --consoleTextColor: rgb(222, 222, 222);
+        --timerOnBreakColor: rgb(75, 111, 122);
+        --timerOnPrepColor: rgb(8, 76, 34);
+        }
         """;
 
     // Static initializer block to load the theme on class access
@@ -96,12 +96,12 @@ public final class ThemeLoader {
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
-                if (line.isEmpty() || line.startsWith("#") || !line.contains("=")) {
+                if (line.isEmpty() || line.startsWith("#") || !line.contains(":") || line.startsWith("{") || line.startsWith("}")) {
                     continue;
                 }
 
-                String[] parts = line.split("=", 2);
-                String key = parts[0].trim();
+                String[] parts = line.split(":", 2);
+                String key = parts[0].trim().substring(2);
                 String value = parts[1].trim().replaceAll(";", "");
 
                 Color color = parseColor(value);
@@ -124,9 +124,10 @@ public final class ThemeLoader {
      */
     public static Color parseColor(String value) {
         value = value.replaceAll("\\s", "");
-
-        Matcher rgbMatcher = RGB_PATTERN.matcher(value);
+        System.out.println(value);
+        Matcher rgbMatcher =RGB_PATTERN.matcher(value);
         if (rgbMatcher.matches()) {
+            System.out.println("matched");
             try {
                 int r = Integer.parseInt(rgbMatcher.group(1));
                 int g = Integer.parseInt(rgbMatcher.group(2));
@@ -136,15 +137,7 @@ public final class ThemeLoader {
                 return null;
             }
         }
-        Matcher hexMatcher = HEX_PATTERN.matcher(value);
-        if (hexMatcher.matches()) {
-            try {
-                return new Color(Integer.parseInt(hexMatcher.group(1), 16));
-            } catch (NumberFormatException e) {
-                return null;
-            }
-        }
-        return null;
+    return null;
     }
 
     /**
@@ -197,9 +190,10 @@ public final class ThemeLoader {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Map.Entry<String, Color> entry : colorMap.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
                 Color color = entry.getValue();
                 // Write colors back in a consistent RGB format
-                String line = String.format("%s=(%d, %d, %d);", entry.getKey(), color.getRed(), color.getGreen(), color.getBlue());
+                String line = String.format("--%s:rgb(%d, %d, %d);", entry.getKey(), color.getRed(), color.getGreen(), color.getBlue());
                 writer.write(line);
                 writer.newLine();
             }
@@ -261,7 +255,9 @@ public final class ThemeLoader {
     public static Color getTimerOnPrepColor() { return colorMap.get("timerOnPrepColor"); }
 
     // All Setters for the theme colors
-    public static void setMainColor(Color color) { colorMap.put("main_color", color); saveThemeFile(); }
+    public static void setMainColor(Color color) { colorMap.put("main_color", color);
+        System.out.println("gotten " + color);
+        saveThemeFile(); }
     public static void setSecondaryColor(Color color) { colorMap.put("secondary_color", color); saveThemeFile(); }
     public static void setFirstAccent(Color color) { colorMap.put("first_accent", color); saveThemeFile(); }
     public static void setSecndAccent(Color color) { colorMap.put("secnd_accent", color); saveThemeFile(); }

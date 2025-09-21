@@ -77,8 +77,8 @@ public class FRAME_main extends JFrame {
         });
     }
     public void updateAllComponents() {
-        int currentWIDTH = DPIscale.scale(this.getSize().width);
-        int currentHEIGHT = DPIscale.scale(this.getSize().height);
+        int currentWIDTH = this.getSize().width;
+        int currentHEIGHT =this.getSize().height;
         int navbarHEIGHT = currentHEIGHT / 10;
         int tasklistWIDTH = (currentWIDTH / 2) - 150;
         if (navbarHEIGHT>50){

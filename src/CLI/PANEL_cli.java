@@ -11,8 +11,11 @@ import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class PANEL_cli extends JPanel {
     private final JTextField commandField= new JTextField();
@@ -198,6 +201,7 @@ public class PANEL_cli extends JPanel {
             if (eventHandler.getPanelList().getStage()==1) {
                 eventHandler.getFileHandler().removeDirectoryFromFiles();
                 eventHandler.getPanelnavbar().returnFunction(true);
+                eventHandler.resetCurrentDirectory();
                 eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
                 activate();
             }else if (eventHandler.getPanelList().getStage()==2 && !eventHandler.getPanelList().isNoteSelected()) {
@@ -425,16 +429,32 @@ public class PANEL_cli extends JPanel {
             }
         }
         else if ((command.matches(commandHelper.getTaskCompletionDateRegEx())) && stage == 2) {
-            String value=  command.substring(command.indexOf(":")+1);
+            String value = command.substring(command.indexOf(":") + 1).trim();
+            LocalDate now = LocalDate.now();
+
             if (!value.isEmpty()) {
-                if (!editing) {
-                    addedTask.setDeadline(command.substring(command.indexOf(":") + 1));
-                } else {
-                    eventHandler.getCurrentTask().setDeadline(command.substring(command.indexOf(":") + 1));
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate inputDate = LocalDate.parse(value, formatter);
+                    if (inputDate.isBefore(now)) {
+                        eventHandler.getPanelnavbar().displayTempMessage("DATE CAN'T BE IN PAST",true);
+                    } else {
+                        if (!editing) {
+                            addedTask.setDeadline(value);
+                        } else {
+                            eventHandler.getCurrentTask().setDeadline(value);
+                        }
+                        step++;
+                        loadTaskInput(step, editing);
+                    }
+                } catch (DateTimeParseException e) {
+                    eventHandler.getPanelnavbar().displayTempMessage("INVALID FORMAT dd/MM/yyyy",true);
+                    System.out.println("Error: The date format is invalid. Please use dd/MM/yyyy.");
                 }
+            }else{
+                step++;
+                loadTaskInput(step, editing);
             }
-            step++;
-            loadTaskInput(step,editing);
         }
         else if (command.matches(commandHelper.getTaskCompletionTimeRegEx()) && stage == 2) {
             String  value=  command.substring(command.indexOf(":")+1);
@@ -526,177 +546,177 @@ public class PANEL_cli extends JPanel {
         commandFound=true;
         if (command.matches(commandHelper.getSetMainColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setMainColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetSecondaryColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setSecondaryColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetFirstAccentCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setFirstAccent(color);
             activate();
         } else if (command.matches(commandHelper.getSetSecndAccentCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setSecndAccent(color);
             activate();
         } else if (command.matches(commandHelper.getSetSecondaryGreenCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setSecondaryGreen(color);
             activate();
         } else if (command.matches(commandHelper.getSetAccentGreenCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setAccentGreen(color);
             activate();
         } else if (command.matches(commandHelper.getSetDirColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDirColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetDirHoverColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDirHoverColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTaskColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTaskColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTaskHoverColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTaskHoverColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTaskTextColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTaskTextColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetNoteColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setNoteColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetPausedTimerCommand())) {
-            String colorNumbersForHex = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForHex);
+            String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
+            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
             ThemeLoader.setPausedTimerColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency1Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency1(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency2Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency2(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency3Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency3(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency4Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency4(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency5Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency5(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency1ListCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency1List(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency2ListCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency2List(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency3ListCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+"rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency3List(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency4ListCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency4List(color);
             activate();
         } else if (command.matches(commandHelper.getSetUrgency5ListCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setUrgency5List(color);
             activate();
         } else if (command.matches(commandHelper.getSetDifficulty1Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDifficulty1(color);
             activate();
         } else if (command.matches(commandHelper.getSetDifficulty2Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDifficulty2(color);
             activate();
         } else if (command.matches(commandHelper.getSetDifficulty3Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDifficulty3(color);
             activate();
         } else if (command.matches(commandHelper.getSetDifficulty4Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDifficulty4(color);
             activate();
         } else if (command.matches(commandHelper.getSetDifficulty5Command())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setDifficulty5(color);
             activate();
         } else if (command.matches(commandHelper.getSetTaskCompletedIconColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTaskCompletedIconColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTaskUrgentIconColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTaskUrgentIconColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTaskUrgentPassedCommand())) {
-            String colorNumbersForRGBA = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGBA);
+            String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTaskUrgentPassed(color);
             activate();
         } else if (command.matches(commandHelper.getSetConsoleColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setConsoleColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetConsoleTextColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setConsoleTextColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTimerOnBreakColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTimerOnBreakColor(color);
             activate();
         } else if (command.matches(commandHelper.getSetTimerOnPrepColorCommand())) {
             String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")")+1);
-            Color color = ThemeLoader.parseColor(colorNumbersForRGB);
+            Color color = ThemeLoader.parseColor("rgb"+colorNumbersForRGB);
             ThemeLoader.setTimerOnPrepColor(color);
             activate();
         } else {
