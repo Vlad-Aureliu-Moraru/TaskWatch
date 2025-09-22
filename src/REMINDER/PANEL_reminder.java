@@ -41,10 +41,10 @@ public class PANEL_reminder extends JPanel {
                 if (!task.isFinished() && !task.getDeadline().equals("none")){
                     LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
                     if (taskDeadline.isEqual(today)){
-                        panel_todaylist.addItem(task);
+                        panel_todaylist.addItem(dir,task);
                     } else if
                     (taskDeadline.isAfter(today) && taskDeadline.isBefore(today.plusWeeks(1))) {
-                        panel_thisweek.addItem(task);
+                        panel_thisweek.addItem(dir,task);
                     }
                 }
             }

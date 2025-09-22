@@ -26,9 +26,11 @@ public class PANEL_clock extends JPanel {
     private final DateTimeFormatter dtf ;
     private final Timer clockTimer;
     private final Timer taskTimer;
+
+
     private final JLabel timeDisplay = new JLabel() ;
-    private int totalSeconds = 1;
-    private int originalSeconds = 1;
+    private int totalSeconds = 0;
+    private int originalSeconds = 0;
 
     private final int clockUpdateInSec = ConfigLoader.getClockUpdateTime();
     private int taskUpdateInSec = 1;
@@ -36,7 +38,7 @@ public class PANEL_clock extends JPanel {
     private int workingSeconds = 1;
     private int breakSeconds = 1;
 
-    private ArrayList<Integer> schedule;
+    private ArrayList<Integer> schedule = new ArrayList<>();
     private int CurrentSchedule;
     private int CurrentScheduleIndex = 0;
 
@@ -62,6 +64,7 @@ public class PANEL_clock extends JPanel {
     }
     public void TimerLogicUpdate(){
         CurrentSchedule-=taskUpdateInSec;
+        totalSeconds-=taskUpdateInSec;
         updateTimeForTaskTimer();
         if(CurrentSchedule<=0){
             System.out.println(CurrentScheduleIndex);
@@ -111,9 +114,11 @@ public class PANEL_clock extends JPanel {
         timeDisplay.setText(time);
     }
     public void activate(){
-        if (taskTimer.isRunning()){
+        if (taskTimer.isRunning() || totalSeconds!=0){
+            System.out.println("Clock Timer Stopped");
             clockTimer.stop();
         }else{
+            System.out.println("Clock Timer works");
             clockTimer.start();
         }
         this.setVisible(true);
@@ -138,6 +143,7 @@ public class PANEL_clock extends JPanel {
         totalSeconds = minutes*60;
         originalSeconds = totalSeconds;
         CurrentSchedule = totalSeconds;
+        schedule.add(CurrentSchedule);
         clockTimer.stop();
         eventHandler.getPanelnavbar().setTimerWorkingStatus();
         if (taskTimer != null && taskTimer.isRunning()) {
@@ -175,16 +181,23 @@ public class PANEL_clock extends JPanel {
     }
     public void stopTaskTimerandStartClockTimer(){
         taskTimer.stop();
+        totalSeconds = 0;
+        originalSeconds = 0;
+        currentTask = null;
+        schedule = new ArrayList<>();
         startClockTimer();
     }
     public void pauseOrunpauseTaskTimer(){
         if (taskTimer.isRunning()){
+            System.out.println("pausing");
             eventHandler.getPanelnavbar().setTimerPausedStatus();
             taskTimer.stop();
-        }else {
+        }else if (totalSeconds!=0)  {
+            System.out.println("unpausing");
             taskTimer.start();
             eventHandler.getPanelnavbar().setTimerWorkingStatus();
         }
+        System.out.println(totalSeconds + " " +  currentTask + " " + schedule );
     }
     public void resetTimer(){
         totalSeconds = originalSeconds;

@@ -1,5 +1,6 @@
 package REMINDER;
 
+import AppLogic.Directory;
 import AppLogic.Task;
 import UserInterface.ColorTheme;
 
@@ -42,8 +43,8 @@ public class PANEL_thisweek extends JScrollPane{
         panel.setBorder(compoundBorder);
         panel.add(today);
     }
-    public void addItem(Task task){
-        PANEL_item panelitem = new PANEL_item(task);
+    public void addItem(Directory directory, Task task){
+        PANEL_item panelitem = new PANEL_item(directory,task);
         if (!items.contains(panelitem)){
             items.add(panelitem);
         }

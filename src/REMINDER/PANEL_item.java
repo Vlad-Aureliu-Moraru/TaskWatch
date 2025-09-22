@@ -1,5 +1,6 @@
 package REMINDER;
 
+import AppLogic.Directory;
 import AppLogic.FontLoader;
 import AppLogic.Task;
 import UserInterface.ColorTheme;
@@ -9,13 +10,14 @@ import java.awt.*;
 
 public class PANEL_item extends JPanel {
 private Task currentTask;
+private Directory directory;
 private Color backgroundColor;
 private JLabel titleLabel =  new JLabel();
 
-public  PANEL_item(Task task){
+public  PANEL_item(Directory directory,Task task){
     this.currentTask = task;
     this.setLayout(null);
-    titleLabel.setText(task.getName());
+    titleLabel.setText(directory.getName()+"/"+task.getName());
     titleLabel.setVerticalAlignment(JLabel.CENTER);
     titleLabel.setHorizontalAlignment(JLabel.CENTER);
     titleLabel.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 15));
