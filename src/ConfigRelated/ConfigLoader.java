@@ -76,7 +76,7 @@ public final class ConfigLoader {
         file.getParentFile().mkdirs();
 
         String defaultContent = """
-            THEME:default.txt
+            THEME:default.css
             CLOCK_UPDATE_TIME:5
             """;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
