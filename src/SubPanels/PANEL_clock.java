@@ -47,6 +47,10 @@ public class PANEL_clock extends JPanel {
 
     private EventHandler eventHandler;
 
+    private final JLabel  scheduleIndex = new JLabel("") ;
+    private final JLabel  taskInfo = new JLabel("") ;
+    private final JLabel  scheduleInfo = new JLabel("") ;
+
 
     public PANEL_clock() {
         this.setBackground(ColorTheme.getMain_color());
@@ -60,10 +64,20 @@ public class PANEL_clock extends JPanel {
         timeDisplay.setVerticalAlignment(JLabel.CENTER);
         timeDisplay.setForeground(ColorTheme.getSecnd_accent());
         this.add(timeDisplay);
+        scheduleIndex.setBounds(0,0, 80, 20);
+        scheduleIndex.setForeground(ColorTheme.getSecnd_accent());
+        this.add(scheduleIndex);
+        taskInfo.setBounds(40,0, 80, 20);
+        taskInfo.setForeground(ColorTheme.getSecnd_accent());
+        this.add(taskInfo);
+        scheduleInfo.setBounds(0,15, 280, 20);
+        scheduleInfo.setForeground(ColorTheme.getSecnd_accent());
+        this.add(scheduleInfo);
 
     }
     public void TimerLogicUpdate(){
         CurrentSchedule-=taskUpdateInSec;
+        scheduleIndex.setText(""+CurrentScheduleIndex+"/"+schedule.size());
         totalSeconds-=taskUpdateInSec;
         updateTimeForTaskTimer();
         if(CurrentSchedule<=0){
@@ -155,12 +169,14 @@ public class PANEL_clock extends JPanel {
         updateTimeForTaskTimer();
     }
     public void startTaskTimer(Task currentTask, Directory directory){
+        taskInfo.setText(directory.getName()+"/"+currentTask.getName());
         this.currentTask = currentTask;
         this.directory = directory;
 
         clockTimer.stop();
         eventHandler.getPanelnavbar().setTimerWorkingStatus();
         findPOMOValues(currentTask);
+        scheduleIndex.setText(""+CurrentScheduleIndex+"/"+schedule.size());
         eventHandler.getPanelnavbar().setPreparingStatus();
         timeDisplay.setForeground(ColorTheme.getTimerOnPrepColor());
         CurrentSchedule = schedule.get(CurrentScheduleIndex);
@@ -181,6 +197,9 @@ public class PANEL_clock extends JPanel {
     }
     public void stopTaskTimerandStartClockTimer(){
         taskTimer.stop();
+        scheduleIndex.setText("");
+        scheduleInfo.setText("");
+        taskInfo.setText("");
         totalSeconds = 0;
         originalSeconds = 0;
         currentTask = null;
@@ -234,14 +253,13 @@ public class PANEL_clock extends JPanel {
         displayAllocation();
     }
     public void displayAllocation() {
-        double workMinutes = workingSeconds/ 60.0;
-        double breakMinutes = breakSeconds/ 60.0;
+        int workMinutes = workingSeconds/ 60;
+        int breakMinutes = breakSeconds/ 60;
+        scheduleInfo.setText("work/break :"+workMinutes+"min /"+breakMinutes+"min");
 
         System.out.println("--- Time Allocation Plan ---");
         System.out.println(".................................");
         System.out.println("Resulting Time Allocation:");
-        System.out.printf("   - Total Productive Time: %.1f minutes \n", workMinutes);
-        System.out.printf("   - Total Break Time: %.1f minutes \n", breakMinutes);
         System.out.println("---------------------------------");
         for (int val : schedule){
             System.out.println(val);
