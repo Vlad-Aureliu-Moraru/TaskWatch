@@ -3,6 +3,7 @@ package UserInterface;
 import AppLogic.EventHandler;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
 
@@ -26,7 +27,7 @@ public class FRAME_main extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setLayout(null);
+        this.setLayout(new BorderLayout());
         this.requestFocus();
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(KeyStroke.getKeyStroke(':'),"cliOpen");
@@ -65,8 +66,8 @@ public class FRAME_main extends JFrame {
         updateAllComponents();
 
 
-        this.add(mainmenu);
-        this.add(navbar);
+        this.add(mainmenu,BorderLayout.WEST);
+        this.add(navbar, BorderLayout.NORTH);
         this.add(tasklist);
         eventHandler.getFileHandler().checkFileStructure();
         this.addComponentListener(new ComponentAdapter() {
@@ -89,13 +90,15 @@ public class FRAME_main extends JFrame {
         if (navbarHEIGHT<50){
             navbarHEIGHT = 50;
         }
-        navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
+//        navbar.setBounds(0, 0, currentWIDTH, navbarHEIGHT);
+        navbar.setPreferredSize(new Dimension(currentWIDTH,navbarHEIGHT));
         navbar.setHEIGHTandWIDTH(currentWIDTH);
 
-        mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
+//        mainmenu.setBounds(0, navbarHEIGHT, currentWIDTH - tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
+        mainmenu.setPreferredSize(new Dimension(currentWIDTH-tasklistWIDTH,currentHEIGHT));
         mainmenu.setHEIGHTandWIDTH(currentWIDTH-tasklistWIDTH,currentHEIGHT-navbarHEIGHT);
 
-        tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
+//        tasklist.setBounds(currentWIDTH - tasklistWIDTH, navbarHEIGHT, tasklistWIDTH, currentHEIGHT - navbarHEIGHT);
         tasklist.setHEIGHTandWIDTH(tasklistWIDTH,HEIGHT-navbarHEIGHT);
 
         this.revalidate();
