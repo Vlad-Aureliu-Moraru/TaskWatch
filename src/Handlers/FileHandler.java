@@ -1,21 +1,33 @@
-package AppLogic;
+package Handlers;
+
+import AppLogic.Archive;
+import AppLogic.Directory;
+import AppLogic.Note;
+import AppLogic.Task;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileHandler {
+    private ArrayList<Archive> archiveList;
     private ArrayList<Directory> directoryList ;
+    private Archive currentArchive;
     private Directory currentDirectory;
     private Task currentTask;
     private Note currentNote;
 
     public FileHandler(EventHandler eventHandler) {
         this.directoryList = eventHandler.getDirectoryList();
+        archiveList = eventHandler.getArchiveList();
         this.currentDirectory = eventHandler.getCurrentDirectory();
     }
 
+    public void setCurrentArchive(Archive currentArchive) {
+        this.currentArchive = currentArchive;
+    }
     public void setCurrentDirectory(Directory currentDirectory) {
         this.currentDirectory = currentDirectory;
     }
@@ -25,6 +37,7 @@ public class FileHandler {
     public void setCurrentNote(Note currentNote) {
         this.currentNote = currentNote;
     }
+
     public void checkFileStructure() {
         File mainDir = new File("main");
         if (!mainDir.exists()) {
@@ -58,6 +71,91 @@ public class FileHandler {
             System.out.println("File 'main.txt' already exists.");
         }
     }
+    //?Archive
+    public void saveArchiveListToFile(){
+        File mainFile = new File("main/main.txt");
+
+        System.out.println("Saving Archive list to main.txt...");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile))) {
+            for (Archive archive:archiveList) {
+                writer.write(archive+"");
+
+            }
+            System.out.println("Directory list successfully saved to main.txt.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public void getArchiveListFromFile() {
+        archiveList.clear();
+        File mainFile = new File("main/main.txt");
+
+        if (!mainFile.exists()) {
+            System.err.println("Error: 'main.txt' file not found.");
+            return;
+        }
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        // Check if stackTrace has enough elements to avoid ArrayIndexOutOfBoundsException
+        String callerClassName = (stackTrace.length > 2) ? stackTrace[2].getClassName() : "UnknownCaller";
+        System.out.println("get Archive list called by : " + callerClassName);
+
+        // Regex pattern to extract name and directories list: {name:group1;dirs:[group2]}
+        // group1 captures the archive name
+        // group2 captures the comma-separated directory names
+        // The \n is optional because you might read it from the file without it.
+        final String ARCHIVE_PATTERN = "\\{name:([^;]+);dirs:\\[([^\\]]*)\\]\\}\\n?";
+        Pattern pattern = Pattern.compile(ARCHIVE_PATTERN);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(mainFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String archivesLine = line.trim();
+                if (archivesLine.isEmpty()) {
+                    continue;
+                }
+                String[] archvs = archivesLine.split("(?<=])\\s*;\\s*(?=\\{)"); // Splits on ';' that is between ']' and '{', with optional whitespace
+                if (archvs.length == 0 && !archivesLine.isEmpty()) {
+                    archvs = new String[]{archivesLine};
+                }
+                for (String archvString : archvs) {
+                    Archive newArchive = new Archive("test");
+                    if (archvString.trim().isEmpty()) {
+                        continue;
+                    }
+                    Matcher matcher = pattern.matcher(archvString);
+                    if (matcher.matches()) {
+                        String archiveName = matcher.group(1);
+                        String directoriesStr = matcher.group(2);
+                        ArrayList<Directory> directories = new ArrayList<>();
+                        if (!directoriesStr.isEmpty()) {
+                            String[] dirNames = directoriesStr.split(",");
+                            for (String dirName : dirNames) {
+                                if (!dirName.trim().isEmpty()) {
+                                    directories.add(new Directory(dirName.trim(),newArchive));
+                                }
+                            }
+                        }
+
+                        newArchive.setArchiveName(archiveName);
+                        newArchive.setDirectories(directories);
+                        archiveList.add(newArchive);
+                    } else {
+                        System.err.println("Warning: Skipping malformed archive entry: " + archvString);
+                    }
+                }
+            }
+            System.out.println("Archive list loaded successfully from file. Total archives: " + archiveList.size());
+
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public void removeArchiveListFromFile(){}
+    public void renameDirectoryFromFile(){}
 
     //?DIR
     public void saveDirectoryListToFile() {
@@ -98,7 +196,7 @@ public class FileHandler {
                     String[] dirs = line.split(";");
                     for (String dir : dirs) {
                         if (!dir.trim().isEmpty()) {
-                            directoryList.add(new Directory(dir.trim()));
+                            directoryList.add(new Directory(dir.trim(),new Archive("test")));
                         }
                     }
                 }
@@ -183,37 +281,58 @@ public class FileHandler {
             }
     }
     public void renameCurrentDirectory(String newName) {
-        String  oldName= currentDirectory.getName();
+        String oldDirName = currentDirectory.getName();
+        String archiveName = currentArchive.getArchiveName();
+
         File directory = new File("main");
 
-            // Check if the directory exists and is actually a directory
-            if (!directory.exists() || !directory.isDirectory()) {
-                System.err.println("Error: The provided path is not a valid directory.");
-                return;
-            }
+        if (!directory.exists() || !directory.isDirectory()) {
+            System.err.println("Error: The provided path is not a valid directory.");
+            return;
+        }
 
-            // Get all files and subdirectories in the directory
-            File[] files = directory.listFiles();
-            if (files == null) {
-                System.err.println("Error: Could not list files in the directory.");
-                return;
-            }
+        File[] files = directory.listFiles();
+        if (files == null) {
+            System.err.println("Error: Could not list files in the directory.");
+            return;
+        }
 
-            // Iterate through each file and rename it if its name contains the oldName
-            for (File file : files) {
-                String fileName = file.getName();
-                if (fileName.equals(oldName+".txt")) {
-                    String newFileName = fileName.replace(oldName, newName);
-                    File newFile = new File(directory, newFileName);
+        String oldTaskFileNamePrefix = archiveName + "-" + oldDirName;
 
-                    if (file.renameTo(newFile)) {
-                        System.out.println("Renamed: " + fileName + " -> " + newFileName);
-                    } else {
-                        System.err.println("Failed to rename: " + fileName);
-                    }
-                }else if (fileName.matches(oldName+"-.*.txt")){
-                    String savingPart = fileName.substring(oldName.length()+1);
-                    String newFileName = newName+"-"+savingPart;
+        System.out.println(archiveName + "-" + oldTaskFileNamePrefix);
+        String oldDirPatternToReplace = "-" + oldDirName;
+
+        String newDirPatternReplacement = "-" + newName;
+
+
+        // 4. Iterate and Rename
+        for (File file : files) {
+            String fileName = file.getName();
+
+            if (fileName.startsWith(oldTaskFileNamePrefix + "-") || fileName.equals(oldTaskFileNamePrefix + ".txt")) {
+
+                // Construct the new file name by replacing the old directory name pattern
+                // Example: "ArchiveA-OldDir-Task1.txt" -> Replace "-OldDir" with "-NewDir"
+                String newFileName;
+
+                // Use the replacement pattern: [archiveName]-[oldDirName] becomes [archiveName]-[newName]
+                // We use replaceFirst to ensure we only target the first occurrence which is the directory name part
+                if (fileName.split("-").length > 1) {
+                    newFileName = archiveName + newDirPatternReplacement+".txt";
+                    System.out.println(newFileName+"new File name");
+                }else{
+                    newFileName = archiveName + newDirPatternReplacement+fileName.split("-")[1];
+                    System.out.println(newFileName+"  ---  new File name");
+                }
+
+                // A simpler, less robust, but functional approach is:
+                // String targetPattern = archiveName + "-" + oldDirName;
+                // String replacementPattern = archiveName + "-" + newName;
+                // newFileName = fileName.replaceFirst(Pattern.quote(targetPattern), Pattern.quote(replacementPattern));
+
+
+                // Verify a change actually occurred (since we rely on matches or startsWith)
+                if (!fileName.equals(newFileName)) {
                     File newFile = new File(directory, newFileName);
 
                     if (file.renameTo(newFile)) {
@@ -223,15 +342,24 @@ public class FileHandler {
                     }
                 }
             }
+        }
+
+        // 5. Update the Directory object name in memory
+        currentDirectory.setName(newName);
+
+        // 6. Save the in-memory changes (Archives, Directories, etc.)
+        // Assuming you have a file handler method to save the updated structure
+        saveArchiveListToFile();
     }
 
+    //?TASK
     public void saveTaskToFile() {
         if (currentDirectory == null) {
             System.err.println("Error: No current directory selected.");
             return;
         }
 
-        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        String fileName = "main" + File.separator + currentArchive.getArchiveName()+"-"+currentDirectory.getName() + ".txt";
         File taskFile = new File(fileName);
 
         System.out.println("Saving tasks for directory '" + currentDirectory.getName() + "' to " + fileName + "...");
@@ -452,7 +580,7 @@ public class FileHandler {
             return;
         }
 
-        String fileName = "main" + File.separator + currentDirectory.getName() + ".txt";
+        String fileName = "main" + File.separator +currentDirectory.getOwnArchive().getArchiveName()+"-"+currentDirectory.getName() + ".txt";
         File taskFile = new File(fileName);
 
         System.out.println("Saving tasks for directory '" + currentDirectory.getName() + "' to " + fileName + "...");
@@ -554,7 +682,7 @@ public class FileHandler {
             return;
         }
 
-        String fileName = "main" + File.separator +currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".txt";
+        String fileName = "main" + File.separator +currentArchive.getArchiveName()+"-"+currentDirectory.getName()+"-"+currentTask.getName().replaceAll(" ","_") + ".txt";
         File taskFile = new File(fileName);
 
         System.out.println("Saving tasks for directory '" +currentDirectory.getName()+"/"+currentTask.getName().replaceAll(" ","_") + "' to " + fileName + "...");

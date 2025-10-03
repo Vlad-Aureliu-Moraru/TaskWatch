@@ -1,5 +1,9 @@
-package AppLogic;
+package Handlers;
 
+import AppLogic.Archive;
+import AppLogic.Directory;
+import AppLogic.Note;
+import AppLogic.Task;
 import UserInterface.FRAME_main;
 import UserInterface.PANEL_mainmenu;
 import UserInterface.PANEL_navbar;
@@ -17,6 +21,9 @@ public class EventHandler {
     private final FileHandler fileHandler ;
 
     private final ArrayList<Directory> directoryList = new ArrayList<>();
+    private final ArrayList<Archive> archiveList = new ArrayList<>();
+
+    private Archive currentArchive;
     private Directory currentDirectory;
     private Task currentTask;
     private Note currentNote;
@@ -27,6 +34,7 @@ public class EventHandler {
     }
     public void loadEverythingInMemory(){
         fileHandler.getDirectoryListFromFile();
+        fileHandler.getArchiveListFromFile();
         for(Directory directory : directoryList){
             fileHandler.getTaskListFromFile(directory);
         }
@@ -155,6 +163,17 @@ public class EventHandler {
 
     public void setMainFrame(FRAME_main mainFrame) {
         this.mainFrame = mainFrame;
+    }
+
+    public Archive getCurrentArchive() {
+        return currentArchive;
+    }
+    public void setCurrentArchive(Archive currentArchive) {
+        this.currentArchive = currentArchive;
+    }
+
+    public ArrayList<Archive> getArchiveList() {
+        return archiveList;
     }
 
     public FRAME_main getMainFrame() {

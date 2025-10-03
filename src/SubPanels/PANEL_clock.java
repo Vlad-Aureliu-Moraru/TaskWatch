@@ -2,10 +2,11 @@ package SubPanels;
 
 import ConfigRelated.ConfigLoader;
 import AppLogic.Directory;
-import AppLogic.EventHandler;
-import AppLogic.FontLoader;
+import Handlers.EventHandler;
+import ConfigRelated.FontLoader;
 import AppLogic.Task;
 import ConfigRelated.ThemeLoader;
+import UserInterface.PanelListElements.ListStages;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
@@ -92,7 +93,7 @@ public class PANEL_clock extends JPanel {
                 eventHandler.updateDeadlineForRepeatableTasks(currentTask);
                 eventHandler.getFileHandler().saveTaskToFile(directory);
                 eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
-                if (eventHandler.getPanelList().getStage()== 1 ){
+                if (eventHandler.getPanelList().getStage()== ListStages.DIRECTORY_MENU ){
                     eventHandler.getPanelList().loadCurrentTasks();
                 }
             }

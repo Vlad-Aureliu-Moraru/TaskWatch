@@ -1,12 +1,11 @@
 package UserInterface;
 
+import AppLogic.Archive;
 import AppLogic.Directory;
-import AppLogic.EventHandler;
+import Handlers.EventHandler;
 import AppLogic.Task;
 import ConfigRelated.ThemeLoader;
-import SubElements.PANEL_dir;
-import SubElements.PANEL_note;
-import SubElements.PANEL_task;
+import UserInterface.PanelListElements.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +19,7 @@ public class PANEL_list extends JScrollPane {
     private int WIDTH;
     private final int GAP = 20;
     private final int MARGIN = 10;
-    private int stage = -1 ;//? 0 - mainmenu | 1 - dirmenu | 2 - taskmenu | 3 - noteclicked ;
+    private ListStages listStages = ListStages.MAIN_MENU;
     private boolean noteSelected = false;
     private boolean showingFinished = false;
 
@@ -51,18 +50,38 @@ public class PANEL_list extends JScrollPane {
     public void setHEIGHTandWIDTH(int width,int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
-        if (stage ==0){
+        if (listStages == ListStages.MAIN_MENU) {
+            loadArchives();
+        }
+        else if (listStages.equals(listStages.ARCHIVE_MENU)) {
             loadDirs();
-        }else if (stage ==1){
+        }else if (listStages.equals(listStages.DIRECTORY_MENU)) {
             loadCurrentTasks();
-        } else if (stage == 2) {
+        } else if (listStages.equals(listStages.TASK_MENU)) {
             loadCurrentTaskNotes();
 
         }
     }
-
+    public void loadArchives(){
+        listStages = ListStages.MAIN_MENU;
+        panel.removeAll();
+        int currentY = 10;
+        for(Archive arch : eventHandler.getArchiveList()){
+            PANEL_archive archive = new PANEL_archive(arch);
+            archive.setEventHandler(eventHandler);
+            archive.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            archive.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
+            panel.add(archive);
+            currentY+= archive.getHeight()+GAP;
+        }
+        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+        panel.revalidate();
+        panel.repaint();
+        this.revalidate();
+        this.repaint();
+    }
     public void loadDirs(){
-        stage=0;
+        listStages = ListStages.ARCHIVE_MENU;
         panel.removeAll();
         int currentY = 10;
         for(Directory dir : eventHandler.getDirectoryList()){
@@ -80,7 +99,7 @@ public class PANEL_list extends JScrollPane {
         this.repaint();
     }
     public void reloadDirs(){
-        stage=0;
+        listStages = ListStages.ARCHIVE_MENU;
         panel.removeAll();
         int currentY = 10;
         eventHandler.loadEverythingInMemory();
@@ -99,7 +118,7 @@ public class PANEL_list extends JScrollPane {
         this.repaint();
     }
     public void loadCurrentDirTasks(){
-        stage = 1;
+        listStages = ListStages.DIRECTORY_MENU;
         panel.removeAll();
         int currentY = 10;
 
@@ -120,7 +139,7 @@ public class PANEL_list extends JScrollPane {
         this.repaint();
     }
     public void loadCurrentDirTasksFinished(){
-        stage = 1;
+        listStages = ListStages.DIRECTORY_MENU;
         panel.removeAll();
         int currentY = 10;
         eventHandler.getCurrentDirectory().sortTaskByFinishedStatus(false);
@@ -151,7 +170,7 @@ public class PANEL_list extends JScrollPane {
         showingFinished = !showingFinished;
     }
     public void loadCurrentTaskNotes(){
-        stage = 2;
+        listStages = ListStages.TASK_MENU;
         panel.removeAll();
         int currentY = 10;
 
@@ -169,22 +188,25 @@ public class PANEL_list extends JScrollPane {
         this.revalidate();
         this.repaint();
     }
-    public void setStage(int stage) {
+    public void setStage(ListStages stage) {
         System.out.println("setting stage " + stage);
-        if (stage == 0){
+        if (listStages == ListStages.MAIN_MENU) {
+            //loadArchives
+        }
+        else if (listStages.equals(listStages.ARCHIVE_MENU)) {
             loadDirs();
             eventHandler.resetCurrentDirectory();
         }
-        else if (stage ==1){
+        else if (listStages.equals(listStages.DIRECTORY_MENU)) {
             loadCurrentTasks();
             eventHandler.resetCurrentTask();
         }
-        else if (stage ==2){
+        else if (listStages.equals(listStages.TASK_MENU)) {
             loadCurrentTaskNotes();
         }
     }
-    public int getStage(){
-        return stage;
+    public ListStages getStage(){
+        return listStages;
     }
 
 
@@ -211,7 +233,8 @@ public class PANEL_list extends JScrollPane {
 
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        loadDirs();
+        System.out.println("loading dirs ?"+ eventHandler.getDirectoryList().size());
+        setStage(ListStages.MAIN_MENU);
     }
     public void refreshComponents(){
         this.revalidate();

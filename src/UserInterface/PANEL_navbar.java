@@ -1,8 +1,9 @@
 package UserInterface;
 
-import AppLogic.EventHandler;
-import AppLogic.FontLoader;
+import Handlers.EventHandler;
+import ConfigRelated.FontLoader;
 import ConfigRelated.ThemeLoader;
+import UserInterface.PanelListElements.ListStages;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -58,12 +59,12 @@ public class PANEL_navbar extends JPanel {
        currentPATH.setText(path);
     }
     public void returnFunction(boolean reloading) {
-        if (eventHandler.getPanelList().getStage()==2){
-            eventHandler.getPanelList().setStage(1);
+        if (eventHandler.getPanelList().getStage()== ListStages.NOTE_CLICKED){
+            eventHandler.getPanelList().setStage(ListStages.TASK_MENU);
             eventHandler.getPanelList().setNoteSelected(false);
-        } else if (eventHandler.getPanelList().getStage()==1) {
+        } else if (eventHandler.getPanelList().getStage()==ListStages.TASK_MENU) {
             if (!reloading){
-                eventHandler.getPanelList().setStage(0);
+                eventHandler.getPanelList().setStage(ListStages.DIRECTORY_MENU);
             }else{
                 eventHandler.getPanelList().reloadDirs();
             }

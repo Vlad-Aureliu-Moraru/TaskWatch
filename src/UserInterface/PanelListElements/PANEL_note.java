@@ -1,10 +1,9 @@
-package SubElements;
+package UserInterface.PanelListElements;
 
-import AppLogic.EventHandler;
-import AppLogic.FontLoader;
+import Handlers.EventHandler;
+import ConfigRelated.FontLoader;
 import AppLogic.Note;
 import ConfigRelated.ThemeLoader;
-import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import javax.swing.border.Border;

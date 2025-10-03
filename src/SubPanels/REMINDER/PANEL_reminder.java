@@ -1,10 +1,9 @@
-package REMINDER;
+package SubPanels.REMINDER;
 
 import AppLogic.Directory;
-import AppLogic.EventHandler;
+import Handlers.EventHandler;
 import AppLogic.Task;
 import ConfigRelated.ThemeLoader;
-import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.time.LocalDate;

@@ -124,10 +124,8 @@ public final class ThemeLoader {
      */
     public static Color parseColor(String value) {
         value = value.replaceAll("\\s", "");
-        System.out.println(value);
         Matcher rgbMatcher =RGB_PATTERN.matcher(value);
         if (rgbMatcher.matches()) {
-            System.out.println("matched");
             try {
                 int r = Integer.parseInt(rgbMatcher.group(1));
                 int g = Integer.parseInt(rgbMatcher.group(2));

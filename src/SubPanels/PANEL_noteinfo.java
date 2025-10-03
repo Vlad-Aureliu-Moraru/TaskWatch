@@ -1,9 +1,8 @@
 package SubPanels;
 
-import AppLogic.FontLoader;
+import ConfigRelated.FontLoader;
 import AppLogic.Note;
 import ConfigRelated.ThemeLoader;
-import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;

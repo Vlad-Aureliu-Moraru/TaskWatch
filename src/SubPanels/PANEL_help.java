@@ -1,6 +1,6 @@
 package SubPanels;
 
-import AppLogic.FontLoader;
+import ConfigRelated.FontLoader;
 import ConfigRelated.ThemeLoader;
 
 import javax.swing.*;

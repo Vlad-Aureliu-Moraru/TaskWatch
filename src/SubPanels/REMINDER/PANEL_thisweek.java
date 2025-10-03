@@ -1,24 +1,23 @@
-package REMINDER;
+package SubPanels.REMINDER;
 
 import AppLogic.Directory;
 import AppLogic.Task;
 import ConfigRelated.ThemeLoader;
-import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PANEL_todaylist extends JScrollPane{
+public class PANEL_thisweek extends JScrollPane{
     private JPanel panel = new JPanel();
-    private JLabel today= new JLabel("TODAY");
+    private JLabel today= new JLabel("UPCOMING");
 
     private ArrayList<PANEL_item> items = new ArrayList<>();
 
     private int HEIGHT,WIDTH;
 
-    public PANEL_todaylist() {
+    public PANEL_thisweek() {
         panel.setBackground(ThemeLoader.getMainColor());
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -38,7 +37,7 @@ public class PANEL_todaylist extends JScrollPane{
         this.setWheelScrollingEnabled(true);
         this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         getVerticalScrollBar().setUnitIncrement(80);
-        Border outerBorder = BorderFactory.createEmptyBorder(15, 0, 5, 0);
+        Border outerBorder = BorderFactory.createEmptyBorder(15, 0, 5, 5);
         Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getSecndAccent(), 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         panel.setBorder(compoundBorder);
@@ -61,14 +60,14 @@ public class PANEL_todaylist extends JScrollPane{
             currentY+=40;
         }
         panel.setPreferredSize(new Dimension(WIDTH,currentY));
-        panel.revalidate();
         panel.repaint();
+        panel.revalidate();
     }
 
     public void setHEIGHTandWIDTH(int height,int width){
         this.HEIGHT=height;
         this.WIDTH=width;
-        today.setBounds(width/2-25,0,50,30);
+        today.setBounds(width/2-40,0,80,30);
         loadItems();
     }
     public void clearItems(){

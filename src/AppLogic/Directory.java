@@ -6,6 +6,7 @@ import java.util.Comparator;
 public class Directory {
     private final ArrayList<Task> tasks = new ArrayList<>();
     private String Name;
+    private Archive ownArchive;
 
     public void addTask(Task task){
         boolean taskExists = tasks.stream().anyMatch(t -> t.getName().equals(task.getName()));
@@ -19,8 +20,16 @@ public class Directory {
         return tasks.stream().anyMatch(t -> t.getName().equals(taskName));
     }
 
-    public  Directory(String name) {
+    public void setOwnArchive(Archive ownArchive) {
+        this.ownArchive = ownArchive;
+    }
+    public Archive getOwnArchive() {
+        return ownArchive;
+    }
+
+    public  Directory(String name , Archive archive) {
         Name = name;
+        ownArchive = archive;
     }
 
     public String getName() {

@@ -1,10 +1,9 @@
-package REMINDER;
+package SubPanels.REMINDER;
 
 import AppLogic.Directory;
-import AppLogic.FontLoader;
+import ConfigRelated.FontLoader;
 import AppLogic.Task;
 import ConfigRelated.ThemeLoader;
-import UserInterface.ColorTheme;
 
 import javax.swing.*;
 import java.awt.*;

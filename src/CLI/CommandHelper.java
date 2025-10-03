@@ -1,6 +1,10 @@
 package CLI;
 
 public class CommandHelper {
+    public String getArchiveNameRegEx(){
+        return "^Archive_Name:.*";
+    }
+
     private static final String RGB_PATTERN = "\\s*\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)";
     public String getShowFinishedTasks() {
         return "(:shf|:showFinished)";

@@ -1,6 +1,6 @@
 package UserInterface;
 
-import AppLogic.EventHandler;
+import Handlers.EventHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.net.URL;
 
 public class FRAME_main extends JFrame {
+
     private final int HEIGHT= 500;
     private final PANEL_navbar navbar = new PANEL_navbar() ;
     private final PANEL_list tasklist  = new PANEL_list() ;

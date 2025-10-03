@@ -1,9 +1,9 @@
 package UserInterface;
 
-import AppLogic.EventHandler;
-import ConfigRelated.ThemeLoader;
 import CLI.PANEL_cli;
-import REMINDER.PANEL_reminder;
+import Handlers.EventHandler;
+import ConfigRelated.ThemeLoader;
+import SubPanels.REMINDER.PANEL_reminder;
 import SubPanels.*;
 
 import javax.swing.*;
