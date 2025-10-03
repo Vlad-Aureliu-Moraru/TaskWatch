@@ -1,7 +1,7 @@
 package SubPanels;
 
 import AppLogic.Task;
-import UserInterface.ColorTheme;
+import ConfigRelated.ThemeLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,17 +29,17 @@ public class PANEL_taskinfo extends JScrollPane{
     private int WIDTH;
 
     public PANEL_taskinfo() {
-        mirrorPanel.setBackground(ColorTheme.getMain_color());
+        mirrorPanel.setBackground(ThemeLoader.getMainColor());
         mirrorPanel.setLayout(null);
         this.setVisible(false);
 
-        taskName.setForeground(ColorTheme.getSecnd_accent());
+        taskName.setForeground(ThemeLoader.getSecndAccent());
 
-        taskDescription.setForeground(ColorTheme.getSecnd_accent());
+        taskDescription.setForeground(ThemeLoader.getSecndAccent());
         taskDescription.setEditable(false);
         taskDescription.setLineWrap(true);
         taskDescription.setWrapStyleWord(true);
-        taskDescription.setBackground(ColorTheme.getMain_color());
+        taskDescription.setBackground(ThemeLoader.getMainColor());
         taskDescription.setOpaque(true);
         taskDescription.setFocusable(false);
 
@@ -53,14 +53,14 @@ public class PANEL_taskinfo extends JScrollPane{
         taskDescriptionPane.setWheelScrollingEnabled(true);
         taskDescriptionPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 
-        taskStatus.setForeground(ColorTheme.getSecnd_accent());
-        taskPriority.setForeground(ColorTheme.getSecnd_accent());
-        taskTime.setForeground(ColorTheme.getSecnd_accent());
-        taskDeadline.setForeground(ColorTheme.getSecnd_accent());
-        taskType.setForeground(ColorTheme.getSecnd_accent());
-        taskDifficulty.setForeground(ColorTheme.getSecnd_accent());
-        taskRepeatableType.setForeground(ColorTheme.getSecnd_accent());
-        taskFinishedDate.setForeground(ColorTheme.getSecnd_accent());
+        taskStatus.setForeground(ThemeLoader.getSecndAccent());
+        taskPriority.setForeground(ThemeLoader.getSecndAccent());
+        taskTime.setForeground(ThemeLoader.getSecndAccent());
+        taskDeadline.setForeground(ThemeLoader.getSecndAccent());
+        taskType.setForeground(ThemeLoader.getSecndAccent());
+        taskDifficulty.setForeground(ThemeLoader.getSecndAccent());
+        taskRepeatableType.setForeground(ThemeLoader.getSecndAccent());
+        taskFinishedDate.setForeground(ThemeLoader.getSecndAccent());
 
 
         mirrorPanel.add(taskName);

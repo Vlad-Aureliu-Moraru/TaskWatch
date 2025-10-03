@@ -3,6 +3,7 @@ package SubElements;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
 import AppLogic.Task;
+import ConfigRelated.ThemeLoader;
 import UserInterface.ColorTheme;
 
 import javax.swing.*;
@@ -40,21 +41,21 @@ public class PANEL_task extends JPanel {
         taskUrgent.setVisible(false);
 
 
-        taskFinished.setForeground(ColorTheme.getTaskCompletedIconColor());
+        taskFinished.setForeground(ThemeLoader.getTaskCompletedIconColor());
         this.add(taskname);
         this.add(taskUrgency);
         this.add(taskFinished);
         this.add(taskUrgent);
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getDifficulty(currentTask.getDifficulty()), 2);
+        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getDifficulty(currentTask.getDifficulty()), 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         this.setBorder(compoundBorder);
 
-        taskUrgency.setForeground(ColorTheme.getUrgency(currentTask.getUrgency()));
-        taskname.setForeground(ColorTheme.getTaskTextColor());
+        taskUrgency.setForeground(ThemeLoader.getUrgency(currentTask.getUrgency()));
+        taskname.setForeground(ThemeLoader.getTaskTextColor());
 
-        this.setBackground(ColorTheme.getTaskColor());
+        this.setBackground(ThemeLoader.getTaskColor());
         if (task.isFinished()) {
             taskFinished.setVisible(true);
             taskUrgency.setVisible(false);
@@ -69,7 +70,7 @@ public class PANEL_task extends JPanel {
         LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
         if (taskDeadline.isEqual(today) || taskDeadline.isBefore(today) ) {
             taskUrgency.setVisible(false);
-            taskUrgent.setForeground(taskDeadline.isBefore(today)?ColorTheme.getTaskUrgentPassed():ColorTheme.getTaskUrgentIconColor());
+            taskUrgent.setForeground(taskDeadline.isBefore(today)?ThemeLoader.getTaskUrgentPassed(): ThemeLoader.getTaskUrgentIconColor());
             taskUrgent.setVisible(true);
 
         }else{
@@ -91,11 +92,11 @@ public class PANEL_task extends JPanel {
                 eventHandler.getPanelMainmenu().getPanel_help().setVisible(false);
             }
             public void mouseEntered(MouseEvent e) {
-                PANEL_task.this.setBackground(ColorTheme.getTaskHoverColor());
+                PANEL_task.this.setBackground(ThemeLoader.getTaskHoverColor());
                 taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
             }
             public void mouseExited(MouseEvent e) {
-                PANEL_task.this.setBackground(ColorTheme.getTaskColor());
+                PANEL_task.this.setBackground(ThemeLoader.getTaskColor());
                 taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN,15));
             }
         });

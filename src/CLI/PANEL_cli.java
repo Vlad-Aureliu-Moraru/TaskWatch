@@ -32,7 +32,7 @@ public class PANEL_cli extends JPanel {
 
 
     public PANEL_cli() {
-        setBackground(ColorTheme.getConsoleColor());
+        setBackground(ThemeLoader.getConsoleColor());
         this.setLayout(null);
         this.add(commandField);
         commandField.setEditable(true);
@@ -40,7 +40,7 @@ public class PANEL_cli extends JPanel {
         commandField.setBackground(new Color(0, 0, 0, 0));
         commandField.setCaretColor(Color.white);
         setVisible(false);
-        commandField.setForeground(ColorTheme.getConsoleTextColor());
+        commandField.setForeground(ThemeLoader.getConsoleTextColor());
         commandField.setFont(new Font("ARIAL",Font.PLAIN, 14));
         commandField.setBorder(null);
         commandField.setBounds(0,0,20,20);
@@ -526,6 +526,8 @@ public class PANEL_cli extends JPanel {
       else if (command.matches(commandHelper.getSetThemeCommand())) {
           String themename = command.substring(command.indexOf("(")+1, command.indexOf(")"));
           ConfigLoader.setTheme(themename+".css");
+          eventHandler.getMainFrame().refreshComponents();
+
           ConfigLoader.loadConfig();
           ThemeLoader.loadTheme();
           activate();

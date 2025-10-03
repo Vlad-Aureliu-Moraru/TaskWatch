@@ -1,7 +1,7 @@
 package SubPanels;
 
 import AppLogic.FontLoader;
-import UserInterface.ColorTheme;
+import ConfigRelated.ThemeLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ public class PANEL_help extends JScrollPane{
 
     public PANEL_help() {
         this.setViewportView(panel_help);
-        panel_help.setBackground(ColorTheme.getMain_color());
+        panel_help.setBackground(ThemeLoader.getMainColor());
         panel_help.setLayout(null);
 
         this.setFocusable(false);
@@ -89,7 +89,7 @@ public class PANEL_help extends JScrollPane{
                 ;
         commandInfo.setText(commandinfo);
         commandInfo.setFont(FontLoader.getCozyFont().deriveFont(17f));
-        commandInfo.setForeground(ColorTheme.getSecnd_accent());
+        commandInfo.setForeground(ThemeLoader.getSecndAccent());
         panel_help.add(commandInfo);
     }
     private void addThemeSettingsInfo(){
@@ -136,33 +136,33 @@ public class PANEL_help extends JScrollPane{
                 ;
         themeSettingsInfo.setText(commandinfo);
         themeSettingsInfo.setFont(FontLoader.getCozyFont().deriveFont(17f));
-        themeSettingsInfo.setForeground(ColorTheme.getSecnd_accent());
+        themeSettingsInfo.setForeground(ThemeLoader.getSecndAccent());
         panel_help.add(themeSettingsInfo);
     }
     private void addUrgencyBoxes(){
         for(int i = 0; i < urgencyBoxLables.length; i++){
             urgencyBoxLables[i] = new JLabel("\uF04D");
-            urgencyBoxLables[i].setForeground(ColorTheme.getUrgency(i+1));
+            urgencyBoxLables[i].setForeground(ThemeLoader.getUrgency(i+1));
             urgencyBoxLables[i].setFont(FontLoader.getCozyFont().deriveFont(22f));
             urgencyBoxLables[i].setBounds((boxSpace*i)+10,5,200,50);
 
             this.panel_help.add(urgencyBoxLables[i]);
         }
         urgencyExplanation.setFont(FontLoader.getCozyFont().deriveFont(16f));
-        urgencyExplanation.setForeground(ColorTheme.getSecnd_accent());
+        urgencyExplanation.setForeground(ThemeLoader.getSecndAccent());
         this.panel_help.add(urgencyExplanation);
     }
     private void addDifficultyBoxes(){
         for(int i = 0; i < difficultyBoxLables.length; i++){
             difficultyBoxLables[i] = new JLabel("\uF04D");
-            difficultyBoxLables[i].setForeground(ColorTheme.getDifficulty(i+1));
+            difficultyBoxLables[i].setForeground(ThemeLoader.getDifficulty(i+1));
             difficultyBoxLables[i].setFont(FontLoader.getCozyFont().deriveFont(22f));
             difficultyBoxLables[i].setBounds((boxSpace*i)+10,40,50,50);
 
             this.panel_help.add(difficultyBoxLables[i]);
         }
         difficultyExplanation.setFont(FontLoader.getCozyFont().deriveFont(16f));
-        difficultyExplanation.setForeground(ColorTheme.getSecnd_accent());
+        difficultyExplanation.setForeground(ThemeLoader.getSecndAccent());
         this.panel_help.add(difficultyExplanation);
     }
 }

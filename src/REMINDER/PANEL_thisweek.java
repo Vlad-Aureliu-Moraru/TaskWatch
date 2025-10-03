@@ -2,7 +2,7 @@ package REMINDER;
 
 import AppLogic.Directory;
 import AppLogic.Task;
-import UserInterface.ColorTheme;
+import ConfigRelated.ThemeLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,14 +18,14 @@ public class PANEL_thisweek extends JScrollPane{
     private int HEIGHT,WIDTH;
 
     public PANEL_thisweek() {
-        panel.setBackground(ColorTheme.getMain_color());
+        panel.setBackground(ThemeLoader.getMainColor());
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         panel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 
-        today.setBackground(ColorTheme.getMain_color());
+        today.setBackground(ThemeLoader.getMainColor());
         today.setOpaque(true);
-        today.setForeground(ColorTheme.getSecnd_accent());
+        today.setForeground(ThemeLoader.getSecndAccent());
 
         this.setViewportView(panel);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -38,7 +38,7 @@ public class PANEL_thisweek extends JScrollPane{
         this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         getVerticalScrollBar().setUnitIncrement(80);
         Border outerBorder = BorderFactory.createEmptyBorder(15, 0, 5, 5);
-        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 2);
+        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getSecndAccent(), 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         panel.setBorder(compoundBorder);
         panel.add(today);

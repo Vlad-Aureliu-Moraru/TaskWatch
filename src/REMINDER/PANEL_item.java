@@ -3,6 +3,7 @@ package REMINDER;
 import AppLogic.Directory;
 import AppLogic.FontLoader;
 import AppLogic.Task;
+import ConfigRelated.ThemeLoader;
 import UserInterface.ColorTheme;
 
 import javax.swing.*;
@@ -32,19 +33,19 @@ public  PANEL_item(Directory directory,Task task){
 
     private void setUrgencyColor() {
         if (currentTask.getUrgency() == 1) {
-            backgroundColor= ColorTheme.getUrgency1List();
+            backgroundColor= ThemeLoader.getUrgency1List();
         }
         if (currentTask.getUrgency() == 2) {
-            backgroundColor = ColorTheme.getUrgency2List();
+            backgroundColor = ThemeLoader.getUrgency2List();
         }
         if (currentTask.getUrgency() == 3) {
-            backgroundColor = ColorTheme.getUrgency3List();
+            backgroundColor = ThemeLoader.getUrgency3List();
         }
         if (currentTask.getUrgency() == 4) {
-            backgroundColor = ColorTheme.getUrgency4List();
+            backgroundColor = ThemeLoader.getUrgency4List();
         }
         if (currentTask.getUrgency() == 5) {
-            backgroundColor = ColorTheme.getUrgency5List();
+            backgroundColor = ThemeLoader.getUrgency5List();
 
         }
     }

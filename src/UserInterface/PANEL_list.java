@@ -3,6 +3,7 @@ package UserInterface;
 import AppLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.Task;
+import ConfigRelated.ThemeLoader;
 import SubElements.PANEL_dir;
 import SubElements.PANEL_note;
 import SubElements.PANEL_task;
@@ -27,7 +28,7 @@ public class PANEL_list extends JScrollPane {
 
     public PANEL_list() {
 
-        panel.setBackground(ColorTheme.getSecondary_color());
+        panel.setBackground(ThemeLoader.getSecondaryColor());
 
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -211,5 +212,13 @@ public class PANEL_list extends JScrollPane {
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
         loadDirs();
+    }
+    public void refreshComponents(){
+        this.revalidate();
+        this.repaint();
+        for(Component component: panel.getComponents()){
+            component.repaint();
+            component.revalidate();
+        }
     }
 }

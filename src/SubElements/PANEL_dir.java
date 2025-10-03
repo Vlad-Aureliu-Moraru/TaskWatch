@@ -3,6 +3,7 @@ package SubElements;
 import AppLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
+import ConfigRelated.ThemeLoader;
 import UserInterface.ColorTheme;
 
 import javax.swing.*;
@@ -21,16 +22,16 @@ public class PANEL_dir extends JPanel {
 
     public PANEL_dir(Directory directory) {
         this.directory = directory;
-        this.setBackground(ColorTheme.getDirColor());
+        this.setBackground(ThemeLoader.getDirColor());
         this.setLayout(null);
         titleLabel.setText("\uF4D3  "+directory.getName());
-        titleLabel.setBackground(ColorTheme.getSecondary_green());
+        titleLabel.setBackground(ThemeLoader.getSecondaryGreen());
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
 
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 1);
+        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getSecndAccent(), 1);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
 
         this.setBorder(compoundBorder);
@@ -38,17 +39,17 @@ public class PANEL_dir extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                PANEL_dir.this.setBackground(ColorTheme.getDirHoverColor());
+                PANEL_dir.this.setBackground(ThemeLoader.getDirHoverColor());
                 titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 25));
             }
             public void mouseExited(MouseEvent e) {
-                PANEL_dir.this.setBackground(ColorTheme.getDirColor());
+                PANEL_dir.this.setBackground(ThemeLoader.getDirColor());
                 titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
             }
         });
 
         titleLabel.setBounds(0,0,100,30);
-        titleLabel.setForeground(ColorTheme.getSecnd_accent());
+        titleLabel.setForeground(ThemeLoader.getSecndAccent());
         this.add(titleLabel);
     }
     public void setHEIGHTandWIDTH(int height, int width){

@@ -292,5 +292,34 @@ public final class ThemeLoader {
     public static void setConsoleTextColor(Color color) { colorMap.put("consoleTextColor", color); saveThemeFile(); }
     public static void setTimerOnBreakColor(Color color) { colorMap.put("timerOnBreakColor", color); saveThemeFile(); }
     public static void setTimerOnPrepColor(Color color) { colorMap.put("timerOnPrepColor", color); saveThemeFile(); }
-
+    public static Color getUrgency(int urgency){
+        switch (urgency){
+            case 1:
+                return colorMap.get("urgency1");
+            case 2:
+                return colorMap.get("urgency2");
+            case 3:
+                return colorMap.get("urgency3");
+            case 4:
+                return colorMap.get("urgency4");
+            case 5:
+                return colorMap.get("urgency5");
+        }
+        return null;
+    }
+    public static Color getDifficulty(int difficulty){
+        switch (difficulty){
+            case 1:
+                return colorMap.get("difficulty1");
+            case 2:
+                return colorMap.get("difficulty2");
+            case 3:
+                return colorMap.get("difficulty3");
+            case 4:
+                return colorMap.get("difficulty4");
+            case 5:
+                return colorMap.get("difficulty5");
+        }
+        return null;
+    }
 }

@@ -3,6 +3,7 @@ package REMINDER;
 import AppLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.Task;
+import ConfigRelated.ThemeLoader;
 import UserInterface.ColorTheme;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class PANEL_reminder extends JPanel {
 
 
     public PANEL_reminder() {
-        this.setBackground(ColorTheme.getMain_color());
+        this.setBackground(ThemeLoader.getMainColor());
         this.setLayout(null);
         this.add(panel_todaylist);
         this.add(panel_thisweek);

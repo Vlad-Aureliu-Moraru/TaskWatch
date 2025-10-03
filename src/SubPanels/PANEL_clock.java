@@ -5,7 +5,7 @@ import AppLogic.Directory;
 import AppLogic.EventHandler;
 import AppLogic.FontLoader;
 import AppLogic.Task;
-import UserInterface.ColorTheme;
+import ConfigRelated.ThemeLoader;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
@@ -53,7 +53,7 @@ public class PANEL_clock extends JPanel {
 
 
     public PANEL_clock() {
-        this.setBackground(ColorTheme.getMain_color());
+        this.setBackground(ThemeLoader.getMainColor());
         this.setLayout(null);
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         clockTimer = new Timer(clockUpdateInSec*1000, e -> updateTime());
@@ -62,16 +62,16 @@ public class PANEL_clock extends JPanel {
         timeDisplay.setFont(FontLoader.getTerminalFont().deriveFont(70f));
         timeDisplay.setHorizontalAlignment(JLabel.CENTER);
         timeDisplay.setVerticalAlignment(JLabel.CENTER);
-        timeDisplay.setForeground(ColorTheme.getSecnd_accent());
+        timeDisplay.setForeground(ThemeLoader.getSecndAccent());
         this.add(timeDisplay);
         scheduleIndex.setBounds(0,0, 80, 20);
-        scheduleIndex.setForeground(ColorTheme.getSecnd_accent());
+        scheduleIndex.setForeground(ThemeLoader.getSecndAccent());
         this.add(scheduleIndex);
         taskInfo.setBounds(40,0, 80, 20);
-        taskInfo.setForeground(ColorTheme.getSecnd_accent());
+        taskInfo.setForeground(ThemeLoader.getSecndAccent());
         this.add(taskInfo);
         scheduleInfo.setBounds(0,15, 280, 20);
-        scheduleInfo.setForeground(ColorTheme.getSecnd_accent());
+        scheduleInfo.setForeground(ThemeLoader.getSecndAccent());
         this.add(scheduleInfo);
 
     }
@@ -102,7 +102,7 @@ public class PANEL_clock extends JPanel {
                 CurrentScheduleIndex++;
                 CurrentSchedule=schedule.get(CurrentScheduleIndex);
                 boolean isWorkingPhase = CurrentScheduleIndex % 2 == 1;
-                timeDisplay.setForeground(isWorkingPhase ?ColorTheme.getSecnd_accent():ColorTheme.getTimerOnBreakColor());
+                timeDisplay.setForeground(isWorkingPhase ?ThemeLoader.getSecndAccent(): ThemeLoader.getTimerOnBreakColor());
                 if (isWorkingPhase){
                     eventHandler.getPanelnavbar().setTimerWorkingStatus();
                 }else{
@@ -150,7 +150,7 @@ public class PANEL_clock extends JPanel {
             clockTimer.start();
             eventHandler.getPanelnavbar().setClockWorkingStatus();
             updateTime();
-            timeDisplay.setForeground(ColorTheme.getSecnd_accent());
+            timeDisplay.setForeground(ThemeLoader.getSecndAccent());
         }
     }
     public void startTaskTimer(int minutes){
@@ -178,7 +178,7 @@ public class PANEL_clock extends JPanel {
         findPOMOValues(currentTask);
         scheduleIndex.setText(""+CurrentScheduleIndex+"/"+schedule.size());
         eventHandler.getPanelnavbar().setPreparingStatus();
-        timeDisplay.setForeground(ColorTheme.getTimerOnPrepColor());
+        timeDisplay.setForeground(ThemeLoader.getTimerOnPrepColor());
         CurrentSchedule = schedule.get(CurrentScheduleIndex);
         if (taskTimer != null && taskTimer.isRunning()) {
             taskTimer.stop();

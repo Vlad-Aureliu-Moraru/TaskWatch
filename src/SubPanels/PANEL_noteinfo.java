@@ -2,6 +2,7 @@ package SubPanels;
 
 import AppLogic.FontLoader;
 import AppLogic.Note;
+import ConfigRelated.ThemeLoader;
 import UserInterface.ColorTheme;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ public class PANEL_noteinfo extends JPanel {
     private final JTextArea noteinfo =  new JTextArea();
     private final JLabel noteDate =  new JLabel();
     public PANEL_noteinfo() {
-        this.setBackground(ColorTheme.getMain_color());
+        this.setBackground(ThemeLoader.getMainColor());
         this.setVisible(false);
         this.setLayout(null);
         noteinfo.setEditable(false);
@@ -19,8 +20,8 @@ public class PANEL_noteinfo extends JPanel {
         noteinfo.setFocusable(false);
         noteinfo.setWrapStyleWord(true);
         noteinfo.setLineWrap(true);
-        noteinfo.setForeground(ColorTheme.getSecnd_accent());
-        noteDate.setForeground(ColorTheme.getSecnd_accent());
+        noteinfo.setForeground(ThemeLoader.getSecndAccent());
+        noteDate.setForeground(ThemeLoader.getSecndAccent());
         noteinfo.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15));
         this.add(noteDate);
         this.add(noteinfo);

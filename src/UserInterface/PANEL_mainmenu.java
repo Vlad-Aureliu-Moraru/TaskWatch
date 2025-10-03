@@ -8,6 +8,7 @@ import SubPanels.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.*;
 
 public class PANEL_mainmenu extends JPanel {
     private final PANEL_cli panel_cli = new PANEL_cli();
@@ -24,7 +25,7 @@ public class PANEL_mainmenu extends JPanel {
 
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Border innerBorder = BorderFactory.createLineBorder(ColorTheme.getSecnd_accent(), 3);
+        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getSecndAccent(), 3);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         this.setBorder(compoundBorder);
         this.add(panel_cli);
@@ -79,4 +80,12 @@ public class PANEL_mainmenu extends JPanel {
         panel_reminder.setEventHandler(eventHandler);
     }
 
+    public void refreshComponents(){
+        this.revalidate();
+        this.repaint();
+        for(Component component:this.getComponents()){
+            component.repaint();
+            component.revalidate();
+        }
+    }
 }

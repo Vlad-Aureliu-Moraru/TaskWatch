@@ -104,4 +104,11 @@ public class FRAME_main extends JFrame {
         this.revalidate();
         this.repaint();
     }
+    public void refreshComponents(){
+        this.revalidate();
+        this.repaint();
+        navbar.refreshComponents();
+        mainmenu.refreshComponents();
+        tasklist.refreshComponents();
+    }
 }
