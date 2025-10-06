@@ -89,6 +89,7 @@ public class PANEL_task extends JPanel {
                 eventHandler.getFileHandler().getNotesFromFile();
                 eventHandler.getPanelList().loadCurrentTaskNotes();
                 eventHandler.getPanelMainmenu().getPanel_help().setVisible(false);
+                System.out.println("current archive "+eventHandler.getCurrentArchive());
             }
             public void mouseEntered(MouseEvent e) {
                 PANEL_task.this.setBackground(ThemeLoader.getTaskHoverColor());

@@ -23,7 +23,7 @@ public class PANEL_archive extends JPanel {
             this.archive = archive;
             this.setBackground(ThemeLoader.getDirColor());
             this.setLayout(null);
-            titleLabel.setText("\uF411  "+archive.getArchiveName());
+            titleLabel.setText("\uEB9C  "+archive.getArchiveName());
             titleLabel.setHorizontalAlignment(JLabel.CENTER);
             titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
 
@@ -58,10 +58,10 @@ public class PANEL_archive extends JPanel {
             this.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     System.out.println(archive.getArchiveName()+"/");
-//                    eventHandler.setCurrentArchive(archive);
+                    eventHandler.setCurrentArchive(archive);
 //                eventHandler.getFileHandler().getTaskListFromFile();
                     eventHandler.getPanelList().loadDirs();
-                    System.out.println(archive);
+                    System.out.println(eventHandler.getCurrentArchive());
                 }
             });
         }

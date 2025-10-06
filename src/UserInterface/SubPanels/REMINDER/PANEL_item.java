@@ -1,4 +1,4 @@
-package SubPanels.REMINDER;
+package UserInterface.SubPanels.REMINDER;
 
 import AppLogic.Directory;
 import ConfigRelated.FontLoader;

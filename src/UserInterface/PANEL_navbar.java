@@ -59,16 +59,42 @@ public class PANEL_navbar extends JPanel {
        currentPATH.setText(path);
     }
     public void returnFunction(boolean reloading) {
-        if (eventHandler.getPanelList().getStage()== ListStages.NOTE_CLICKED){
-            eventHandler.getPanelList().setStage(ListStages.TASK_MENU);
-            eventHandler.getPanelList().setNoteSelected(false);
-        } else if (eventHandler.getPanelList().getStage()==ListStages.TASK_MENU) {
-            if (!reloading){
+        System.out.println("CURRENT STAGE " + eventHandler.getPanelList().getStage());
+
+        switch (eventHandler.getPanelList().getStage()) {
+            case ARCHIVE_MENU:
+                if(reloading){
+                   eventHandler.getPanelList().reloadArchives();
+                }else{
+                    eventHandler.getPanelList().setStage(ListStages.MAIN_MENU);
+                }
+                break;
+
+            case DIRECTORY_MENU:
+                if(reloading){
+                    eventHandler.getPanelList().reloadDirs();
+                }else{
+                    eventHandler.getPanelList().setStage(ListStages.ARCHIVE_MENU);
+                }
+                break;
+
+            case TASK_MENU:
                 eventHandler.getPanelList().setStage(ListStages.DIRECTORY_MENU);
-            }else{
-                eventHandler.getPanelList().reloadDirs();
-            }
+                break;
+
+            case NOTE_CLICKED:
+                eventHandler.getPanelList().setStage(ListStages.TASK_MENU);
+                break;
+
+            case MAIN_MENU:
+                System.out.println("Already at main menu, no back action taken.");
+                break;
+
+            default:
+                System.err.println("Unexpected stage encountered: " + eventHandler.getPanelList().getStage());
+                break;
         }
+
     }
     public void setClockWorkingStatus(){
        statusDisplay.setText("\uDB82\uDD54  :: clock");

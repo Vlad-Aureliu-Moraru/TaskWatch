@@ -3,8 +3,8 @@ package UserInterface;
 import CLI.PANEL_cli;
 import Handlers.EventHandler;
 import ConfigRelated.ThemeLoader;
-import SubPanels.REMINDER.PANEL_reminder;
-import SubPanels.*;
+import UserInterface.SubPanels.REMINDER.PANEL_reminder;
+import UserInterface.SubPanels.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;

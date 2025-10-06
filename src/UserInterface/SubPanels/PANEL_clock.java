@@ -1,4 +1,4 @@
-package SubPanels;
+package UserInterface.SubPanels;
 
 import ConfigRelated.ConfigLoader;
 import AppLogic.Directory;

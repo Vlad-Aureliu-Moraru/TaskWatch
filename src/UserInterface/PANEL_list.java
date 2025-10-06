@@ -50,6 +50,7 @@ public class PANEL_list extends JScrollPane {
     public void setHEIGHTandWIDTH(int width,int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
+        System.out.println(getStage());
         if (listStages == ListStages.MAIN_MENU) {
             loadArchives();
         }
@@ -80,18 +81,37 @@ public class PANEL_list extends JScrollPane {
         this.revalidate();
         this.repaint();
     }
+    public void reloadArchives(){
+        listStages = ListStages.MAIN_MENU;
+        panel.removeAll();
+        int currentY = 10;
+        eventHandler.loadEverythingInMemory();
+        for(Archive arch : eventHandler.getArchiveList()){
+            PANEL_archive archive = new PANEL_archive(arch);
+            archive.setEventHandler(eventHandler);
+            archive.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+            archive.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
+            panel.add(archive);
+            currentY+= archive.getHeight()+GAP;
+        }
+        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+        panel.revalidate();
+        panel.repaint();
+        this.revalidate();
+        this.repaint();
+    }
     public void loadDirs(){
         listStages = ListStages.ARCHIVE_MENU;
         panel.removeAll();
         int currentY = 10;
-        for(Directory dir : eventHandler.getDirectoryList()){
-            PANEL_dir directory = new PANEL_dir(dir);
-            directory.setEventHandler(eventHandler);
-            directory.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
-            directory.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
-            panel.add(directory);
-            currentY+= directory.getHeight()+GAP;
-        }
+//        for(Directory dir : eventHandler.getCurrentArchive().getDirectories()){
+//            PANEL_dir directory = new PANEL_dir(dir);
+//            directory.setEventHandler(eventHandler);
+//            directory.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+//            directory.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
+//            panel.add(directory);
+//            currentY+= directory.getHeight()+GAP;
+//        }
         panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
         panel.revalidate();
         panel.repaint();
@@ -99,65 +119,64 @@ public class PANEL_list extends JScrollPane {
         this.repaint();
     }
     public void reloadDirs(){
-        listStages = ListStages.ARCHIVE_MENU;
-        panel.removeAll();
-        int currentY = 10;
-        eventHandler.loadEverythingInMemory();
-        for(Directory dir : eventHandler.getDirectoryList()){
-            PANEL_dir directory = new PANEL_dir(dir);
-            directory.setEventHandler(eventHandler);
-            directory.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
-            directory.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
-            panel.add(directory);
-            currentY+= directory.getHeight()+GAP;
-        }
-        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
-        panel.revalidate();
-        panel.repaint();
-        this.revalidate();
-        this.repaint();
+//        listStages = ListStages.ARCHIVE_MENU;
+//        panel.removeAll();
+//        int currentY = 10;
+//        eventHandler.loadEverythingInMemory();
+//        for(Directory dir : eventHandler.getCurrentArchive().getDirectories()){
+//            PANEL_dir directory = new PANEL_dir(dir);
+//            directory.setEventHandler(eventHandler);
+//            directory.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+//            directory.setHEIGHTandWIDTH(WIDTH-40,HEIGHT/7);
+//            panel.add(directory);
+//            currentY+= directory.getHeight()+GAP;
+//        }
+//        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+//        panel.revalidate();
+//        panel.repaint();
+//        this.revalidate();
+//        this.repaint();
     }
     public void loadCurrentDirTasks(){
-        listStages = ListStages.DIRECTORY_MENU;
-        panel.removeAll();
-        int currentY = 10;
-
-        for(Task taskItem: eventHandler.getCurrentDirectory().getTasks()){
-            if (!taskItem.isFinished()){
-                PANEL_task task = new PANEL_task(taskItem);
-                task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
-                task.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
-                task.setEventHandler(eventHandler);
-                panel.add(task);
-                currentY+= task.getHeight()+GAP;
-            }
-        }
-        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
-        panel.revalidate();
-        panel.repaint();
-        this.revalidate();
-        this.repaint();
+//        listStages = ListStages.DIRECTORY_MENU;
+//        panel.removeAll();
+//        int currentY = 10;
+//        System.out.println("panel list 144 " + eventHandler.getCurrentDirectory().getTasks().size());
+//        for(Task taskItem: eventHandler.getCurrentDirectory().getTasks()){
+//            if (!taskItem.isFinished()){
+//                PANEL_task task = new PANEL_task(taskItem);
+//                task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+//                task.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
+//                task.setEventHandler(eventHandler);
+//                panel.add(task);
+//                currentY+= task.getHeight()+GAP;
+//            }
+//        }
+//        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+//        panel.revalidate();
+//        panel.repaint();
+//        this.revalidate();
+//        this.repaint();
     }
     public void loadCurrentDirTasksFinished(){
         listStages = ListStages.DIRECTORY_MENU;
         panel.removeAll();
         int currentY = 10;
-        eventHandler.getCurrentDirectory().sortTaskByFinishedStatus(false);
+//        eventHandler.getCurrentDirectory().sortTaskByFinishedStatus(false);
 
-        for(Task taskItem: eventHandler.getCurrentDirectory().getTasks()){
-
-                PANEL_task task = new PANEL_task(taskItem);
-                task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
-                task.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
-                task.setEventHandler(eventHandler);
-                panel.add(task);
-                currentY+= task.getHeight()+GAP;
-        }
-        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
-        panel.revalidate();
-        panel.repaint();
-        this.revalidate();
-        this.repaint();
+//        for(Task taskItem: eventHandler.getCurrentDirectory().getTasks()){
+//                PANEL_task task = new PANEL_task(taskItem);
+//                task.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+//                task.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
+//                task.setEventHandler(eventHandler);
+//                panel.add(task);
+//                currentY+= task.getHeight()+GAP;
+//        }
+//        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+//        panel.revalidate();
+//        panel.repaint();
+//        this.revalidate();
+//        this.repaint();
     }
     public void loadCurrentTasks(){
         if (showingFinished){
@@ -170,28 +189,29 @@ public class PANEL_list extends JScrollPane {
         showingFinished = !showingFinished;
     }
     public void loadCurrentTaskNotes(){
-        listStages = ListStages.TASK_MENU;
-        panel.removeAll();
-        int currentY = 10;
-
-        for(int j=0;j<eventHandler.getCurrentTask().getNotes().size();j++){
-            PANEL_note note= new PANEL_note(eventHandler.getCurrentTask().getNotes().get(j));
-            note.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
-            note.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
-            note.setEventHandler(eventHandler);
-            panel.add(note);
-            currentY+=note.getHeight()+GAP;
-        }
-        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
-        panel.revalidate();
-        panel.repaint();
-        this.revalidate();
-        this.repaint();
+//        listStages = ListStages.TASK_MENU;
+//        panel.removeAll();
+//        int currentY = 10;
+//
+//        for(int j=0;j<eventHandler.getCurrentTask().getNotes().size();j++){
+//            PANEL_note note= new PANEL_note(eventHandler.getCurrentTask().getNotes().get(j));
+//            note.setBounds(MARGIN,currentY,WIDTH-40,HEIGHT/7);
+//            note.setHEIGHTandWIDTH(HEIGHT/7,WIDTH-40);
+//            note.setEventHandler(eventHandler);
+//            panel.add(note);
+//            currentY+=note.getHeight()+GAP;
+//        }
+//        panel.setPreferredSize(new Dimension(WIDTH, currentY + MARGIN));
+//        panel.revalidate();
+//        panel.repaint();
+//        this.revalidate();
+//        this.repaint();
     }
     public void setStage(ListStages stage) {
         System.out.println("setting stage " + stage);
+        listStages = stage;
         if (listStages == ListStages.MAIN_MENU) {
-            //loadArchives
+            loadArchives();
         }
         else if (listStages.equals(listStages.ARCHIVE_MENU)) {
             loadDirs();
@@ -219,13 +239,13 @@ public class PANEL_list extends JScrollPane {
 
 
     public void sortTasksByUrgency(boolean ascending){
-        eventHandler.getCurrentDirectory().sortTasksByUrgency(ascending);
+//        eventHandler.getCurrentDirectory().sortTasksByUrgency(ascending);
         loadCurrentTasks();
         eventHandler.getFileHandler().saveTaskToFile();
 
     }
     public void sortByDifficulty(boolean ascending){
-        eventHandler.getCurrentDirectory().sortTasksByDifficulty(ascending);
+//        eventHandler.getCurrentDirectory().sortTasksByDifficulty(ascending);
         loadCurrentTasks();
         eventHandler.getFileHandler().saveTaskToFile();
 
@@ -233,7 +253,6 @@ public class PANEL_list extends JScrollPane {
 
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        System.out.println("loading dirs ?"+ eventHandler.getDirectoryList().size());
         setStage(ListStages.MAIN_MENU);
     }
     public void refreshComponents(){

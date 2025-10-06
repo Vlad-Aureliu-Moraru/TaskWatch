@@ -4,32 +4,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Directory {
-    private final ArrayList<Task> tasks = new ArrayList<>();
     private String Name;
-    private Archive ownArchive;
+    private int id;
+    private int ArchiveId;
 
-    public void addTask(Task task){
-        boolean taskExists = tasks.stream().anyMatch(t -> t.getName().equals(task.getName()));
-        if (!taskExists){
-            tasks.add(task);
-        }else{
-            System.out.println("task already exists");
-        }
-    }
-    public boolean taskNameExists(String taskName){
-        return tasks.stream().anyMatch(t -> t.getName().equals(taskName));
-    }
 
-    public void setOwnArchive(Archive ownArchive) {
-        this.ownArchive = ownArchive;
-    }
-    public Archive getOwnArchive() {
-        return ownArchive;
-    }
-
-    public  Directory(String name , Archive archive) {
-        Name = name;
-        ownArchive = archive;
+    public Directory( int id, int ArchiveId, String Name) {
+        this.Name = Name;
+        this.id = id;
+        this.ArchiveId = ArchiveId;
     }
 
     public String getName() {
@@ -40,38 +23,23 @@ public class Directory {
         Name = name;
     }
 
-    public ArrayList<Task> getTasks() {
-        return tasks;
+
+    public int getId() {
+        return id;
     }
 
-    public void sortTasksByUrgency(boolean ascending){
-        if(ascending){
-            tasks.sort(Comparator.comparingInt(Task::getUrgency));
-        }else{
-            tasks.sort(Comparator.comparingInt(Task::getUrgency).reversed());
-        }
+    public void setId(int id) {
+        this.id = id;
     }
-    public void sortTasksByDifficulty(boolean ascending){
-        if(ascending){
-            tasks.sort(Comparator.comparingInt(Task::getDifficulty));
-        }else{
-            tasks.sort(Comparator.comparingInt(Task::getDifficulty).reversed());
-        }
+
+    public int getArchiveId() {
+        return ArchiveId;
     }
-    public void sortTaskByFinishedStatus(boolean ascending) {
-        Comparator<Task> finishedComparator = Comparator.comparing(Task::isFinished);
-        if (ascending) {
-            tasks.sort(finishedComparator.reversed());
-        } else {
-            tasks.sort(finishedComparator);
-        }
+
+    public void setArchiveId(int archiveId) {
+        ArchiveId = archiveId;
     }
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("name: ").append(Name).append("\n ");
-        for(Task t:tasks){
-            sb.append(t).append("\n");
-        }
-        return sb.toString();
+        return "{id:"+id+"archiveId"+ArchiveId+";name:"+Name+"}\n";
     }
 }

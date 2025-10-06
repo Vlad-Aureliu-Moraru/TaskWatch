@@ -20,9 +20,6 @@ public class EventHandler {
     private FRAME_main mainFrame;
     private final FileHandler fileHandler ;
 
-    private final ArrayList<Directory> directoryList = new ArrayList<>();
-    private final ArrayList<Archive> archiveList = new ArrayList<>();
-
     private Archive currentArchive;
     private Directory currentDirectory;
     private Task currentTask;
@@ -32,41 +29,15 @@ public class EventHandler {
     public EventHandler() {
         fileHandler = new FileHandler(this);
     }
-    public void loadEverythingInMemory(){
-        fileHandler.getDirectoryListFromFile();
-        fileHandler.getArchiveListFromFile();
-        for(Directory directory : directoryList){
-            fileHandler.getTaskListFromFile(directory);
-        }
+
+    public void addArchive(Archive archive){
+
     }
     public void addDirectory(Directory directory) {
-    loadEverythingInMemory();
-        for (Directory dir : directoryList) {
-            if (dir.getName().equals(directory.getName())) {
-                System.out.println("Directory already exists.");
-                return;
-            }
-        }
-        directoryList.add(directory);
-        fileHandler.saveDirectoryListToFile();
-        panelList.reloadDirs();
 
     }
-    public void addNote(Note note) {
-        getCurrentTask().addNote(note);
-        getFileHandler().saveNotesToFile();
-        getPanelList().loadCurrentTaskNotes();
-    }
-    public void addTask(Task task) {
-        System.out.println("FROM EVENTHANDLER func addTASK");
-        this.getCurrentDirectory().addTask(task);
-        getFileHandler().saveTaskToFile();
-        panelList.loadCurrentTasks();
-    }
-
-    public ArrayList<Directory> getDirectoryList() {
-        return directoryList;
-    }
+    public void addNote(Note note) {}
+    public void addTask(Task task) {}
     public Directory getCurrentDirectory() {
         return currentDirectory;
     }
@@ -89,7 +60,6 @@ public class EventHandler {
         System.out.println("FROM EVENTHANDLER func setPanelnavbar");
         this.panelnavbar = panelnavbar;
     }
-
     public void setCurrentDirectory(Directory currentDirectory) {
         this.currentDirectory = currentDirectory;
         fileHandler.setCurrentDirectory(currentDirectory);
@@ -145,20 +115,22 @@ public class EventHandler {
         }
     }
     public void updateFinishedStatusForRepeatableTasks() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate today= LocalDate.now();
-        for (Directory directory : directoryList) {
-            for (Task task : directory.getTasks()) {
-                if (task.isFinished() && task.isRepeatable()) {
-                    System.out.println("FINISHED TASK: " + task.getName());
-                    LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
-                    if (taskDeadline.isBefore(today)||taskDeadline.isEqual(today) ) {
-                    task.setFinished(false);
-                    }
-                }
-            }
-            fileHandler.saveTaskToFile(directory);
-        }
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        LocalDate today= LocalDate.now();
+//        for (Archive archive : archiveList) {
+//        for (Directory directory : archive.getDirectories()) {
+//            for (Task task : directory.getTasks()) {
+//                if (task.isFinished() && task.isRepeatable()) {
+//                    System.out.println("FINISHED TASK: " + task.getName());
+//                    LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
+//                    if (taskDeadline.isBefore(today)||taskDeadline.isEqual(today) ) {
+//                    task.setFinished(false);
+//                    }
+//                }
+//            }
+//            fileHandler.saveTaskToFile(directory);
+//        }
+//        }
     }
 
     public void setMainFrame(FRAME_main mainFrame) {
@@ -170,6 +142,7 @@ public class EventHandler {
     }
     public void setCurrentArchive(Archive currentArchive) {
         this.currentArchive = currentArchive;
+        fileHandler.setCurrentArchive(currentArchive);
     }
 
     public ArrayList<Archive> getArchiveList() {

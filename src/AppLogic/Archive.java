@@ -1,40 +1,35 @@
 package AppLogic;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public class Archive {
-    private ArrayList<Directory> directories =  new ArrayList<>();
     private String archiveName;
+    private int id;
 
 
-    public Archive(String archiveName){
+    public Archive(int id ,String archiveName) {
         this.archiveName = archiveName;
+        this.id = id;
     }
-    public ArrayList<Directory> getDirectories() {
-        return directories;
-    }
-    public void setDirectories(ArrayList<Directory> directories) {
-        this.directories = directories;
-    }
-    public void addDirectory(Directory directory) {
-        directories.add(directory);
-    }
+
     public String getArchiveName() {
         return archiveName;
     }
+
     public void setArchiveName(String archiveName) {
         this.archiveName = archiveName;
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        String directoriesString = "[";
-        for(Directory dir : directories){
-            directoriesString+=dir.getName()+",";
-        }
-        directoriesString = directoriesString.substring(0,directoriesString.length()-1);
-        directoriesString+="]";
-        return "{"+"name:"+archiveName+";dirs:"+directoriesString+"}\n";
-
+        return "{id:"+id+", archiveName:"+archiveName+"}\n";
     }
 }

@@ -3,6 +3,15 @@ package AppLogic;
 public class Note {
     private String date;
     private String note;
+    private int id;
+    private int TaskId;
+
+    public Note(int id, int taskId, String date, String note) {
+        this.id = id;
+        this.TaskId = taskId;
+        this.date = date;
+        this.note = note;
+    }
 
     public String getDate() {
         return date;
@@ -20,8 +29,25 @@ public class Note {
         this.note = note;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTaskId() {
+        return TaskId;
+    }
+
+    public void setTaskId(int taskId) {
+        TaskId = taskId;
+    }
+
     @Override
     public String toString() {
-        return "{date:" + date+";" +"note:" + note+"}\n"  ;
+        return "{id:"+id+"taskId:"+TaskId+";date:" + date+";" +"note:" + note+"}\n"  ;
     }
 }

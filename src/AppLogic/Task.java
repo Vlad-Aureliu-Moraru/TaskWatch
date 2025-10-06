@@ -3,7 +3,8 @@ package AppLogic;
 import java.util.ArrayList;
 
 public class Task {
-    private ArrayList<Note> notes = new ArrayList<>();
+    private int id;
+    private int DirectoryId;
     private String Name;
     private String Description;
     private int TimeDedicated = 0 ;
@@ -15,6 +16,22 @@ public class Task {
     private int difficulty=1;
     private String finishedDate = null;
 
+    public Task(int id, int directoryId, String name, String description, boolean repeatable,
+                boolean finished, String deadline, int urgency, int timeDedicated,
+                int difficulty, String repeatableType, String finishedDate) {
+        this.id = id;
+        this.DirectoryId = directoryId;
+        this.Name = name;
+        this.Description = description;
+        this.repeatable = repeatable;
+        this.finished = finished;
+        this.deadline = deadline;
+        this.urgency = urgency;
+        this.TimeDedicated = timeDedicated;
+        this.difficulty = difficulty;
+        this.repeatableType = repeatableType;
+        this.finishedDate = finishedDate;
+    }
     public String getFinishedDate() {
         return finishedDate;
     }
@@ -32,12 +49,6 @@ public class Task {
     }
     public void setUrgency(int urgency) {
         this.urgency = urgency;
-    }
-    public ArrayList<Note> getNotes() {
-        return notes;
-    }
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
     }
     public String getName() {
         return Name;
@@ -69,9 +80,6 @@ public class Task {
     public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
-    public void addNote(Note note) {
-        notes.add(note);
-    }
     public String getRepeatableType() {
         return repeatableType;
     }
@@ -84,9 +92,27 @@ public class Task {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getDirectoryId() {
+        return DirectoryId;
+    }
+
+    public void setDirectoryId(int directoryId) {
+        DirectoryId = directoryId;
+    }
+
     public String toString(){
         return "{" +
-                "name:" + Name + ";description:" + Description +
+                "id:"+id + ";DirectoryId:"+DirectoryId+
+                ";name:" + Name + ";description:" + Description +
                 ";isRepeatable:" + repeatable + ";isFinished:" + finished +
                 ";deadline:" + deadline + ";urgency:" + urgency +
                 ";time:" + TimeDedicated + ";difficulty:" + difficulty +

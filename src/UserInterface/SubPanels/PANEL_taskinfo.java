@@ -1,4 +1,4 @@
-package SubPanels;
+package UserInterface.SubPanels;
 
 import AppLogic.Task;
 import ConfigRelated.ThemeLoader;
