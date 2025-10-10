@@ -1,4 +1,5 @@
 package Handlers.Repositories;
+
 import AppLogic.Note;
 
 import java.io.*;
@@ -9,6 +10,7 @@ public class NoteRepository {
     private static final String FILE_PATH = "repository/notes.txt";
     private static final ArrayList<Note> notes = new ArrayList<>();
     private static boolean isLoaded = false;
+    private static int currentId = 0;
 
     public NoteRepository() {
         if (!isLoaded) {
@@ -17,6 +19,7 @@ public class NoteRepository {
         }
     }
 
+    // Load notes from file
     private void loadNotesFromFile() {
         File file = new File(FILE_PATH);
 
@@ -32,17 +35,32 @@ public class NoteRepository {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            boolean idLineFound = false;
+            int maxNoteId = -1;
 
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
+                // Handle id line
+                if (line.startsWith("id=#") && line.endsWith("#")) {
+                    try {
+                        String idValue = line.substring(4, line.length() - 1);
+                        currentId = Integer.parseInt(idValue);
+                        idLineFound = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid ID format in file: " + line);
+                    }
+                    continue;
+                }
+
+                // Parse line: {id:x taskId:y;date:z;note:w}
                 try {
-                    int idStart = line.indexOf("id:") + 2;
-                    int idEnd = line.indexOf(",", idStart);
+                    int idStart = line.indexOf("id:") + 3;
+                    int idEnd = line.indexOf(";", idStart);
                     int id = Integer.parseInt(line.substring(idStart, idEnd).trim());
 
-                    int taskIdStart = line.indexOf("taskId:") + 6;
+                    int taskIdStart = line.indexOf("taskId:") + 7;
                     int taskIdEnd = line.indexOf(";", taskIdStart);
                     int taskId = Integer.parseInt(line.substring(taskIdStart, taskIdEnd).trim());
 
@@ -52,34 +70,59 @@ public class NoteRepository {
 
                     int noteStart = line.indexOf("note:") + 5;
                     int noteEnd = line.indexOf("}", noteStart);
-                    if (noteEnd == -1) noteEnd = line.length();
                     String noteText = line.substring(noteStart, noteEnd).trim();
 
                     notes.add(new Note(id, taskId, date, noteText));
+                    maxNoteId = Math.max(maxNoteId, id);
                 } catch (Exception e) {
                     System.out.println("Skipping malformed line: " + line);
                 }
             }
 
+            // If id line not found, compute new one
+            if (!idLineFound) {
+                if (maxNoteId >= 0)
+                    currentId = maxNoteId + 1;
+                else
+                    currentId = 0;
+                saveAllToFile();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Save all notes + currentId to file
     public void saveAllToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+            writer.write("id=#" + currentId + "#\n");
+
             for (Note n : notes) {
                 writer.write("{id:" + n.getId() + ";taskId:" + n.getTaskId() + ";date:" + n.getDate() + ";note:" + n.getNote() + "}\n");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Getters for ID handling
+    public static int getCurrentId() {
+        return currentId;
+    }
+
+    public static int getNextId() {
+        currentId++;
+        return currentId;
+    }
+
+    // Get all notes
     public ArrayList<Note> getAllNotes() {
         return new ArrayList<>(notes);
     }
 
+    // Get note by ID
     public Note getNoteById(int id) {
         for (Note n : notes) {
             if (n.getId() == id) return n;
@@ -87,34 +130,46 @@ public class NoteRepository {
         return null;
     }
 
-    public void addNote(Note note) {
-        boolean exists = notes.stream().anyMatch(n -> n.getId() == note.getId());
-        if (exists) {
-            System.out.println("[WARNING] Note with this ID already exists!");
-            return;
+    // Get notes by task ID
+    public ArrayList<Note> getNotesByTaskId(int taskId) {
+        ArrayList<Note> result = new ArrayList<>();
+        for (Note n : notes) {
+            if (n.getTaskId() == taskId) result.add(n);
         }
-        notes.add(note);
+        return result;
+    }
+
+    // Add a new note (auto ID)
+    public void addNote(int taskId, Note note) {
+        int newId = getNextId();
+        Note n = new Note(newId, taskId, note.getDate(), note.getNote());
+        notes.add(n);
         saveAllToFile();
     }
-    public void updateNote(int id, String newDate, String newNoteText) {
+
+    // Update a note
+    public void updateNote(int id, String newText) {
         for (Note n : notes) {
             if (n.getId() == id) {
-                n.setDate(newDate);
-                n.setNote(newNoteText);
+                n.setNote(newText);
                 saveAllToFile();
-                break;
+                return;
             }
         }
+        System.out.println("[WARNING] Note with ID " + id + " not found!");
     }
+
+    // Delete a note
     public void deleteNote(int id) {
         notes.removeIf(n -> n.getId() == id);
         saveAllToFile();
     }
-    public static void main(String[] args){
-        NoteRepository repo = new NoteRepository();
-        repo.addNote(new Note(1,2,"23/4/33","test"));
-        Note note =  repo.getNoteById(1);
-        System.out.println(note.getTaskId());
-        repo.updateNote(1,"23/23","testt");
+    public void deleteNoteByTaskId(int id) {
+        notes.removeIf(n -> n.getTaskId() == id);
+        saveAllToFile();
+    }
+    public static void main(String[] args) {
+        TaskRepository repo = new TaskRepository();
+
     }
 }

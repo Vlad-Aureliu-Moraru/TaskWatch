@@ -5,7 +5,9 @@ public class Note {
     private String note;
     private int id;
     private int TaskId;
+    public Note(){
 
+    }
     public Note(int id, int taskId, String date, String note) {
         this.id = id;
         this.TaskId = taskId;
@@ -48,6 +50,6 @@ public class Note {
 
     @Override
     public String toString() {
-        return "{id:"+id+"taskId:"+TaskId+";date:" + date+";" +"note:" + note+"}\n"  ;
+        return "{id:"+id+";taskId:"+TaskId+";date:" + date+";" +"note:" + note+"}\n"  ;
     }
 }

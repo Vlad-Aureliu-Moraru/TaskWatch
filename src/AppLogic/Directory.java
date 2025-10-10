@@ -40,6 +40,6 @@ public class Directory {
         ArchiveId = archiveId;
     }
     public String toString(){
-        return "{id:"+id+"archiveId"+ArchiveId+";name:"+Name+"}\n";
+        return "{id:"+id+";archiveId:"+ArchiveId+";name:"+Name+"}\n";
     }
 }

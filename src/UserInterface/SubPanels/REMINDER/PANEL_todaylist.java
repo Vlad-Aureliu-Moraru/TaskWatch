@@ -2,30 +2,37 @@ package UserInterface.SubPanels.REMINDER;
 
 import AppLogic.Directory;
 import AppLogic.Task;
-import ConfigRelated.ThemeLoader;
+import Loaders.ThemeChangeListener;
+import Loaders.ThemeColorKey;
+import Loaders.ThemeLoader;
+import Handlers.EventHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PANEL_todaylist extends JScrollPane{
+public class PANEL_todaylist extends JScrollPane implements ThemeChangeListener {
     private JPanel panel = new JPanel();
     private JLabel today= new JLabel("TODAY");
 
     private ArrayList<PANEL_item> items = new ArrayList<>();
-
+    private EventHandler eventHandler;
     private int HEIGHT,WIDTH;
 
+    private Color backgroundColor;
+    private Color textColor = ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT);
+
     public PANEL_todaylist() {
-        panel.setBackground(ThemeLoader.getMainColor());
+        panel.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_TODAYLIST));
+        ThemeLoader.addThemeChangeListener(this);
         panel.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         panel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 
-        today.setBackground(ThemeLoader.getMainColor());
+        today.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_TODAYLIST));
         today.setOpaque(true);
-        today.setForeground(ThemeLoader.getSecndAccent());
+        today.setForeground(textColor);
 
         this.setViewportView(panel);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -38,7 +45,7 @@ public class PANEL_todaylist extends JScrollPane{
         this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         getVerticalScrollBar().setUnitIncrement(80);
         Border outerBorder = BorderFactory.createEmptyBorder(15, 0, 5, 0);
-        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getSecndAccent(), 2);
+        Border innerBorder = BorderFactory.createLineBorder(textColor, 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         panel.setBorder(compoundBorder);
         panel.add(today);
@@ -54,6 +61,8 @@ public class PANEL_todaylist extends JScrollPane{
         panel.add(today);
         int currentY= 30;
         for(PANEL_item panelitem:items){
+            panelitem.setEventHandler(eventHandler);
+            panelitem.onThemeChanged();
             panelitem.setBounds(15,currentY,WIDTH-30,30);
             panelitem.setHEIGHTandWIDTH(30,WIDTH-30);
             panel.add(panelitem);
@@ -70,7 +79,22 @@ public class PANEL_todaylist extends JScrollPane{
         today.setBounds(width/2-25,0,50,30);
         loadItems();
     }
+    public void setEventHandler(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
+    }
     public void clearItems(){
         items.clear();
+    }
+    @Override
+    public void onThemeChanged() {
+        backgroundColor = ThemeLoader.getColor(ThemeColorKey.PANEL_TODAYLIST);
+        textColor = ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT);
+        this.setBackground(backgroundColor);
+        Border outerBorder = BorderFactory.createEmptyBorder(15, 0, 5, 0);
+        Border innerBorder = BorderFactory.createLineBorder(textColor, 2);
+        Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
+        panel.setBorder(compoundBorder);
+        repaint();
+        revalidate();
     }
 }

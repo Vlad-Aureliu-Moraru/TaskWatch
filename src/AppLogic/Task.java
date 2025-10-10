@@ -14,12 +14,16 @@ public class Task {
     private int urgency =1;
     private String repeatableType="none";
     private int difficulty=1;
-    private String finishedDate = null;
-
+    private String finishedDate ="none";
+    private boolean hasToBeCompletedToRepeat =true;
+    private String repeatOnSpecificDay = "none";
+    public Task() {}
     public Task(int id, int directoryId, String name, String description, boolean repeatable,
                 boolean finished, String deadline, int urgency, int timeDedicated,
-                int difficulty, String repeatableType, String finishedDate) {
+                int difficulty, String repeatableType, String finishedDate, boolean hasToBeCompletedToRepeat, String repeatOnSpecificDay) {
         this.id = id;
+        this.repeatOnSpecificDay = repeatOnSpecificDay;
+        this.hasToBeCompletedToRepeat = hasToBeCompletedToRepeat;
         this.DirectoryId = directoryId;
         this.Name = name;
         this.Description = description;
@@ -92,6 +96,18 @@ public class Task {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+    public boolean isHasToBeCompletedToRepeat() {
+        return hasToBeCompletedToRepeat;
+    }
+    public void setHasToBeCompletedToRepeat(boolean hasToBeCompletedToRepeat) {
+        this.hasToBeCompletedToRepeat = hasToBeCompletedToRepeat;
+    }
+    public String getRepeatOnSpecificDay() {
+        return repeatOnSpecificDay;
+    }
+    public void setRepeatOnSpecificDay(String repeatOnSpecificDay) {
+        this.repeatOnSpecificDay = repeatOnSpecificDay;
+    }
 
     public int getId() {
         return id;
@@ -117,6 +133,8 @@ public class Task {
                 ";deadline:" + deadline + ";urgency:" + urgency +
                 ";time:" + TimeDedicated + ";difficulty:" + difficulty +
                 ";repeatableType:" + repeatableType + ";finishedDate:" + finishedDate +
+                ";hasToBeCompletedToRepeat:" + hasToBeCompletedToRepeat +
+                ";repeatOnSpecificDay:" + repeatOnSpecificDay +
                 "}" +
                 "\n";
     }

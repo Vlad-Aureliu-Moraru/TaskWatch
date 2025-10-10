@@ -1,4 +1,4 @@
-package ConfigRelated;
+package Loaders;
 
 import java.awt.*;
 import java.io.IOException;

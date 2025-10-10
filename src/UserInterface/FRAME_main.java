@@ -51,7 +51,7 @@ public class FRAME_main extends JFrame {
 
         //?addons
         EventHandler eventHandler = new EventHandler();
-        eventHandler.loadEverythingInMemory();
+//        eventHandler.loadEverythingInMemory();
         eventHandler.updateFinishedStatusForRepeatableTasks();
 
         eventHandler.setPanelnavbar(navbar);

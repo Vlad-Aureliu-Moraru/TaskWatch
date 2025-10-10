@@ -1,9 +1,5 @@
 package Handlers.Repositories;
-
 import AppLogic.Archive;
-
-import java.util.ArrayList;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -12,6 +8,7 @@ public class ArchiveRepository {
     private static final String FILE_PATH = "repository/archives.txt";
     private static final ArrayList<Archive> archives = new ArrayList<>();
     private static boolean isLoaded = false;
+    private static int currentId = 0;
 
     public ArchiveRepository() {
         if (!isLoaded) {
@@ -19,13 +16,14 @@ public class ArchiveRepository {
             isLoaded = true;
         }
     }
+
     private void loadArchivesFromFile() {
         File file = new File(FILE_PATH);
 
         if (!file.exists()) {
-            System.out.println("Archives file not found. Creating new one...");
             try {
                 file.createNewFile();
+                System.out.println("Archives file not found. Created new one.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -34,14 +32,29 @@ public class ArchiveRepository {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            boolean idLineFound = false;
+            int maxArchiveId = -1;
 
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
+
+                if (line.startsWith("id=#") && line.endsWith("#")) {
+                    try {
+                        String idValue = line.substring(4, line.length() - 1);
+                        currentId = Integer.parseInt(idValue);
+                        idLineFound = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid ID format in file: " + line);
+                    }
+                    continue;
+                }
+
                 try {
                     int idStart = line.indexOf("id:") + 3;
                     int idEnd = line.indexOf(",", idStart);
                     int id = Integer.parseInt(line.substring(idStart, idEnd).trim());
+                    maxArchiveId = Math.max(maxArchiveId, id);
 
                     int nameStart = line.indexOf("archiveName:") + 12;
                     int nameEnd = line.indexOf("}", nameStart);
@@ -53,35 +66,64 @@ public class ArchiveRepository {
                 }
             }
 
+            if (!idLineFound) {
+                if (maxArchiveId >= 0)
+                    currentId = maxArchiveId + 1;
+                else
+                    currentId = 0;
+                saveAllToFile();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void saveAllToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+            writer.write("id=#" + currentId + "#\n");
+
             for (Archive archive : archives) {
                 writer.write("{id:" + archive.getId() + ", archiveName:" + archive.getArchiveName() + "}\n");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public static int getCurrentId() {
+        return currentId;
+    }
+
+    public static int getNextId() {
+        currentId++;
+        return currentId;
+    }
+
     public ArrayList<Archive> getAllArchives() {
         return new ArrayList<>(archives);
     }
+
     public Archive getArchiveById(int id) {
         for (Archive a : archives) {
-            if (a.getId() == id) {
-                return a;
-            }
+            if (a.getId() == id) return a;
         }
         return null;
     }
-    public void addArchive(Archive archive) {
-        if (archives.stream().anyMatch(a -> a.getId() == archive.getId()) && archives.stream().anyMatch(a -> a.getArchiveName().equals(archive.getArchiveName()))) {
-            System.out.println("[WARNING] Archive already exists!]");
+
+    // Add new archive (auto-assign next ID)
+    public void addArchive(String archiveName) {
+        boolean exists = archives.stream()
+                .anyMatch(a -> a.getArchiveName().equalsIgnoreCase(archiveName));
+
+        if (exists) {
+            System.out.println("[WARNING] Archive with this name already exists!");
             return;
         }
+
+        int newId = getNextId();
+        Archive archive = new Archive(newId, archiveName);
         archives.add(archive);
         saveAllToFile();
     }
@@ -91,20 +133,22 @@ public class ArchiveRepository {
             if (a.getId() == id) {
                 a.setArchiveName(newName);
                 saveAllToFile();
-                break;
+                return;
             }
         }
+        System.out.println("[WARNING] Archive with ID " + id + " not found!");
     }
+
     public void deleteArchive(int id) {
         archives.removeIf(a -> a.getId() == id);
         saveAllToFile();
     }
-    public static void main(String[] args) {
+public static void main(String[] args) {
         ArchiveRepository repo = new ArchiveRepository();
 
         // Add archives
-        repo.addArchive(new Archive(1, "First Archive"));
-        repo.addArchive(new Archive(2, "Second Archive"));
+        repo.addArchive("First Archive");
+        repo.addArchive( "Second Archive");
 
         // Retrieve all
         for (Archive a : repo.getAllArchives()) {

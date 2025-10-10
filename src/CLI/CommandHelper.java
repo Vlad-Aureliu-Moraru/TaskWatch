@@ -1,6 +1,82 @@
 package CLI;
 
+import Loaders.ThemeColorKey;
+
 public class CommandHelper {
+    public String getSwitchScheduleDisplay(){
+        return ":ssd";
+    }
+    public String getSetColorCommandForKey(ThemeColorKey key) {
+        // All commands follow the pattern: "set <color_name> <rgb(...)>"
+        // We'll convert the enum name to lower case and underscores to camel case if needed
+        String commandPattern;
+
+        switch (key) {
+            case SCROLL_THUMB -> commandPattern = ":setScrollThumb:\\s*\\(.*\\)";
+            case SCROLL_TRACK-> commandPattern = ":setScrollTrack:\\s*\\(.*\\)";
+            case PANEL_MAINMENU-> commandPattern = ":setPanelMain:\\s*\\(.*\\)";
+            case PANEL_NAVBAR-> commandPattern = ":setPanelNavBar:\\s*\\(.*\\)";
+            case PANEL_LIST-> commandPattern = ":setPanelList:\\s*\\(.*\\)";
+            case PANEL_TASKINFO-> commandPattern = ":setPanelTaskInfo:\\s*\\(.*\\)";
+            case PANEL_HELP-> commandPattern = ":setPanelHelp:\\s*\\(.*\\)";
+            case PANEL_NOTEINFO-> commandPattern = ":setPanelNoteInfo:\\s*\\(.*\\)";
+            case PANEL_CLOCK-> commandPattern = ":setPanelClock:\\s*\\(.*\\)";
+            case PANEL_REMINDER-> commandPattern = ":setPanelReminder:\\s*\\(.*\\)";
+            case PANEL_THISWEEK-> commandPattern = ":setPanelThisWeek:\\s*\\(.*\\)";
+            case PANEL_TODAYLIST-> commandPattern = ":setPanelTodayList:\\s*\\(.*\\)";
+            case PANEL_WEEKLYSCHEDULE-> commandPattern = ":setPanelWeeklySchedule:\\s*\\(.*\\)";
+            case MAIN_COLOR -> commandPattern = ":setMainColor:\\s*\\(.*\\)";
+            case SECONDARY_COLOR -> commandPattern = ":setSecondaryColor:\\s*\\(.*\\)";
+            case FIRST_ACCENT -> commandPattern = ":setFirstAccent:\\s*\\(.*\\)";
+            case SECND_ACCENT -> commandPattern = ":setSecndAccent:\\s*\\(.*\\)";
+            case SECONDARY_GREEN -> commandPattern = ":setSecondaryGreen:\\s*\\(.*\\)";
+            case ACCENT_GREEN -> commandPattern = ":setAccentGreen:\\s*\\(.*\\)";
+            case DIR_COLOR -> commandPattern = ":setDirColor:\\s*\\(.*\\)";
+            case DIR_HOVER_COLOR -> commandPattern = ":setDirHoverColor:\\s*\\(.*\\)";
+            case TASK_COLOR -> commandPattern = ":setTaskColor:\\s*\\(.*\\)";
+            case TASK_HOVER_COLOR -> commandPattern = ":setTaskHoverColor:\\s*\\(.*\\)";
+            case TASK_TEXT_COLOR -> commandPattern = ":setTaskTextColor:\\s*\\(.*\\)";
+            case NOTE_COLOR -> commandPattern = ":setNoteColor:\\s*\\(.*\\)";
+            case PAUSED_TIMER_COLOR -> commandPattern = ":setPausedTimerColor:\\s*\\(.*\\)";
+            case URGENCY1 -> commandPattern = ":setUrgency1:\\s*\\(.*\\)";
+            case URGENCY2 -> commandPattern = ":setUrgency2:\\s*\\(.*\\)";
+            case URGENCY3 -> commandPattern = ":setUrgency3:\\s*\\(.*\\)";
+            case URGENCY4 -> commandPattern = ":setUrgency4:\\s*\\(.*\\)";
+            case URGENCY5 -> commandPattern = ":setUrgency5:\\s*\\(.*\\)";
+            case URGENCY1_LIST -> commandPattern = ":setUrgency1List:\\s*\\(.*\\)";
+            case URGENCY2_LIST -> commandPattern = ":setUrgency2List:\\s*\\(.*\\)";
+            case URGENCY3_LIST -> commandPattern = ":setUrgency3List:\\s*\\(.*\\)";
+            case URGENCY4_LIST -> commandPattern = ":setUrgency4List:\\s*\\(.*\\)";
+            case URGENCY5_LIST -> commandPattern = ":setUrgency5List:\\s*\\(.*\\)";
+            case DIFFICULTY1 -> commandPattern = ":setDifficulty1:\\s*\\(.*\\)";
+            case DIFFICULTY2 -> commandPattern = ":setDifficulty2:\\s*\\(.*\\)";
+            case DIFFICULTY3 -> commandPattern = ":setDifficulty3:\\s*\\(.*\\)";
+            case DIFFICULTY4 -> commandPattern = ":setDifficulty4:\\s*\\(.*\\)";
+            case DIFFICULTY5 -> commandPattern = ":setDifficulty5:\\s*\\(.*\\)";
+            case TASK_COMPLETED_ICON-> commandPattern = ":setTaskCompletedIconColor:\\s*\\(.*\\)";
+            case TASK_URGENT_ICON-> commandPattern = ":setTaskUrgentIconColor:\\s*\\(.*\\)";
+            case TASK_URGENT_PASSED -> commandPattern = ":setTaskUrgentPassed:\\s*\\(.*\\)";
+            case CONSOLE_COLOR -> commandPattern = ":setConsoleColor:\\s*\\(.*\\)";
+            case CONSOLE_TEXT_COLOR -> commandPattern = ":setConsoleTextColor:\\s*\\(.*\\)";
+            case TIMER_ON_BREAK_COLOR -> commandPattern = ":setTimerOnBreakColor:\\s*\\(.*\\)";
+            case TIMER_ON_PREP_COLOR -> commandPattern = ":setTimerOnPrepColor:\\s*\\(.*\\)";
+            default -> commandPattern = ""; // fallback
+        }
+
+        return commandPattern;
+    }
+
+
+    public String getTaskHasToBeCompletedToRepeatRegEx() {
+        return "Has To Be Completed To Repeat\\(y/n\\):\\s*(y|n)";
+    }
+
+    public String getRepeatsOnSpecificDayRegEx() {
+        return "Repeats On Specific Day \\(Mon\\|Tue\\|Wed\\|Thu\\|Fri\\|Sat\\|Sun\\):\\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)";
+    }
+    public String getConfirmation(){
+        return "^Are You Sure \\(y/n\\):(y|n)$";
+    }
     public String getArchiveNameRegEx(){
         return "^Archive_Name:.*";
     }
@@ -106,143 +182,5 @@ public class CommandHelper {
     }
     public String getListThemesCommand(){
         return "(:lst|:listThemes)";
-    }
-    public String getSetMainColorCommand() {
-        return ":setMainColor" + RGB_PATTERN;
-    }
-
-    public String getSetSecondaryColorCommand() {
-        return ":setSecondaryColor" + RGB_PATTERN;
-    }
-
-    public String getSetFirstAccentCommand() {
-        return ":setFirstAccent" + RGB_PATTERN;
-    }
-
-    public String getSetSecndAccentCommand() {
-        return ":setSecndAccent" + RGB_PATTERN;
-    }
-
-    public String getSetSecondaryGreenCommand() {
-        return ":setSecondaryGreen" + RGB_PATTERN;
-    }
-
-    public String getSetAccentGreenCommand() {
-        return ":setAccentGreen" + RGB_PATTERN;
-    }
-
-    public String getSetDirColorCommand() {
-        return ":setDirColor" + RGB_PATTERN;
-    }
-
-    public String getSetDirHoverColorCommand() {
-        return ":setDirHoverColor" + RGB_PATTERN;
-    }
-
-    public String getSetTaskColorCommand() {
-        return ":setTaskColor" + RGB_PATTERN;
-    }
-
-    public String getSetTaskHoverColorCommand() {
-        return ":setTaskHoverColor" + RGB_PATTERN;
-    }
-
-    public String getSetTaskTextColorCommand() {
-        return ":setTaskTextColor" + RGB_PATTERN;
-    }
-
-    public String getSetNoteColorCommand() {
-        return ":setNoteColor" + RGB_PATTERN;
-    }
-
-    public String getSetPausedTimerCommand() {
-        return ":setPausedTimerColor" +RGB_PATTERN;
-    }
-
-    public String getSetUrgency1Command() {
-        return ":setUrgency1" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency2Command() {
-        return ":setUrgency2" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency3Command() {
-        return ":setUrgency3" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency4Command() {
-        return ":setUrgency4" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency5Command() {
-        return ":setUrgency5" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency1ListCommand() {
-        return ":setUrgency1List" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency2ListCommand() {
-        return ":setUrgency2List" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency3ListCommand() {
-        return ":setUrgency3List" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency4ListCommand() {
-        return ":setUrgency4List" + RGB_PATTERN;
-    }
-
-    public String getSetUrgency5ListCommand() {
-        return ":setUrgency5List" + RGB_PATTERN;
-    }
-
-    public String getSetDifficulty1Command() {
-        return ":setDifficulty1" + RGB_PATTERN;
-    }
-
-    public String getSetDifficulty2Command() {
-        return ":setDifficulty2" + RGB_PATTERN;
-    }
-
-    public String getSetDifficulty3Command() {
-        return ":setDifficulty3" + RGB_PATTERN;
-    }
-
-    public String getSetDifficulty4Command() {
-        return ":setDifficulty4" + RGB_PATTERN;
-    }
-
-    public String getSetDifficulty5Command() {
-        return ":setDifficulty5" + RGB_PATTERN;
-    }
-
-    public String getSetTaskCompletedIconColorCommand() {
-        return ":setTaskCompletedIconColor" + RGB_PATTERN;
-    }
-
-    public String getSetTaskUrgentIconColorCommand() {
-        return ":setTaskUrgentIconColor:" + RGB_PATTERN;
-    }
-    public String getSetTaskUrgentPassedCommand() {
-        return ":setTaskUrgentPassed:"+RGB_PATTERN;
-    }
-
-    public String getSetConsoleColorCommand() {
-        return ":setConsoleColor:" + RGB_PATTERN;
-    }
-
-    public String getSetConsoleTextColorCommand() {
-        return ":setConsoleTextColor:" + RGB_PATTERN;
-    }
-
-    public String getSetTimerOnBreakColorCommand() {
-        return ":setTimerOnBreakColor:" + RGB_PATTERN;
-    }
-
-    public String getSetTimerOnPrepColorCommand() {
-        return ":setTimerOnPrepColor:" + RGB_PATTERN;
     }
 }

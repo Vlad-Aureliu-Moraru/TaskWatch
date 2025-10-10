@@ -1,9 +1,11 @@
 package UserInterface.PanelListElements;
 
 import Handlers.EventHandler;
-import ConfigRelated.FontLoader;
+import Loaders.FontLoader;
 import AppLogic.Task;
-import ConfigRelated.ThemeLoader;
+import Loaders.ThemeChangeListener;
+import Loaders.ThemeColorKey;
+import Loaders.ThemeLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,7 +15,7 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class PANEL_task extends JPanel {
+public class PANEL_task extends JPanel implements ThemeChangeListener {
     private final JLabel taskname = new JLabel("Task Name:");
     private final JLabel taskUrgency = new JLabel("\uEEBF");
     private final JLabel taskFinished = new JLabel("\uDB81\uDF91");
@@ -29,6 +31,7 @@ public class PANEL_task extends JPanel {
 
     public PANEL_task(Task task) {
         currentTask = task;
+        ThemeLoader.addThemeChangeListener(this);
         this.setLayout(null);
         taskname.setText(task.getName());
         taskname.setBounds(0, 0, 100, 50);
@@ -40,21 +43,21 @@ public class PANEL_task extends JPanel {
         taskUrgent.setVisible(false);
 
 
-        taskFinished.setForeground(ThemeLoader.getTaskCompletedIconColor());
+        taskFinished.setForeground(ThemeLoader.getColor(ThemeColorKey.TASK_COMPLETED_ICON));
         this.add(taskname);
         this.add(taskUrgency);
         this.add(taskFinished);
         this.add(taskUrgent);
 
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getDifficulty(currentTask.getDifficulty()), 2);
+        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getDifficultyColor(currentTask.getDifficulty()), 2);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
         this.setBorder(compoundBorder);
 
-        taskUrgency.setForeground(ThemeLoader.getUrgency(currentTask.getUrgency()));
-        taskname.setForeground(ThemeLoader.getTaskTextColor());
+        taskUrgency.setForeground(ThemeLoader.getUrgencyColor(currentTask.getUrgency()));
+        taskname.setForeground(ThemeLoader.getColor(ThemeColorKey.TASK_TEXT_COLOR));
 
-        this.setBackground(ThemeLoader.getTaskColor());
+        this.setBackground(ThemeLoader.getColor(ThemeColorKey.TASK_COLOR));
         if (task.isFinished()) {
             taskFinished.setVisible(true);
             taskUrgency.setVisible(false);
@@ -69,7 +72,7 @@ public class PANEL_task extends JPanel {
         LocalDate taskDeadline = LocalDate.parse(task.getDeadline(), formatter);
         if (taskDeadline.isEqual(today) || taskDeadline.isBefore(today) ) {
             taskUrgency.setVisible(false);
-            taskUrgent.setForeground(taskDeadline.isBefore(today)?ThemeLoader.getTaskUrgentPassed(): ThemeLoader.getTaskUrgentIconColor());
+            taskUrgent.setForeground(taskDeadline.isBefore(today)?ThemeLoader.getColor(ThemeColorKey.TASK_URGENT_PASSED): ThemeLoader.getColor(ThemeColorKey.TASK_URGENT_ICON));
             taskUrgent.setVisible(true);
 
         }else{
@@ -86,17 +89,16 @@ public class PANEL_task extends JPanel {
                 eventHandler.setCurrentTask(currentTask);
                 eventHandler.getPanelMainmenu().getPanel_taskinfo().addTaskInfo(currentTask);
                 eventHandler.getPanelMainmenu().getPanel_clock().deactivate();
-                eventHandler.getFileHandler().getNotesFromFile();
                 eventHandler.getPanelList().loadCurrentTaskNotes();
                 eventHandler.getPanelMainmenu().getPanel_help().setVisible(false);
                 System.out.println("current archive "+eventHandler.getCurrentArchive());
             }
             public void mouseEntered(MouseEvent e) {
-                PANEL_task.this.setBackground(ThemeLoader.getTaskHoverColor());
+                PANEL_task.this.setBackground(ThemeLoader.getColor(ThemeColorKey.TASK_HOVER_COLOR));
                 taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
             }
             public void mouseExited(MouseEvent e) {
-                PANEL_task.this.setBackground(ThemeLoader.getTaskColor());
+                PANEL_task.this.setBackground(ThemeLoader.getColor(ThemeColorKey.TASK_COLOR));
                 taskname.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN,15));
             }
         });
@@ -111,4 +113,14 @@ public class PANEL_task extends JPanel {
 
     }
 
+    @Override
+    public void onThemeChanged() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate today= LocalDate.now();
+        LocalDate taskDeadline = LocalDate.parse(currentTask.getDeadline(), formatter);
+        this.setBackground(ThemeLoader.getColor(ThemeColorKey.TASK_COLOR));
+        taskUrgency.setForeground(ThemeLoader.getUrgencyColor(currentTask.getUrgency()));
+        taskname.setForeground(ThemeLoader.getColor(ThemeColorKey.TASK_TEXT_COLOR));
+        taskUrgent.setForeground(taskDeadline.isBefore(today)?ThemeLoader.getColor(ThemeColorKey.TASK_URGENT_PASSED): ThemeLoader.getColor(ThemeColorKey.TASK_URGENT_ICON));
+    }
 }

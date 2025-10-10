@@ -2,8 +2,10 @@ package UserInterface.PanelListElements;
 
 import AppLogic.Archive;
 import Handlers.EventHandler;
-import ConfigRelated.FontLoader;
-import ConfigRelated.ThemeLoader;
+import Loaders.FontLoader;
+import Loaders.ThemeChangeListener;
+import Loaders.ThemeColorKey;
+import Loaders.ThemeLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,7 +13,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PANEL_archive extends JPanel {
+public class PANEL_archive extends JPanel implements ThemeChangeListener {
         private final JLabel titleLabel =  new JLabel();
         private final Archive archive;
 
@@ -20,8 +22,9 @@ public class PANEL_archive extends JPanel {
         private int HEIGHT = 30;
 
         public PANEL_archive(Archive archive) {
+            ThemeLoader.addThemeChangeListener(this);
             this.archive = archive;
-            this.setBackground(ThemeLoader.getDirColor());
+            this.setBackground(ThemeLoader.getColor(ThemeColorKey.ARCHIVE_COLOR));
             this.setLayout(null);
             titleLabel.setText("\uEB9C  "+archive.getArchiveName());
             titleLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -29,7 +32,7 @@ public class PANEL_archive extends JPanel {
 
 
             Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-            Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getSecndAccent(), 1);
+            Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT), 1);
             Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
 
             this.setBorder(compoundBorder);
@@ -37,17 +40,17 @@ public class PANEL_archive extends JPanel {
             this.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    PANEL_archive.this.setBackground(ThemeLoader.getDirHoverColor());
+                    PANEL_archive.this.setBackground(ThemeLoader.getColor(ThemeColorKey.ARCHIVE_HOVER_COLOR));
                     titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 25));
                 }
                 public void mouseExited(MouseEvent e) {
-                    PANEL_archive.this.setBackground(ThemeLoader.getDirColor());
+                    PANEL_archive.this.setBackground(ThemeLoader.getColor(ThemeColorKey.ARCHIVE_COLOR));
                     titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
                 }
             });
 
             titleLabel.setBounds(0,0,100,30);
-            titleLabel.setForeground(ThemeLoader.getSecndAccent());
+            titleLabel.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
             this.add(titleLabel);
         }
         public void setHEIGHTandWIDTH(int height, int width){
@@ -59,10 +62,19 @@ public class PANEL_archive extends JPanel {
                 public void mouseClicked(MouseEvent e) {
                     System.out.println(archive.getArchiveName()+"/");
                     eventHandler.setCurrentArchive(archive);
-//                eventHandler.getFileHandler().getTaskListFromFile();
                     eventHandler.getPanelList().loadDirs();
                     System.out.println(eventHandler.getCurrentArchive());
                 }
             });
         }
+
+    @Override
+    public void onThemeChanged() {
+        this.setBackground(ThemeLoader.getColor(ThemeColorKey.ARCHIVE_COLOR));
+        Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT), 1);
+        Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
+        this.setBorder(compoundBorder);
+        titleLabel.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
     }
+}

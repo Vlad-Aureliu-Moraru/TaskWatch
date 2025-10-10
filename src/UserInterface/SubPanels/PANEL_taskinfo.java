@@ -1,12 +1,15 @@
 package UserInterface.SubPanels;
 
 import AppLogic.Task;
-import ConfigRelated.ThemeLoader;
+import Loaders.FontLoader;
+import Loaders.ThemeChangeListener;
+import Loaders.ThemeColorKey;
+import Loaders.ThemeLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PANEL_taskinfo extends JScrollPane{
+public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
 
     private final JPanel mirrorPanel = new JPanel();
     private final JLabel taskName = new JLabel("Task Name:");
@@ -17,32 +20,32 @@ public class PANEL_taskinfo extends JScrollPane{
     private final JLabel taskTime = new JLabel("Task Time:");
     private final JLabel taskDeadline = new JLabel("Task Deadline:");
     private final JLabel taskType = new JLabel("Task Type:");
-    private final JLabel taskRepeatableType= new JLabel("Task Repeatable Type:");
-    private final JLabel taskDifficulty= new JLabel("Task Difficulty:");
-    private final JLabel taskFinishedDate= new JLabel("Task Finished Date:");
-
+    private final JLabel taskRepeatableType = new JLabel("Task Repeatable Type:");
+    private final JLabel taskDifficulty = new JLabel("Task Difficulty:");
+    private final JLabel taskFinishedDate = new JLabel("Task Finished Date:");
 
     private boolean active = false;
-
-
     private int HEIGHT;
     private int WIDTH;
 
     public PANEL_taskinfo() {
-        mirrorPanel.setBackground(ThemeLoader.getMainColor());
+        ThemeLoader.addThemeChangeListener(this);
+
+        mirrorPanel.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_TASKINFO));
         mirrorPanel.setLayout(null);
-        this.setVisible(false);
+        setVisible(false);
 
-        taskName.setForeground(ThemeLoader.getSecndAccent());
-
-        taskDescription.setForeground(ThemeLoader.getSecndAccent());
+        // === Text Area Configuration ===
         taskDescription.setEditable(false);
         taskDescription.setLineWrap(true);
         taskDescription.setWrapStyleWord(true);
-        taskDescription.setBackground(ThemeLoader.getMainColor());
+        taskDescription.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_TASKINFO));
         taskDescription.setOpaque(true);
         taskDescription.setFocusable(false);
+        taskDescription.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15f));
+        taskDescription.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
 
+        // === Description Scroll Pane ===
         taskDescriptionPane = new JScrollPane(taskDescription);
         taskDescriptionPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         taskDescriptionPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -51,18 +54,18 @@ public class PANEL_taskinfo extends JScrollPane{
         taskDescriptionPane.setOpaque(true);
         taskDescriptionPane.setAutoscrolls(true);
         taskDescriptionPane.setWheelScrollingEnabled(true);
-        taskDescriptionPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        taskDescriptionPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 
-        taskStatus.setForeground(ThemeLoader.getSecndAccent());
-        taskPriority.setForeground(ThemeLoader.getSecndAccent());
-        taskTime.setForeground(ThemeLoader.getSecndAccent());
-        taskDeadline.setForeground(ThemeLoader.getSecndAccent());
-        taskType.setForeground(ThemeLoader.getSecndAccent());
-        taskDifficulty.setForeground(ThemeLoader.getSecndAccent());
-        taskRepeatableType.setForeground(ThemeLoader.getSecndAccent());
-        taskFinishedDate.setForeground(ThemeLoader.getSecndAccent());
+        // === Foreground accent colors ===
+        for (JLabel label : new JLabel[]{
+                taskName, taskStatus, taskPriority, taskTime, taskDeadline,
+                taskType, taskRepeatableType, taskDifficulty, taskFinishedDate
+        }) {
+            label.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
+            label.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15f));
+        }
 
-
+        // === Add components ===
         mirrorPanel.add(taskName);
         mirrorPanel.add(taskDescriptionPane);
         mirrorPanel.add(taskStatus);
@@ -74,130 +77,128 @@ public class PANEL_taskinfo extends JScrollPane{
         mirrorPanel.add(taskDifficulty);
         mirrorPanel.add(taskFinishedDate);
 
-        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
-        mirrorPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
-        this.setViewportView(mirrorPanel);
-        this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        this.setViewportBorder(BorderFactory.createEmptyBorder());
-        this.setBorder(BorderFactory.createEmptyBorder());
-        this.setOpaque(false);
-        this.setAutoscrolls(true);
-        this.setWheelScrollingEnabled(true);
-        this.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        // === Scroll pane settings ===
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        mirrorPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setViewportView(mirrorPanel);
+        setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        setViewportBorder(BorderFactory.createEmptyBorder());
+        setBorder(BorderFactory.createEmptyBorder());
+        setOpaque(false);
+        setAutoscrolls(true);
+        setWheelScrollingEnabled(true);
+        getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         getVerticalScrollBar().setUnitIncrement(80);
-
     }
-    public void setHEIGHTandWIDTH(int height, int width){
+
+    public void setHEIGHTandWIDTH(int height, int width) {
         this.HEIGHT = height;
         this.WIDTH = width;
-        int currentY = 20;
-        taskName.setBounds(80,0,width,30);
-        taskStatus.setBounds(50,0,200,30);
-        taskType.setBounds(30,0,200,30);
 
-        taskDescriptionPane.setBounds(WIDTH/20,40,width/2-40,height);
-        taskPriority.setBounds(WIDTH/2+70,currentY,200,30);
-        currentY+=30;
-        taskDifficulty.setBounds(WIDTH/2+70,currentY,200,30);
-        currentY+=30;
-        taskTime.setBounds(WIDTH/2+70,currentY,200,30);
-        currentY+=30;
-        taskFinishedDate.setBounds(WIDTH/2+70,currentY,200,30);
-        currentY+=30;
-        taskRepeatableType.setBounds(WIDTH/2+70,currentY,200,30);
-        currentY+=30;
-        taskDeadline.setBounds(WIDTH/2+70,currentY,200,30);
-        if (width<500){
+        int currentY = 20;
+        taskName.setBounds(80, 0, width, 30);
+        taskStatus.setBounds(50, 0, 200, 30);
+        taskType.setBounds(30, 0, 200, 30);
+
+        taskDescriptionPane.setBounds(WIDTH / 20, 40, width / 2 - 40, height);
+        taskPriority.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+        currentY += 30;
+        taskDifficulty.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+        currentY += 30;
+        taskTime.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+        currentY += 30;
+        taskFinishedDate.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+        currentY += 30;
+        taskRepeatableType.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+        currentY += 30;
+        taskDeadline.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+
+        if (width < 500) {
             setFontSizeAll(13);
-        }else if (width<700){
+        } else if (width < 700) {
             setFontSizeAll(16);
-        }
-        else{
+        } else {
             setFontSizeAll(20);
         }
-        mirrorPanel.setPreferredSize(new Dimension(WIDTH,currentY+30));
-        taskDescription.setPreferredSize(new Dimension(WIDTH,currentY*3));
+
+        mirrorPanel.setPreferredSize(new Dimension(WIDTH, currentY + 30));
+        taskDescription.setPreferredSize(new Dimension(WIDTH, currentY * 3));
         mirrorPanel.revalidate();
         mirrorPanel.repaint();
-        this.revalidate();
-        this.repaint();
+        revalidate();
+        repaint();
     }
-    public void addTaskInfo(Task task){
+
+    public void addTaskInfo(Task task) {
         activate();
-        taskName.setText(task.getName());
-        taskDescription.setText("DESC: "+task.getDescription());
-        taskStatus.setText(task.isFinished()?"\uF4A7":"\uDB80\uDD31");
-        taskPriority.setText("URGENCY: "+task.getUrgency());
-        taskTime.setText("TIME: "+task.getTimeDedicated()+"min");
+        updateTaskInfo(task);
+    }
 
-        if (task.getDeadline() != null) {
-            String deadline = task.getDeadline();
-            if (!deadline.equals("none")) {
-                taskDeadline.setText(deadline);
-                taskDeadline.setVisible(true);
-            } else {
-                taskDeadline.setVisible(false);
-            }
+    public void updateTaskInfo(Task task) {
+        taskName.setText(task.getName());
+        taskDescription.setText("DESC: " + task.getDescription());
+        taskStatus.setText(task.isFinished() ? "\uF4A7" : "\uDB80\uDD31");
+        taskPriority.setText("URGENCY: " + task.getUrgency());
+        taskTime.setText("TIME: " + task.getTimeDedicated() + "min");
+
+        if (task.getDeadline() != null && !task.getDeadline().equals("none")) {
+            taskDeadline.setText(task.getDeadline());
+            taskDeadline.setVisible(true);
         } else {
             taskDeadline.setVisible(false);
         }
-        taskDifficulty.setText("DIFFICULTY: "+task.getDifficulty());
-        taskType.setText(task.isRepeatable()?"\uDB81\uDC56":"\uDB81\uDC57");
-        taskRepeatableType.setText("\uF01E  "+task.getRepeatableType());
-        taskFinishedDate.setText("\uED7A  "+task.getFinishedDate());
-        taskRepeatableType.setVisible(task.isRepeatable());
-        taskFinishedDate.setVisible(task.isFinished());
-    }
-    public void updateTaskInfo(Task task){
-        taskName.setText(task.getName());
-        taskDescription.setText("DESC: "+task.getDescription());
-        taskStatus.setText(task.isFinished()?"\uF4A7":"\uDB80\uDD31");
-        taskPriority.setText("URGENCY: "+task.getUrgency());
-        taskTime.setText("TIME: "+task.getTimeDedicated()+"min");
 
-        if (task.getDeadline() != null) {
-            String deadline = task.getDeadline();
-            if (!deadline.equals("none")) {
-                taskDeadline.setText(deadline);
-                taskDeadline.setVisible(true);
-            } else {
-                taskDeadline.setVisible(false);
-            }
-        } else {
-            taskDeadline.setVisible(false);
-        }
-        taskDifficulty.setText("DIFFICULTY: "+task.getDifficulty());
-        taskType.setText(task.isRepeatable()?"\uDB81\uDC56":"\uDB81\uDC57");
-        taskRepeatableType.setText("\uF01E  "+task.getRepeatableType());
-        taskFinishedDate.setText("\uED7A  "+task.getFinishedDate());
+        taskDifficulty.setText("DIFFICULTY: " + task.getDifficulty());
+        taskType.setText(task.isRepeatable() ? "\uDB81\uDC56" : "\uDB81\uDC57");
+        taskRepeatableType.setText("\uF01E  " + task.getRepeatableType());
+        taskFinishedDate.setText("\uED7A  " + task.getFinishedDate());
         taskRepeatableType.setVisible(task.isRepeatable());
         taskFinishedDate.setVisible(task.isFinished());
+        revalidate();
+        repaint();
     }
-    public void activate(){
-        if (active){
-            this.setVisible(false);
-            active = false;
-        }
-        else{
-            this.setVisible(true);
-            active = true;
-        }
+
+    public void activate() {
+        setVisible(!active);
+        active = !active;
     }
-    public void deactivate(){
-        this.setVisible(false);
+
+    public void deactivate() {
+        setVisible(false);
         active = false;
     }
-    private void setFontSizeAll(int size){
-        taskName.setFont(new Font("Arial", Font.PLAIN,size));
-        taskDescription.setFont(new Font("Arial", Font.PLAIN,size));
-        taskStatus.setFont(new Font("Arial", Font.PLAIN, size+5));
-        taskPriority.setFont(new Font("Arial", Font.PLAIN, size));
-        taskTime.setFont(new Font("Arial", Font.PLAIN, size));
-        taskDeadline.setFont(new Font("Arial", Font.PLAIN, size));
-        taskType.setFont(new Font("Arial", Font.PLAIN, size+5));
-        taskFinishedDate.setFont(new Font("Arial", Font.PLAIN, size));
-        taskRepeatableType.setFont(new Font("Arial", Font.PLAIN, size));
-        taskDifficulty.setFont(new Font("Arial", Font.PLAIN, size));
+
+    private void setFontSizeAll(int size) {
+        Font base = FontLoader.getCozyFont().deriveFont(Font.PLAIN, size);
+        taskName.setFont(base);
+        taskDescription.setFont(base);
+        taskStatus.setFont(base.deriveFont((float) size + 5));
+        taskPriority.setFont(base);
+        taskTime.setFont(base);
+        taskDeadline.setFont(base);
+        taskType.setFont(base.deriveFont((float) size + 5));
+        taskFinishedDate.setFont(base);
+        taskRepeatableType.setFont(base);
+        taskDifficulty.setFont(base);
+    }
+
+    @Override
+    public void onThemeChanged() {
+        // Apply background color
+        mirrorPanel.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_TASKINFO));
+        taskDescription.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_TASKINFO));
+
+        // Update all label & text colors
+        for (JLabel label : new JLabel[]{
+                taskName, taskStatus, taskPriority, taskTime, taskDeadline,
+                taskType, taskRepeatableType, taskDifficulty, taskFinishedDate
+        }) {
+            label.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
+        }
+        taskDescription.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
+
+        repaint();
+        revalidate();
     }
 }
