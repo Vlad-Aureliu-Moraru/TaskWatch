@@ -45,7 +45,7 @@ public class EventHandler {
     }
     public void updateArchive(String newArchiveName){
         archiveRepository.updateArchive(currentArchive.getId(),newArchiveName);
-        //todo method to update path
+        panelnavbar.setCurrentPATH(newArchiveName+"/");
     }
     public void deleteArchive(){
         archiveRepository.deleteArchive(currentArchive.getId());
@@ -67,7 +67,7 @@ public class EventHandler {
     }
     public void updateDirectoryName(String newDirectoryName) {
         directoryRepository.updateDirectoryName(currentDirectory.getId(),newDirectoryName);
-        //todo method to update path
+        panelnavbar.setCurrentPATH(currentArchive.getArchiveName()+"/"+currentDirectory.getName()+"/");
     }
     public void deleteDirectory(){
         directoryRepository.deleteDirectory(currentDirectory.getId());
@@ -92,7 +92,7 @@ public class EventHandler {
         getPanelMainmenu().getPanel_reminder().loadReminder();
         panelMainmenu.getPanel_taskinfo().updateTaskInfo(currentTask);
         panelMainmenu.getPanel_reminder().loadReminder();
-        //todo method to update path
+        panelnavbar.setCurrentPATH(currentArchive.getArchiveName()+"/"+currentDirectory.getName()+"/"+currentTask.getName()+"/");
     }
     public void deleteTask() {
         taskRepository.deleteTask(currentTask.getId());

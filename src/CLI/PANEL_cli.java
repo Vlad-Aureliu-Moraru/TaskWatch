@@ -247,7 +247,8 @@ public class PANEL_cli extends JPanel {
             activate();
             step = 1;
             editing = false;
-        } else if (command.matches(commandHelper.getEditCommand())) {
+        }
+        else if (command.matches(commandHelper.getEditCommand())) {
             editing = true;
             if (eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
                 loadDirrectoryInput(eventHandler.getCurrentDirectory().getName());
@@ -258,11 +259,13 @@ public class PANEL_cli extends JPanel {
             } else if (eventHandler.getPanelList().getStage() == ListStages.ARCHIVE_MENU) {
                 loadArchiveInput(eventHandler.getCurrentArchive().getArchiveName());
             }
-        } else if (command.matches(commandHelper.getSortByUrgencyCommand()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+        }
+        else if (command.matches(commandHelper.getSortByUrgencyCommand()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
             String value = command.substring(command.indexOf("(") + 1, command.indexOf(")"));
             eventHandler.getPanelList().sortTasksByUrgency(value.equals("a"));
             activate();
-        } else if (command.matches(commandHelper.getRemoveCommand())) {
+        }
+        else if (command.matches(commandHelper.getRemoveCommand())) {
             if (eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
                 loadConfirmation();
             } else if (eventHandler.getPanelList().getStage() == ListStages.TASK_MENU && !(eventHandler.getPanelList().getStage() == ListStages.NOTE_CLICKED)) {
@@ -272,7 +275,8 @@ public class PANEL_cli extends JPanel {
             } else if (eventHandler.getPanelList().getStage() == ListStages.ARCHIVE_MENU) {
                 loadConfirmation();
             }
-        } else if (command.matches(commandHelper.getConfirmation())) {
+        }
+        else if (command.matches(commandHelper.getConfirmation())) {
             String commandParameeter = command.substring(command.indexOf(":") + 1);
             if (commandParameeter.equals("y")) {
                 System.out.println("[LOG] deleting file");
@@ -304,7 +308,8 @@ public class PANEL_cli extends JPanel {
                 activate();
             }
             System.out.println(commandParameeter);
-        } else if (command.matches(commandHelper.getStartTimerCommand())) {
+        }
+        else if (command.matches(commandHelper.getStartTimerCommand())) {
             int value = Integer.parseInt(command.substring(command.indexOf("(") + 1, command.indexOf(")")));
             if (value < 1) {
                 eventHandler.getPanelnavbar().displayTempMessage("Enter a value >=1", true);
@@ -312,27 +317,34 @@ public class PANEL_cli extends JPanel {
                 eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(value);
                 activate();
             }
-        } else if (command.matches(commandHelper.getStopTimerCommand())) {
+        }
+        else if (command.matches(commandHelper.getStopTimerCommand())) {
             eventHandler.getPanelMainmenu().getPanel_clock().stopTaskTimerandStartClockTimer();
             activate();
 
-        } else if (command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+        }
+        else if (command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
             if (!eventHandler.getCurrentTask().isFinished()) {
                 eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask(), eventHandler.getCurrentDirectory());
                 activate();
             }
-        } else if (command.matches(commandHelper.getPauseTimerCommand())) {
+        }
+        else if (command.matches(commandHelper.getPauseTimerCommand())) {
             eventHandler.getPanelMainmenu().getPanel_clock().pauseOrunpauseTaskTimer();
             activate();
 
-        } else if (command.matches(commandHelper.getRestartTimerCommand())) {
+        }
+        else if (command.matches(commandHelper.getRestartTimerCommand())) {
             eventHandler.getPanelMainmenu().getPanel_clock().resetTimer();
             activate();
-        } else if (command.matches(commandHelper.getSortByDifficultyCommand()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+        }
+        else if (command.matches(commandHelper.getSortByDifficultyCommand()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
             String value = command.substring(command.indexOf("(") + 1, command.indexOf(")"));
             eventHandler.getPanelList().sortByDifficulty(value.equals("a"));
             activate();
-        } else if (command.matches(commandHelper.getFinishTaskCommand()) && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+        }
+        else if (command.matches(commandHelper.getFinishTaskCommand()) && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+
             if (eventHandler.getCurrentTask().isFinished()) {
                 System.out.println("[LOG] reached finished statement");
                 eventHandler.setTaskFinished(false);
@@ -350,21 +362,25 @@ public class PANEL_cli extends JPanel {
             eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
             eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
 
-        } else if (command.matches(commandHelper.getShowFinishedTasks())) {
+        } else if (command.matches(commandHelper.getShowFinishedTasks()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
             eventHandler.getPanelList().switchShowingFinished();
             eventHandler.getPanelList().loadCurrentTasks(null);
             activate();
-        } else if (command.matches(commandHelper.getHelpCommand())) {
+        }
+        else if (command.matches(commandHelper.getHelpCommand())) {
             eventHandler.getPanelMainmenu().getPanel_help().switchVisible();
             eventHandler.getPanelMainmenu().getPanel_clock().switchVisible();
             activate();
-        } else if (command.matches(commandHelper.getExitCommand())) {
+        }
+        else if (command.matches(commandHelper.getExitCommand())) {
             System.out.println("exit ?");
             System.exit(0);
-        } else if (command.matches(commandHelper.getSwitchScheduleDisplay())) {
+        }
+        else if (command.matches(commandHelper.getSwitchScheduleDisplay())) {
             eventHandler.getPanelMainmenu().getPanel_reminder().loadCorrectPanel();
             activate();
-        } else {
+        }
+        else {
             commandFound = false;
         }
 

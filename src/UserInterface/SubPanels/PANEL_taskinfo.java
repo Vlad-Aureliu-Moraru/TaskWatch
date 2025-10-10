@@ -23,6 +23,7 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
     private final JLabel taskRepeatableType = new JLabel("Task Repeatable Type:");
     private final JLabel taskDifficulty = new JLabel("Task Difficulty:");
     private final JLabel taskFinishedDate = new JLabel("Task Finished Date:");
+    private final JLabel repeatsOnSpecificDay= new JLabel("Task Day:");
 
     private boolean active = false;
     private int HEIGHT;
@@ -54,12 +55,13 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         taskDescriptionPane.setOpaque(true);
         taskDescriptionPane.setAutoscrolls(true);
         taskDescriptionPane.setWheelScrollingEnabled(true);
-        taskDescriptionPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        taskDescriptionPane.getVerticalScrollBar().setPreferredSize(new Dimension(2, 0));
+        taskDescriptionPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
         // === Foreground accent colors ===
         for (JLabel label : new JLabel[]{
                 taskName, taskStatus, taskPriority, taskTime, taskDeadline,
-                taskType, taskRepeatableType, taskDifficulty, taskFinishedDate
+                taskType, taskRepeatableType, taskDifficulty, taskFinishedDate, repeatsOnSpecificDay
         }) {
             label.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
             label.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 15f));
@@ -76,6 +78,8 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         mirrorPanel.add(taskRepeatableType);
         mirrorPanel.add(taskDifficulty);
         mirrorPanel.add(taskFinishedDate);
+        mirrorPanel.add(repeatsOnSpecificDay);
+
 
         // === Scroll pane settings ===
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -88,8 +92,9 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         setOpaque(false);
         setAutoscrolls(true);
         setWheelScrollingEnabled(true);
-        getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        getVerticalScrollBar().setPreferredSize(new Dimension(4, 0));
         getVerticalScrollBar().setUnitIncrement(80);
+        this.getVerticalScrollBar().setUI(new CustomScrollBarUI());
     }
 
     public void setHEIGHTandWIDTH(int height, int width) {
@@ -111,6 +116,7 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         taskFinishedDate.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
         currentY += 30;
         taskRepeatableType.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
+        repeatsOnSpecificDay.setBounds(WIDTH / 2 + 180, currentY, 200, 30);
         currentY += 30;
         taskDeadline.setBounds(WIDTH / 2 + 70, currentY, 200, 30);
 
@@ -148,6 +154,12 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         } else {
             taskDeadline.setVisible(false);
         }
+        if (task.getRepeatOnSpecificDay()!="none"){
+            repeatsOnSpecificDay.setText("\uF073 "+ task.getRepeatOnSpecificDay());
+            repeatsOnSpecificDay.setVisible(true);
+        }else{
+            repeatsOnSpecificDay.setVisible(false);
+        }
 
         taskDifficulty.setText("DIFFICULTY: " + task.getDifficulty());
         taskType.setText(task.isRepeatable() ? "\uDB81\uDC56" : "\uDB81\uDC57");
@@ -181,6 +193,7 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         taskFinishedDate.setFont(base);
         taskRepeatableType.setFont(base);
         taskDifficulty.setFont(base);
+        repeatsOnSpecificDay.setFont(base);
     }
 
     @Override
@@ -192,7 +205,7 @@ public class PANEL_taskinfo extends JScrollPane implements ThemeChangeListener {
         // Update all label & text colors
         for (JLabel label : new JLabel[]{
                 taskName, taskStatus, taskPriority, taskTime, taskDeadline,
-                taskType, taskRepeatableType, taskDifficulty, taskFinishedDate
+                taskType, taskRepeatableType, taskDifficulty, taskFinishedDate,repeatsOnSpecificDay
         }) {
             label.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
         }

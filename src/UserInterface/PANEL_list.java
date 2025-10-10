@@ -9,6 +9,7 @@ import Loaders.ThemeChangeListener;
 import Loaders.ThemeColorKey;
 import Loaders.ThemeLoader;
 import UserInterface.PanelListElements.*;
+import UserInterface.SubPanels.CustomScrollBarUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,8 +48,9 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
         setVisible(true);
         setAutoscrolls(true);
         setWheelScrollingEnabled(true);
-        getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        getVerticalScrollBar().setPreferredSize(new Dimension(6, 0));
         getVerticalScrollBar().setUnitIncrement(10);
+        this.getVerticalScrollBar().setUI(new CustomScrollBarUI());
     }
 
     // === Dynamic sizing ===

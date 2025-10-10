@@ -26,7 +26,7 @@ public class PANEL_archive extends JPanel implements ThemeChangeListener {
             this.archive = archive;
             this.setBackground(ThemeLoader.getColor(ThemeColorKey.ARCHIVE_COLOR));
             this.setLayout(null);
-            titleLabel.setText("\uEB9C  "+archive.getArchiveName());
+            titleLabel.setText("\uF187  "+archive.getArchiveName());
             titleLabel.setHorizontalAlignment(JLabel.CENTER);
             titleLabel.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 20));
 
