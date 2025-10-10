@@ -12,6 +12,8 @@ import javax.swing.border.Border;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static UserInterface.PanelListElements.ListStages.NOTE_CLICKED;
+
 public class PANEL_note extends JPanel implements ThemeChangeListener {
     private final Note currentNote;
     private final JLabel noteName = new JLabel();
@@ -43,7 +45,7 @@ public class PANEL_note extends JPanel implements ThemeChangeListener {
                 eventHandler.setCurrentNote(currentNote);
                 eventHandler.getPanelMainmenu().getPanel_noteinfo().addNoteInfo(currentNote);
                 eventHandler.getPanelList().setNoteSelected(true);
-                eventHandler.getPanelList().setStage(ListStages.NOTE_CLICKED);
+                eventHandler.getPanelList().setStage(NOTE_CLICKED);
 
                 System.out.println(eventHandler.getCurrentNote());
             }

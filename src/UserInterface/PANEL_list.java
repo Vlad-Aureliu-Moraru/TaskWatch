@@ -16,6 +16,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import static UserInterface.PanelListElements.ListStages.*;
+
 public class PANEL_list extends JScrollPane implements ThemeChangeListener {
 
     private final JPanel panel = new JPanel();
@@ -24,7 +26,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
     private int WIDTH;
     private static final int GAP = 20;
     private static final int MARGIN = 10;
-    private ListStages listStages = ListStages.MAIN_MENU;
+    private ListStages listStages = MAIN_MENU;
     private boolean noteSelected = false;
     private boolean showingFinished = false;
 
@@ -68,7 +70,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
 
     // === Archive / Directory / Task Loading ===
     public void loadArchives() {
-        listStages = ListStages.MAIN_MENU;
+        listStages = MAIN_MENU;
         panel.removeAll();
 
         int currentY = 10;
@@ -85,7 +87,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
     }
 
     public void loadDirs() {
-        listStages = ListStages.ARCHIVE_MENU;
+        listStages = ARCHIVE_MENU;
         panel.removeAll();
 
         int currentY = 10;
@@ -104,7 +106,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
     }
 
     public void loadCurrentDirTasks(boolean showingFinished, ArrayList<Task> currentTasks) {
-        listStages = ListStages.DIRECTORY_MENU;
+        listStages = DIRECTORY_MENU;
         panel.removeAll();
 
         if (currentTasks == null) {
@@ -134,7 +136,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
     }
 
     public void loadCurrentTaskNotes() {
-        listStages = ListStages.TASK_MENU;
+        listStages = TASK_MENU;
         panel.removeAll();
 
         int currentY = 10;
@@ -212,7 +214,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
 
     public void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        setStage(ListStages.MAIN_MENU);
+        setStage(MAIN_MENU);
     }
 
     public void refreshComponents() {

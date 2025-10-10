@@ -5,11 +5,12 @@ import Loaders.FontLoader;
 import Loaders.ThemeChangeListener;
 import Loaders.ThemeColorKey;
 import Loaders.ThemeLoader;
-import UserInterface.PanelListElements.ListStages;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+
+import static UserInterface.PanelListElements.ListStages.*;
 
 public class PANEL_navbar extends JPanel implements ThemeChangeListener {
 
@@ -77,9 +78,9 @@ public class PANEL_navbar extends JPanel implements ThemeChangeListener {
         System.out.println("CURRENT STAGE " + eventHandler.getPanelList().getStage());
 
         switch (eventHandler.getPanelList().getStage()) {
-            case ARCHIVE_MENU -> eventHandler.getPanelList().setStage(ListStages.MAIN_MENU);
-            case DIRECTORY_MENU -> eventHandler.getPanelList().setStage(ListStages.ARCHIVE_MENU);
-            case TASK_MENU, NOTE_CLICKED -> eventHandler.getPanelList().setStage(ListStages.DIRECTORY_MENU);
+            case ARCHIVE_MENU -> eventHandler.getPanelList().setStage(MAIN_MENU);
+            case DIRECTORY_MENU -> eventHandler.getPanelList().setStage(ARCHIVE_MENU);
+            case TASK_MENU, NOTE_CLICKED -> eventHandler.getPanelList().setStage(DIRECTORY_MENU);
             case MAIN_MENU -> System.out.println("Already at main menu, no back action taken.");
             default -> System.err.println("Unexpected stage encountered: " + eventHandler.getPanelList().getStage());
         }

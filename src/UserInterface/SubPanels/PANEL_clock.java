@@ -4,7 +4,6 @@ import Loaders.*;
 import AppLogic.Directory;
 import Handlers.EventHandler;
 import AppLogic.Task;
-import UserInterface.PanelListElements.ListStages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import static UserInterface.PanelListElements.ListStages.DIRECTORY_MENU;
 
 public class PANEL_clock extends JPanel implements ThemeChangeListener {
     private static final int[][] WORK_PERCENTAGE_MATRIX = {
@@ -94,7 +95,7 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
                 currentTask.setFinishedDate(formattedDateTime);
                 eventHandler.updateDeadlineForRepeatableTasks(currentTask);
                 eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
-                if (eventHandler.getPanelList().getStage()== ListStages.DIRECTORY_MENU ){
+                if (eventHandler.getPanelList().getStage()== DIRECTORY_MENU ){
                     eventHandler.getPanelList().loadCurrentTasks(null);
                 }
             }

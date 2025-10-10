@@ -7,7 +7,6 @@ import Loaders.ConfigLoader;
 import Loaders.ThemeColorKey;
 import Loaders.ThemeLoader;
 import Loaders.ThemeManager;
-import UserInterface.PanelListElements.ListStages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+
+import static UserInterface.PanelListElements.ListStages.*;
 
 public class PANEL_cli extends JPanel {
     private final JTextField commandField = new JTextField();
@@ -233,13 +234,13 @@ public class PANEL_cli extends JPanel {
         commandFound = true;
         if (command.matches(commandHelper.getAddCommand())) {
             editing = false;
-            if (eventHandler.getPanelList().getStage() == ListStages.ARCHIVE_MENU) {
+            if (eventHandler.getPanelList().getStage() == ARCHIVE_MENU) {
                 loadDirrectoryInput("");
-            } else if (eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+            } else if (eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                 loadTaskInput(step, false);
-            } else if (eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+            } else if (eventHandler.getPanelList().getStage() == TASK_MENU) {
                 loadNoteInput("");
-            } else if (eventHandler.getPanelList().getStage() == ListStages.MAIN_MENU) {
+            } else if (eventHandler.getPanelList().getStage() == MAIN_MENU) {
                 loadArchiveInput("");
             }
 
@@ -250,29 +251,29 @@ public class PANEL_cli extends JPanel {
         }
         else if (command.matches(commandHelper.getEditCommand())) {
             editing = true;
-            if (eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+            if (eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                 loadDirrectoryInput(eventHandler.getCurrentDirectory().getName());
-            } else if (eventHandler.getPanelList().getStage() == ListStages.NOTE_CLICKED) {
+            } else if (eventHandler.getPanelList().getStage() == NOTE_CLICKED) {
                 loadNoteInput(eventHandler.getCurrentNote().getNote());
-            } else if (eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+            } else if (eventHandler.getPanelList().getStage() == TASK_MENU) {
                 loadTaskInput(step, editing);
-            } else if (eventHandler.getPanelList().getStage() == ListStages.ARCHIVE_MENU) {
+            } else if (eventHandler.getPanelList().getStage() == ARCHIVE_MENU) {
                 loadArchiveInput(eventHandler.getCurrentArchive().getArchiveName());
             }
         }
-        else if (command.matches(commandHelper.getSortByUrgencyCommand()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+        else if (command.matches(commandHelper.getSortByUrgencyCommand()) && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
             String value = command.substring(command.indexOf("(") + 1, command.indexOf(")"));
             eventHandler.getPanelList().sortTasksByUrgency(value.equals("a"));
             activate();
         }
         else if (command.matches(commandHelper.getRemoveCommand())) {
-            if (eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+            if (eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                 loadConfirmation();
-            } else if (eventHandler.getPanelList().getStage() == ListStages.TASK_MENU && !(eventHandler.getPanelList().getStage() == ListStages.NOTE_CLICKED)) {
+            } else if (eventHandler.getPanelList().getStage() == TASK_MENU && !(eventHandler.getPanelList().getStage() == NOTE_CLICKED)) {
                 loadConfirmation();
-            } else if (eventHandler.getPanelList().getStage() == ListStages.NOTE_CLICKED) {
+            } else if (eventHandler.getPanelList().getStage() == NOTE_CLICKED) {
                 loadConfirmation();
-            } else if (eventHandler.getPanelList().getStage() == ListStages.ARCHIVE_MENU) {
+            } else if (eventHandler.getPanelList().getStage() == ARCHIVE_MENU) {
                 loadConfirmation();
             }
         }
@@ -281,25 +282,25 @@ public class PANEL_cli extends JPanel {
             if (commandParameeter.equals("y")) {
                 System.out.println("[LOG] deleting file");
                 switch (eventHandler.getPanelList().getStage()) {
-                    case ListStages.ARCHIVE_MENU:
+                    case ARCHIVE_MENU:
                         eventHandler.deleteArchive();
                         eventHandler.getPanelnavbar().returnFunction(true);
                         activate();
 //                eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
                         break;
-                    case ListStages.DIRECTORY_MENU:
+                    case DIRECTORY_MENU:
                         eventHandler.deleteDirectory();
                         eventHandler.getPanelnavbar().returnFunction(true);
                         activate();
 //                eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
                         break;
 
-                    case ListStages.TASK_MENU:
+                    case TASK_MENU:
                         eventHandler.deleteTask();
                         eventHandler.getPanelnavbar().returnFunction(true);
                         activate();
                         break;
-                    case ListStages.NOTE_CLICKED:
+                    case NOTE_CLICKED:
                         eventHandler.deleteNote();
                         activate();
                         break;
@@ -323,7 +324,7 @@ public class PANEL_cli extends JPanel {
             activate();
 
         }
-        else if (command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+        else if (command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage() == TASK_MENU) {
             if (!eventHandler.getCurrentTask().isFinished()) {
                 eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask(), eventHandler.getCurrentDirectory());
                 activate();
@@ -338,12 +339,12 @@ public class PANEL_cli extends JPanel {
             eventHandler.getPanelMainmenu().getPanel_clock().resetTimer();
             activate();
         }
-        else if (command.matches(commandHelper.getSortByDifficultyCommand()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+        else if (command.matches(commandHelper.getSortByDifficultyCommand()) && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
             String value = command.substring(command.indexOf("(") + 1, command.indexOf(")"));
             eventHandler.getPanelList().sortByDifficulty(value.equals("a"));
             activate();
         }
-        else if (command.matches(commandHelper.getFinishTaskCommand()) && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+        else if (command.matches(commandHelper.getFinishTaskCommand()) && eventHandler.getPanelList().getStage() == TASK_MENU) {
 
             if (eventHandler.getCurrentTask().isFinished()) {
                 System.out.println("[LOG] reached finished statement");
@@ -362,7 +363,7 @@ public class PANEL_cli extends JPanel {
             eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(eventHandler.getCurrentTask());
             eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
 
-        } else if (command.matches(commandHelper.getShowFinishedTasks()) && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+        } else if (command.matches(commandHelper.getShowFinishedTasks()) && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
             eventHandler.getPanelList().switchShowingFinished();
             eventHandler.getPanelList().loadCurrentTasks(null);
             activate();
@@ -410,10 +411,10 @@ public class PANEL_cli extends JPanel {
             String commandParameeter = command.substring(command.indexOf(":") + 1);
             if (commandParameeter.isEmpty() || command.contains(";")) {
                 eventHandler.getPanelnavbar().displayTempMessage("INVALID DIR NAME", true);
-            } else if (!editing && eventHandler.getPanelList().getStage() == ListStages.ARCHIVE_MENU) {
+            } else if (!editing && eventHandler.getPanelList().getStage() == ARCHIVE_MENU) {
                 eventHandler.addDirectory(commandParameeter);
                 activate();
-            } else if (eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU && editing) {
+            } else if (eventHandler.getPanelList().getStage() == DIRECTORY_MENU && editing) {
                 eventHandler.updateDirectoryName(commandParameeter);
                 editing = false;
                 activate();
@@ -465,9 +466,9 @@ public class PANEL_cli extends JPanel {
             if (commandParameeter.trim().isEmpty() || commandParameeter.contains(";")) {
                 eventHandler.getPanelnavbar().displayTempMessage("INVALID TASK NAME", true);
             } else {
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     addedTask.setName(commandParameeter);
-                } else if (eventHandler.getPanelList().getStage() == ListStages.TASK_MENU && editing) {
+                } else if (eventHandler.getPanelList().getStage() == TASK_MENU && editing) {
                     addedTask.setName(commandParameeter);
                 }
                 step++;
@@ -477,9 +478,9 @@ public class PANEL_cli extends JPanel {
             if (commandParameeter.contains(";")) {
                 eventHandler.getPanelnavbar().displayTempMessage("INVALID TASK DESCRIPTION", true);
             } else {
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     addedTask.setDescription(command.substring(command.indexOf(":") + 1));
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     addedTask.setDescription(command.substring(command.indexOf(":") + 1));
                 }
                 step++;
@@ -491,9 +492,9 @@ public class PANEL_cli extends JPanel {
                 loadTaskInput(step, editing);
             } else if (Integer.parseInt(commandParameeter) >= 1 && Integer.parseInt(commandParameeter) <= 5) {
                 int Urgency = Integer.parseInt(command.substring(command.indexOf(":") + 1));
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     addedTask.setUrgency(Urgency);
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     addedTask.setUrgency(Urgency);
                 }
                 step++;
@@ -510,9 +511,9 @@ public class PANEL_cli extends JPanel {
                     if (inputDate.isBefore(now)) {
                         eventHandler.getPanelnavbar().displayTempMessage("DATE CAN'T BE IN PAST", true);
                     } else {
-                        if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                        if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                             addedTask.setDeadline(commandParameeter);
-                        } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                        } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                             addedTask.setDeadline(commandParameeter);
                         }
                         step++;
@@ -528,9 +529,9 @@ public class PANEL_cli extends JPanel {
             }
         } else if (command.matches(commandHelper.getTaskCompletionTimeRegEx())) {
             if (!commandParameeter.isEmpty()) {
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     addedTask.setTimeDedicated(Integer.parseInt(commandParameeter));
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     addedTask.setTimeDedicated(Integer.parseInt(commandParameeter));
                 }
             }
@@ -542,9 +543,9 @@ public class PANEL_cli extends JPanel {
                 loadTaskInput(step, editing);
             } else if (Integer.parseInt(commandParameeter) >= 1 && Integer.parseInt(commandParameeter) <= 5) {
                 int Urgency = Integer.parseInt(commandParameeter);
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     addedTask.setDifficulty(Urgency);
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     addedTask.setDifficulty(Urgency);
                 }
                 step++;
@@ -555,13 +556,13 @@ public class PANEL_cli extends JPanel {
         } else if (command.matches(commandHelper.getTaskRepeatableRegEx())) {
             String value = command.substring(command.indexOf(":") + 1);
             if (value.isEmpty() || value.equals("false")) {
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
 
                     eventHandler.addTask(addedTask);
                     step = 1;
                     activate();
 //                    eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     eventHandler.updateTaskDetails(addedTask);
                     step = 1;
                     activate();
@@ -571,7 +572,7 @@ public class PANEL_cli extends JPanel {
                 addedTask.setRepeatable(true);
                 step++;
                 loadTaskInput(step, editing);
-            } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+            } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                 addedTask.setRepeatable(true);
                 step++;
                 loadTaskInput(step, editing);
@@ -579,9 +580,9 @@ public class PANEL_cli extends JPanel {
             }
         } else if (command.matches(commandHelper.getTaskRepeatableTypeRegEx())) {
             if (!commandParameeter.isEmpty()) {
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     addedTask.setRepeatableType(commandParameeter);
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     addedTask.setRepeatableType(commandParameeter);
                 }
                 eventHandler.getPanelMainmenu().getPanel_reminder().loadReminder();
@@ -593,20 +594,20 @@ public class PANEL_cli extends JPanel {
             if (commandParameeter.equals("y")) {
                 value = true;
             }
-            if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+            if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                 addedTask.setHasToBeCompletedToRepeat(value);
-            } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+            } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                 addedTask.setHasToBeCompletedToRepeat(value);
             }
             if (addedTask.getDeadline() == "none" && !addedTask.getRepeatableType().equals("daily")) {
                 step++;
                 loadTaskInput(step, editing);
             } else {
-                if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+                if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                     eventHandler.addTask(addedTask);
                     step = 1;
                     activate();
-                } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+                } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                     eventHandler.updateTaskDetails(addedTask);
                     step = 1;
                     activate();
@@ -643,11 +644,11 @@ public class PANEL_cli extends JPanel {
             }
 
             // Save or update task
-            if (!editing && eventHandler.getPanelList().getStage() == ListStages.DIRECTORY_MENU) {
+            if (!editing && eventHandler.getPanelList().getStage() == DIRECTORY_MENU) {
                 eventHandler.addTask(addedTask);
                 step = 1;
                 activate();
-            } else if (editing && eventHandler.getPanelList().getStage() == ListStages.TASK_MENU) {
+            } else if (editing && eventHandler.getPanelList().getStage() == TASK_MENU) {
                 eventHandler.updateTaskDetails(addedTask);
                 step = 1;
                 activate();
