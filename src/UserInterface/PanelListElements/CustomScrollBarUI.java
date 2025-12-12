@@ -1,8 +1,8 @@
-package UserInterface.SubPanels;
+package UserInterface.PanelListElements;
 
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;

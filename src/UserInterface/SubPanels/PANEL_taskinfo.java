@@ -1,10 +1,11 @@
 package UserInterface.SubPanels;
 
-import AppLogic.Task;
-import Loaders.FontLoader;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import Task.Model.Task;
+import Logic.Loaders.FontLoader;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
+import UserInterface.PanelListElements.CustomScrollBarUI;
 
 import javax.swing.*;
 import java.awt.*;

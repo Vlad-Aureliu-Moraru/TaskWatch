@@ -1,4 +1,4 @@
-package Loaders;
+package Logic.Loaders;
 
 import java.awt.Color;
 

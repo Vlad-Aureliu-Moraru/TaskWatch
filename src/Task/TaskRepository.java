@@ -1,6 +1,7 @@
-package Handlers.Repositories;
+package Task;
 
-import AppLogic.Task;
+import Task.Model.Task;
+import Note.NoteRepository;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ public class TaskRepository {
     private static final ArrayList<Task> tasks = new ArrayList<>();
     private static boolean isLoaded = false;
     private static int currentId = 0;
+    private static int taskcount = 0;
 
     public TaskRepository() {
         if (!isLoaded) {
@@ -22,7 +24,6 @@ public class TaskRepository {
         }
     }
 
-    // Load tasks from file
     private void loadTasksFromFile() {
         File file = new File(FILE_PATH);
 
@@ -45,7 +46,6 @@ public class TaskRepository {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
-                // Handle ID line
                 if (line.startsWith("id=#") && line.endsWith("#")) {
                     try {
                         String idValue = line.substring(4, line.length() - 1);
@@ -57,7 +57,6 @@ public class TaskRepository {
                     continue;
                 }
 
-                // Parse the task line
                 try {
                     int id = extractInt(line, "id:", ";DirectoryId");
                     int directoryId = extractInt(line, "DirectoryId:", ";name:");
@@ -74,9 +73,16 @@ public class TaskRepository {
                     boolean hasToBeCompletedToRepeat = extractBoolean(line, "hasToBeCompletedToRepeat:", ";repeatOnSpecificDay:");
                     String repeatOnSpecificDay = extractString(line, "repeatOnSpecificDay:", "}");
 
-                    tasks.add(new Task(id, directoryId, name, description, isRepeatable, isFinished,
-                            deadline, urgency, time, difficulty, repeatableType, finishedDate,
-                            hasToBeCompletedToRepeat, repeatOnSpecificDay));
+                    if(tasks.stream().noneMatch(task -> task.getId() == id)) {
+                        tasks.add(new Task(id, directoryId, name, description, isRepeatable, isFinished,
+                                deadline, urgency, time, difficulty, repeatableType, finishedDate,
+                                hasToBeCompletedToRepeat, repeatOnSpecificDay));
+                        taskcount++;
+                    }else{
+                        System.out.println("Task with id " + id + " already exists.");
+                        //TODO : ADD AN ACTUAL METHOD THAT CHANGES THE ID CORRECTLY OF DUPES BCS IT SHOULD ALSO CARRY OVER THE NOTES THAT ARE RELATED,
+                        //TODO : keep it ordered by taskcount but update it in the notes too , ??maybe??
+                    }
 
                     maxTaskId = Math.max(maxTaskId, id);
                 } catch (Exception e) {
@@ -84,7 +90,6 @@ public class TaskRepository {
                 }
             }
 
-            // Determine current ID
             if (!idLineFound) {
                 if (maxTaskId >= 0)
                     currentId = maxTaskId + 1;

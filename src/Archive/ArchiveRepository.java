@@ -1,5 +1,6 @@
-package Handlers.Repositories;
-import AppLogic.Archive;
+package Archive;
+import Archive.Model.Archive;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -97,6 +98,9 @@ public class ArchiveRepository {
     }
 
     public static int getNextId() {
+        /*
+        * INCREMENTS THE ID FOR THE NEXT TASK EX : id : 1 -> id : 2
+        * */
         currentId++;
         return currentId;
     }
@@ -112,7 +116,6 @@ public class ArchiveRepository {
         return null;
     }
 
-    // Add new archive (auto-assign next ID)
     public void addArchive(String archiveName) {
         boolean exists = archives.stream()
                 .anyMatch(a -> a.getArchiveName().equalsIgnoreCase(archiveName));
@@ -145,20 +148,13 @@ public class ArchiveRepository {
     }
 public static void main(String[] args) {
         ArchiveRepository repo = new ArchiveRepository();
-
-        // Add archives
         repo.addArchive("First Archive");
         repo.addArchive( "Second Archive");
 
-        // Retrieve all
         for (Archive a : repo.getAllArchives()) {
             System.out.println(a);
         }
-
-        // Get by ID
         System.out.println("Get ID 1: " + repo.getArchiveById(1));
-
-        // Update and save
         repo.updateArchive(2, "Updated Archive Name");
     }
 }

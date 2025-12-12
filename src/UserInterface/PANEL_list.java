@@ -1,15 +1,15 @@
 package UserInterface;
 
-import AppLogic.Archive;
-import AppLogic.Directory;
-import AppLogic.Note;
-import AppLogic.Task;
-import Handlers.EventHandler;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import Archive.Model.Archive;
+import Directory.Model.Directory;
+import Note.Model.Note;
+import Task.Model.Task;
+import Logic.Handlers.EventHandler;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
 import UserInterface.PanelListElements.*;
-import UserInterface.SubPanels.CustomScrollBarUI;
+import UserInterface.PanelListElements.CustomScrollBarUI;
 
 import javax.swing.*;
 import java.awt.*;

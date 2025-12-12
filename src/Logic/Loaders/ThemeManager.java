@@ -1,8 +1,7 @@
-package Loaders;
+package Logic.Loaders;
 
 import java.awt.*;
 import java.io.*;
-import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,15 +1,6 @@
-package Handlers;
-
-import AppLogic.Archive;
-import AppLogic.Directory;
-import AppLogic.Note;
-import AppLogic.Task;
+package Logic.Handlers;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FileHandler {
 

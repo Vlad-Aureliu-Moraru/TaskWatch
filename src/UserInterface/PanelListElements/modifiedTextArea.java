@@ -1,4 +1,4 @@
-package UserInterface.SubPanels;
+package UserInterface.PanelListElements;
 
 import javax.swing.*;
 import java.awt.*;

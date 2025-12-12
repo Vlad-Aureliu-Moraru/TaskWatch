@@ -1,4 +1,4 @@
-package Loaders;
+package Logic.Loaders;
 
 public interface ThemeChangeListener {
     void onThemeChanged();

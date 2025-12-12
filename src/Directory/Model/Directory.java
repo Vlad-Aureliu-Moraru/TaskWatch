@@ -1,7 +1,4 @@
-package AppLogic;
-
-import java.util.ArrayList;
-import java.util.Comparator;
+package Directory.Model;
 
 public class Directory {
     private String Name;

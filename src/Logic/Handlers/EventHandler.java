@@ -1,20 +1,18 @@
-package Handlers;
+package Logic.Handlers;
 
-import AppLogic.Archive;
-import AppLogic.Directory;
-import AppLogic.Note;
-import AppLogic.Task;
-import Handlers.Repositories.ArchiveRepository;
-import Handlers.Repositories.DirectoryRepository;
-import Handlers.Repositories.NoteRepository;
-import Handlers.Repositories.TaskRepository;
+import Archive.Model.Archive;
+import Directory.Model.Directory;
+import Note.Model.Note;
+import Task.Model.Task;
+import Archive.ArchiveRepository;
+import Directory.DirectoryRepository;
+import Note.NoteRepository;
+import Task.TaskRepository;
 import UserInterface.FRAME_main;
 import UserInterface.PANEL_mainmenu;
 import UserInterface.PANEL_navbar;
 import UserInterface.PANEL_list;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class EventHandler {

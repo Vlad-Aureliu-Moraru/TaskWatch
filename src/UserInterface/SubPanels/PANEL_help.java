@@ -1,9 +1,11 @@
 package UserInterface.SubPanels;
 
-import Loaders.FontLoader;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import Logic.Loaders.FontLoader;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
+import UserInterface.PanelListElements.CustomScrollBarUI;
+import UserInterface.PanelListElements.modifiedTextArea;
 
 import javax.swing.*;
 import java.awt.*;

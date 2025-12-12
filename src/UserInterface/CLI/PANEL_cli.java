@@ -1,12 +1,12 @@
-package CLI;
+package UserInterface.CLI;
 
-import Handlers.EventHandler;
-import AppLogic.Note;
-import AppLogic.Task;
-import Loaders.ConfigLoader;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
-import Loaders.ThemeManager;
+import Logic.Handlers.EventHandler;
+import Note.Model.Note;
+import Task.Model.Task;
+import Logic.Loaders.ConfigLoader;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
+import Logic.Loaders.ThemeManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,13 +81,13 @@ public class PANEL_cli extends JPanel {
 
     public void activate() {
         if (active) {
-            System.out.println("FROM CLI func DEACTIVATE");
+            System.out.println("FROM UserInterface.CLI func DEACTIVATE");
             step = 1;
             active = false;
             this.setVisible(false);
             commandField.setText("");
         } else {
-            System.out.println("FROM CLI func ACTIVATE");
+            System.out.println("FROM UserInterface.CLI func ACTIVATE");
             active = true;
             this.setVisible(true);
             commandField.setText(":");
@@ -100,7 +100,7 @@ public class PANEL_cli extends JPanel {
     }
 
     private void loadDirrectoryInput(String dirName) {
-        System.out.println("FROM CLI LOADING DIR INPUT");
+        System.out.println("FROM UserInterface.CLI LOADING DIR INPUT");
         commandField.setText("Directory_Name:" + dirName);
     }
 

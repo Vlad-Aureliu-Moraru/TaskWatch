@@ -1,10 +1,10 @@
 package UserInterface;
 
-import CLI.PANEL_cli;
-import Handlers.EventHandler;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import UserInterface.CLI.PANEL_cli;
+import Logic.Handlers.EventHandler;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
 import UserInterface.SubPanels.REMINDER.PANEL_reminder;
 import UserInterface.SubPanels.*;
 

@@ -1,7 +1,4 @@
-package AppLogic;
-
-import java.util.ArrayList;
-import java.util.StringJoiner;
+package Archive.Model;
 
 public class Archive {
     private String archiveName;

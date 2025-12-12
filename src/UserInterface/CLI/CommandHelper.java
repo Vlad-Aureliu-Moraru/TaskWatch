@@ -1,6 +1,6 @@
-package CLI;
+package UserInterface.CLI;
 
-import Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeColorKey;
 
 public class CommandHelper {
     public String getSwitchScheduleDisplay(){

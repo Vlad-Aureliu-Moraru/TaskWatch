@@ -1,11 +1,11 @@
 package UserInterface.PanelListElements;
 
-import Handlers.EventHandler;
-import Loaders.FontLoader;
-import AppLogic.Note;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import Logic.Handlers.EventHandler;
+import Logic.Loaders.FontLoader;
+import Note.Model.Note;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;

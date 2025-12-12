@@ -1,6 +1,4 @@
-package AppLogic;
-
-import java.util.ArrayList;
+package Task.Model;
 
 public class Task {
     private int id;

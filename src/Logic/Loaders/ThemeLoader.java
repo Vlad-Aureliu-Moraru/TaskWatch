@@ -1,9 +1,5 @@
-package Loaders;
+package Logic.Loaders;
 
-import Loaders.ConfigLoader;
-import Loaders.ThemeManager;
-
-import javax.swing.*;
 import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;

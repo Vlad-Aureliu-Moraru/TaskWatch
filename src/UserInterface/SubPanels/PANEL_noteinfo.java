@@ -1,10 +1,10 @@
 package UserInterface.SubPanels;
 
-import AppLogic.Note;
-import Loaders.FontLoader;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
+import Note.Model.Note;
+import Logic.Loaders.FontLoader;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
 
 import javax.swing.*;
 import java.awt.*;

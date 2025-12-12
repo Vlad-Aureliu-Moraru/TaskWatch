@@ -1,4 +1,4 @@
-package AppLogic;
+package Note.Model;
 
 public class Note {
     private String date;

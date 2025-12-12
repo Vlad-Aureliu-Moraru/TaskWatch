@@ -1,9 +1,9 @@
 package UserInterface.SubPanels;
 
-import Loaders.*;
-import AppLogic.Directory;
-import Handlers.EventHandler;
-import AppLogic.Task;
+import Logic.Loaders.*;
+import Directory.Model.Directory;
+import Logic.Handlers.EventHandler;
+import Task.Model.Task;
 
 import javax.swing.*;
 import java.awt.*;
@@ -273,6 +273,7 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     public void onThemeChanged() {
         // Automatically apply theme colors to this panel and its labels
 //        ThemeLoader.applyTheme(this, timeDisplay, scheduleIndex, taskInfo, scheduleInfo);
+        this.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_CLOCK));
 
         // Adjust the timeDisplay color if a task timer is running
         if (taskTimer.isRunning() && currentTask != null) {

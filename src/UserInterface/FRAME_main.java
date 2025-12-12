@@ -1,6 +1,6 @@
 package UserInterface;
 
-import Handlers.EventHandler;
+import Logic.Handlers.EventHandler;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,7 @@
-package Handlers.Repositories;
+package Note;
 
-import AppLogic.Note;
+import Task.TaskRepository;
+import Note.Model.Note;
 
 import java.io.*;
 import java.util.ArrayList;

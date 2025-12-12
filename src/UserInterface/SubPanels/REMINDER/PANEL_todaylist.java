@@ -1,11 +1,11 @@
 package UserInterface.SubPanels.REMINDER;
 
-import AppLogic.Directory;
-import AppLogic.Task;
-import Loaders.ThemeChangeListener;
-import Loaders.ThemeColorKey;
-import Loaders.ThemeLoader;
-import Handlers.EventHandler;
+import Directory.Model.Directory;
+import Task.Model.Task;
+import Logic.Loaders.ThemeChangeListener;
+import Logic.Loaders.ThemeColorKey;
+import Logic.Loaders.ThemeLoader;
+import Logic.Handlers.EventHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;

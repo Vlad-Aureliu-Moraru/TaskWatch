@@ -1,9 +1,9 @@
 package UserInterface.SubPanels.REMINDER;
 
-import AppLogic.Directory;
-import AppLogic.Task;
-import Loaders.*;
-import Handlers.EventHandler;
+import Directory.Model.Directory;
+import Task.Model.Task;
+import Logic.Loaders.*;
+import Logic.Handlers.EventHandler;
 
 import javax.swing.*;
 import java.awt.*;
