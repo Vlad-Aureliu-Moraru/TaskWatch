@@ -102,21 +102,28 @@ public class PANEL_help extends JScrollPane implements ThemeChangeListener {
                 :c | :cancel          - CANCELS COMMAND INPUT
                 :e | :edit            - EDITS DIRECTORIES/TASKS/NOTES
                 :f | :finish          - TOGGLES TASK COMPLETION
+                :shf | :showFinished  - SHOWS FINISHED TASKS
+                
                 :st(int time)         - STARTS A BASIC TIMER
                 :st | :startSelected  - STARTS SELECTED TASK (POMODORO)
                 :ts | :timerStop      - STOPS TIMER
                 :pt | :pauseTimer     - TOGGLES PAUSE/UNPAUSE TIMER
                 :rt | :resetTimer     - RESETS TIMER
-                :shf | :showFinished  - SHOWS FINISHED TASKS
-                su(a|d) | sortByUrgency(a|d)    - SORT BY URGENCY
-                sd(a|d) | sortByDifficulty(a|d) - SORT BY DIFFICULTY
-                :exit                      - EXITS APPLICATION
+                
+                :su(a|d) | sortByUrgency(a|d)    - SORT BY URGENCY
+                :sd(a|d) | sortByDifficulty(a|d) - SORT BY DIFFICULTY
+                
                 :ct(name) | :createTheme   - CREATES NEW THEME
                 :rt(name) | :removeTheme   - REMOVES THEME
                 :set(name) | :setTheme     - SETS ACTIVE THEME
                 :theme                     - SHOWS ACTIVE THEME
-                :lst | :listThemes          - LISTS AVAILABLE THEMES
+                :lst | :listThemes         - LISTS AVAILABLE THEMES
                 
+                :sPBW(1-100) | setProgBarWidth(1-100)   - SET PROG BAR WIDTH 
+                :sPBS(1-100) | setProgBarSpacing(1-100) - SET PROG BAR SACING 
+                
+                :exit                      - EXITS APPLICATION
+                 
                                               
                 """;
 
@@ -130,54 +137,54 @@ public class PANEL_help extends JScrollPane implements ThemeChangeListener {
     private void addThemeSettingsInfo() {
         final String themeText = """
                 THEME CUSTOMIZATION
-:setScrollThumb:(R,G,B)           - SETS SCROLL THUMB COLOR
-:setScrollTrack:(R,G,B)           - SETS SCROLL_TRACK COLOR
-:setPanelMain:(R,G,B)             - SETS PANEL MAINMENU COLOR
-:setPanelNavBar:(R,G,B)           - SETS PANEL NAVBAR COLOR
-:setPanelList:(R,G,B)             - SETS PANEL LIST COLOR
-:setPanelTaskInfo:(R,G,B)         - SETS PANEL TASK COLOR
-:setPanelHelp:(R,G,B)             - SETS PANEL HELP COLOR
-:setPanelNoteInfo:(R,G,B)         - SETS PANEL NOTE COLOR
-:setPanelClock:(R,G,B)            - SETS PANEL CLOCK COLOR
-:setPanelReminder:(R,G,B)         - SETS PANEL REMINDER COLOR
-:setPanelThisWeek:(R,G,B)         - SETS PANEL THIS_WEEK COLOR
-:setPanelTodayList:(R,G,B)        - SETS PANEL TODAY COLOR
-:setPanelWeeklySchedule:(R,G,B)   - SETS PANEL WEEKLY COLOR
-:setMainColor:(R,G,B)             - SETS MAIN COLOR COLOR
-:setSecondaryColor:(R,G,B)        - SETS SECONDARY COLOR
-:setFirstAccent:(R,G,B)           - SETS FIRST ACCENT COLOR
-:setSecndAccent:(R,G,B)           - SETS SECOND ACCENT COLOR
-:setSecondaryGreen:(R,G,B)        - SETS SECONDARY GREEN COLOR
-:setAccentGreen:(R,G,B)           - SETS ACCENT GREEN COLOR
-:setDirColor:(R,G,B)              - SETS DIRECTORY COLOR
-:setDirHoverColor:(R,G,B)         - SETS DIRECTORY HOVER COLOR
-:setTaskColor:(R,G,B)             - SETS TASK COLOR
-:setTaskHoverColor:(R,G,B)        - SETS TASK HOVER COLOR
-:setTaskTextColor:(R,G,B)         - SETS TASK TEXT COLOR
-:setNoteColor:(R,G,B)             - SETS NOTE COLOR
-:setPausedTimerColor:(R,G,B)      - SETS PAUSED TIMER COLOR
-:setUrgency1:(R,G,B)              - SETS URGENCY 1 COLOR
-:setUrgency2:(R,G,B)
-:setUrgency3:(R,G,B)
-:setUrgency4:(R,G,B)
-:setUrgency5:(R,G,B)
-:setUrgency1List:(R,G,B)
-:setUrgency2List:(R,G,B)
-:setUrgency3List:(R,G,B)
-:setUrgency4List:(R,G,B)
-:setUrgency5List:(R,G,B)
-:setDifficulty1:(R,G,B)
-:setDifficulty2:(R,G,B)
-:setDifficulty3:(R,G,B)
-:setDifficulty4:(R,G,B)
-:setDifficulty5:(R,G,B)
-:setTaskCompletedIconColor:(R,G,B)
-:setTaskUrgentIconColor:(R,G,B)
-:setTaskUrgentPassed:(R,G,B,A)
-:setConsoleColor:(R,G,B)
-:setConsoleTextColor:(R,G,B)
-:setTimerOnBreakColor:(R,G,B)
-:setTimerOnPrepColor:(R,G,B)
+:setScrollThumb(R,G,B)           - SETS SCROLL THUMB COLOR
+:setScrollTrack(R,G,B)           - SETS SCROLL_TRACK COLOR
+:setPanelMain(R,G,B)             - SETS PANEL MAINMENU COLOR
+:setPanelNavBar(R,G,B)           - SETS PANEL NAVBAR COLOR
+:setPanelList(R,G,B)             - SETS PANEL LIST COLOR
+:setPanelTaskInfo(R,G,B)         - SETS PANEL TASK COLOR
+:setPanelHelp(R,G,B)             - SETS PANEL HELP COLOR
+:setPanelNoteInfo(R,G,B)         - SETS PANEL NOTE COLOR
+:setPanelClock(R,G,B)            - SETS PANEL CLOCK COLOR
+:setPanelReminder(R,G,B)         - SETS PANEL REMINDER COLOR
+:setPanelThisWeek(R,G,B)         - SETS PANEL THIS_WEEK COLOR
+:setPanelTodayList(R,G,B)        - SETS PANEL TODAY COLOR
+:setPanelWeeklySchedule(R,G,B)   - SETS PANEL WEEKLY COLOR
+:setMainColor(R,G,B)             - SETS MAIN COLOR COLOR
+:setSecondaryColor(R,G,B)        - SETS SECONDARY COLOR
+:setFirstAccent(R,G,B)           - SETS FIRST ACCENT COLOR
+:setSecndAccent(R,G,B)           - SETS SECOND ACCENT COLOR
+:setSecondaryGreen(R,G,B)        - SETS SECONDARY GREEN COLOR
+:setAccentGreen(R,G,B)           - SETS ACCENT GREEN COLOR
+:setDirColor(R,G,B)              - SETS DIRECTORY COLOR
+:setDirHoverColor(R,G,B)         - SETS DIRECTORY HOVER COLOR
+:setTaskColor(R,G,B)             - SETS TASK COLOR
+:setTaskHoverColor(R,G,B)        - SETS TASK HOVER COLOR
+:setTaskTextColor(R,G,B)         - SETS TASK TEXT COLOR
+:setNoteColor(R,G,B)             - SETS NOTE COLOR
+:setPausedTimerColor(R,G,B)      - SETS PAUSED TIMER COLOR
+:setUrgency1(R,G,B)              - SETS URGENCY 1 COLOR
+:setUrgency2(R,G,B)
+:setUrgency3(R,G,B)
+:setUrgency4(R,G,B)
+:setUrgency5(R,G,B)
+:setUrgency1List(R,G,B)
+:setUrgency2List(R,G,B)
+:setUrgency3List(R,G,B)
+:setUrgency4List(R,G,B)
+:setUrgency5List(R,G,B)
+:setDifficulty1(R,G,B)
+:setDifficulty2(R,G,B)
+:setDifficulty3(R,G,B)
+:setDifficulty4(R,G,B)
+:setDifficulty5(R,G,B)
+:setTaskCompletedIconColor(R,G,B)
+:setTaskUrgentIconColor(R,G,B)
+:setTaskUrgentPassed(R,G,B,A)
+:setConsoleColor(R,G,B)
+:setConsoleTextColor(R,G,B)
+:setTimerOnBreakColor(R,G,B)
+:setTimerOnPrepColor(R,G,B)
 """;
 
         themeSettingsInfo.setText(themeText);

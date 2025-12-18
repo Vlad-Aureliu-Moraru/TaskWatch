@@ -18,6 +18,10 @@ public enum ThemeColorKey {
     PANEL_TODAYLIST("panel_todaylist",new Color(57,50,50)),
     PANEL_WEEKLYSCHEDULE("panel_weeklyschedule",new Color(57,50,50)),
 
+    PROG_BAR_GRADIENT1("prog_bar_gradient1",new Color(221, 120, 120)),
+    PROG_BAR_GRADIENT2("prog_bar_gradient2",new Color(174, 73, 73)),
+    PROG_BAR_GRADIENT3("prog_bar_gradient3",new Color(113, 46, 46)),
+
     MAIN_COLOR("main_color", new Color(57, 50, 50)),
     SECONDARY_COLOR("secondary_color", new Color(77, 69, 69)),
     FIRST_ACCENT("first_accent", new Color(141, 98, 98)),
@@ -54,7 +58,7 @@ public enum ThemeColorKey {
     CONSOLE_COLOR("consoleColor", new Color(82, 94, 84)),
     CONSOLE_TEXT_COLOR("consoleTextColor", new Color(222, 222, 222)),
     TIMER_ON_BREAK_COLOR("timerOnBreakColor", new Color(75, 111, 122)),
-    TIMER_ON_PREP_COLOR("timerOnPrepColor", new Color(8, 76, 34));
+    TIMER_ON_PREP_COLOR("timerOnPrepColor", new Color(158, 121, 92));
 
     private final String key;
     private final Color defaultColor;

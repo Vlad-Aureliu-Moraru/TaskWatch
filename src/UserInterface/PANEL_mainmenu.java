@@ -31,7 +31,7 @@ public class PANEL_mainmenu extends JPanel implements ThemeChangeListener {
         Border outerBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border innerBorder = BorderFactory.createLineBorder(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT), 3);
         Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
-        this.setBorder(compoundBorder);
+//        this.setBorder(compoundBorder);
 
         this.add(panel_cli);
         this.add(panel_help);

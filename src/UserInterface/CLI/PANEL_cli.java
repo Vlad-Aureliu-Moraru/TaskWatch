@@ -201,6 +201,9 @@ public class PANEL_cli extends JPanel {
             if (!commandFound) {
                 HandleThemeSettingCommands(command);
             }
+            if (!commandFound){
+                HandleConfigRelatedCommands(command);
+            }
             if (!command.trim().isEmpty() && commandFound) {
                 commandHistory.add(command);
                 historyIndex = commandHistory.size();
@@ -324,7 +327,7 @@ public class PANEL_cli extends JPanel {
             activate();
 
         }
-        else if (command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getPanelList().getStage() == TASK_MENU) {
+        else if (command.matches(commandHelper.getStartSelectedTaskTimer()) && eventHandler.getCurrentTask()!=null){
             if (!eventHandler.getCurrentTask().isFinished()) {
                 eventHandler.getPanelMainmenu().getPanel_clock().startTaskTimer(eventHandler.getCurrentTask(), eventHandler.getCurrentDirectory());
                 activate();
@@ -386,7 +389,6 @@ public class PANEL_cli extends JPanel {
         }
 
     }
-
     private void HandleArchiveRelatedCommands(String command) {
         commandFound = true;
         String commandParameeter = command.substring(command.indexOf(":") + 1);
@@ -404,7 +406,6 @@ public class PANEL_cli extends JPanel {
         }
 
     }
-
     private void HandleDirRelatedCommands(String command) {
         commandFound = true;
         if (command.matches(commandHelper.getDirectoryNameRegEx())) {
@@ -423,7 +424,6 @@ public class PANEL_cli extends JPanel {
             commandFound = false;
         }
     }
-
     private void HandleNoteRelatedCommands(String command) {
         commandFound = true;
         if (command.matches(commandHelper.getNoteRegEx())) {
@@ -458,7 +458,6 @@ public class PANEL_cli extends JPanel {
             commandFound = false;
         }
     }
-
     private void HandleTaskRelatedCommands(String command) {
         commandFound = true;
         String commandParameeter = command.substring(command.indexOf(":") + 1);
@@ -658,7 +657,6 @@ public class PANEL_cli extends JPanel {
             commandFound = false;
         }
     }
-
     private void HandleThemeRelatedCommands(String command) {
         commandFound = true;
         if (command.matches(commandHelper.getCreateThemeCommand())) {
@@ -696,12 +694,11 @@ public class PANEL_cli extends JPanel {
             commandFound = false;
         }
     }
-
     private void HandleThemeSettingCommands(String command) {
         commandFound = true;
         boolean matched = false;
         for (ThemeColorKey key : ThemeColorKey.values()) {
-            String regex = commandHelper.getSetColorCommandForKey(key); // You should create this method
+            String regex = commandHelper.getSetColorCommandForKey(key);
             if (command.matches(regex)) {
                 String colorNumbersForRGB = command.substring(command.indexOf("("), command.indexOf(")") + 1);
                 Color color = ThemeLoader.parseColor("rgb" + colorNumbersForRGB);
@@ -716,6 +713,32 @@ public class PANEL_cli extends JPanel {
             activate();
         } else {
             commandFound = false;
+        }
+    }
+    private void HandleConfigRelatedCommands(String command) {
+        commandFound = false;
+        if(command.matches(commandHelper.getProgressBarClockWidthCommand())){
+            int barWidth = Integer.parseInt(command.trim().substring(command.trim().indexOf("(") + 1, command.trim().indexOf(")")));
+            ConfigLoader.setBarWidth(barWidth);
+            System.out.println("setBarWidth: " + barWidth);
+            activate();
+            commandFound = true;
+        }
+        else if (command.matches(commandHelper.getProgressBarClockSpacingCommand())) {
+            int barSpacing = Integer.parseInt(command.trim().substring(command.trim().indexOf("(") + 1, command.trim().indexOf(")")));
+            ConfigLoader.setBarSpacing(barSpacing);
+            System.out.println("setBarWidth: " +barSpacing);
+            activate();
+            commandFound = true;
+
+        }
+        else if (command.matches(commandHelper.getClockIncrementCommand())) {
+            int clockInc = Integer.parseInt(command.trim().substring(command.trim().indexOf("(") + 1, command.trim().indexOf(")")));
+            ConfigLoader.setClockUpdateTime(clockInc);
+            System.out.println("setBarWidth: " +clockInc);
+            activate();
+            commandFound = true;
+
         }
     }
 }

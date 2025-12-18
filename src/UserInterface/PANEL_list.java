@@ -179,6 +179,7 @@ public class PANEL_list extends JScrollPane implements ThemeChangeListener {
                 eventHandler.resetCurrentTask();
             }
             case TASK_MENU -> loadCurrentTaskNotes();
+            case NOTE_CLICKED -> loadCurrentTaskNotes();
         }
     }
 

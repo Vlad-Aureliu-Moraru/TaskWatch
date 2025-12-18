@@ -16,6 +16,7 @@ public class PANEL_navbar extends JPanel implements ThemeChangeListener {
 
     private final JLabel currentPATH = new JLabel("\uF506 ");
     private final JLabel statusDisplay = new JLabel("");
+    private final JLabel timerDisplay = new JLabel("");
     private final int clockStage = 0; // 0 - clock working | 1 - timer working | 2 - timer paused
     private EventHandler eventHandler;
     private Timer timer ;
@@ -27,10 +28,14 @@ public class PANEL_navbar extends JPanel implements ThemeChangeListener {
         this.setLayout(null);
 
         statusDisplay.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 14));
+        timerDisplay.setFont(FontLoader.getTerminalFont().deriveFont(Font.PLAIN, 14));
+        timerDisplay.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
+        timerDisplay.setVisible(false);
         currentPATH.setFont(FontLoader.getCozyFont().deriveFont(Font.PLAIN, 17));
 
         this.add(currentPATH);
         this.add(statusDisplay);
+        this.add(timerDisplay);
 
         timer = new Timer(2000, e -> {
             if (clockStage == 0) {
@@ -62,10 +67,18 @@ public class PANEL_navbar extends JPanel implements ThemeChangeListener {
 
     public void setHEIGHTandWIDTH(int WIDTH) {
         statusDisplay.setBounds(30, 10, WIDTH / 3, 30);
-        currentPATH.setBounds((WIDTH / 2) - 100, 10, 300, 30);
+        currentPATH.setBounds((WIDTH / 2) - 100, 10,WIDTH-(WIDTH/2), 30);
+        timerDisplay.setBounds(200, 10, WIDTH/3, 30);
         if (currentPATH.getX() < 0) {
             currentPATH.setBounds(0, 10, 100, 30);
         }
+        if (WIDTH<740){
+            currentPATH.setVisible(false);
+        }
+        else {
+            currentPATH.setVisible(true);
+        }
+
         this.revalidate();
         this.repaint();
     }
@@ -78,10 +91,17 @@ public class PANEL_navbar extends JPanel implements ThemeChangeListener {
         System.out.println("CURRENT STAGE " + eventHandler.getPanelList().getStage());
 
         switch (eventHandler.getPanelList().getStage()) {
-            case ARCHIVE_MENU -> eventHandler.getPanelList().setStage(MAIN_MENU);
+            case ARCHIVE_MENU -> {
+                eventHandler.getPanelList().setStage(MAIN_MENU);
+                toggleTimerDisplayVisibility(false);
+            }
             case DIRECTORY_MENU -> eventHandler.getPanelList().setStage(ARCHIVE_MENU);
-            case TASK_MENU, NOTE_CLICKED -> eventHandler.getPanelList().setStage(DIRECTORY_MENU);
-            case MAIN_MENU -> System.out.println("Already at main menu, no back action taken.");
+            case TASK_MENU, NOTE_CLICKED ->{ eventHandler.getPanelList().setStage(DIRECTORY_MENU);
+                eventHandler.getPanelnavbar().toggleTimerDisplayVisibility();}
+            case MAIN_MENU ->{
+                System.out.println("Already at main menu, no back action taken.");
+                toggleTimerDisplayVisibility(false);
+            }
             default -> System.err.println("Unexpected stage encountered: " + eventHandler.getPanelList().getStage());
         }
     }
@@ -89,6 +109,15 @@ public class PANEL_navbar extends JPanel implements ThemeChangeListener {
     public void setClockWorkingStatus() {
         statusDisplay.setText("\uDB82\uDD54  :: clock");
         statusDisplay.setForeground(ThemeLoader.getColor(ThemeColorKey.SECONDARY_GREEN));
+    }
+    public void setTimerDisplay(String time) {
+        timerDisplay.setText(time);
+    }
+    public void toggleTimerDisplayVisibility(){
+        timerDisplay.setVisible(!timerDisplay.isVisible());
+    }
+    public void toggleTimerDisplayVisibility(boolean val){
+        timerDisplay.setVisible(val);
     }
 
     public void setTimerWorkingStatus() {

@@ -91,6 +91,7 @@ public class PANEL_task extends JPanel implements ThemeChangeListener {
                 eventHandler.getPanelMainmenu().getPanel_clock().deactivate();
                 eventHandler.getPanelList().loadCurrentTaskNotes();
                 eventHandler.getPanelMainmenu().getPanel_help().setVisible(false);
+                eventHandler.getPanelnavbar().toggleTimerDisplayVisibility();
                 System.out.println("current archive "+eventHandler.getCurrentArchive());
             }
             public void mouseEntered(MouseEvent e) {

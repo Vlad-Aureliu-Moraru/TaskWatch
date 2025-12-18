@@ -28,6 +28,8 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     private final Timer clockTimer;
     private final Timer taskTimer;
 
+    private BarBorder barBorder= new BarBorder();
+
 
     private final JLabel timeDisplay = new JLabel() ;
     private int totalSeconds = 0;
@@ -68,19 +70,20 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
         timeDisplay.setVerticalAlignment(JLabel.CENTER);
         timeDisplay.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
         this.add(timeDisplay);
-        scheduleIndex.setBounds(0,0, 80, 20);
         scheduleIndex.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
         this.add(scheduleIndex);
-        taskInfo.setBounds(40,0, 80, 20);
         taskInfo.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
         this.add(taskInfo);
-        scheduleInfo.setBounds(0,15, 280, 20);
         scheduleInfo.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
+        scheduleInfo.setFont(FontLoader.getTerminalFont().deriveFont(13f));
         this.add(scheduleInfo);
+//        this.add(barsClock);
+        this.setBorder(barBorder);
 
     }
     public void TimerLogicUpdate(){
         CurrentSchedule-=taskUpdateInSec;
+        barBorder.setCurrentValue(CurrentSchedule);
         scheduleIndex.setText(""+CurrentScheduleIndex+"/"+schedule.size());
         totalSeconds-=taskUpdateInSec;
         updateTimeForTaskTimer();
@@ -104,6 +107,7 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
             }else{
                 CurrentScheduleIndex++;
                 CurrentSchedule=schedule.get(CurrentScheduleIndex);
+                barBorder.setMaxValue(CurrentSchedule);
                 boolean isWorkingPhase = CurrentScheduleIndex % 2 == 1;
                 timeDisplay.setForeground(isWorkingPhase ?ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT): ThemeLoader.getColor(ThemeColorKey.TIMER_ON_BREAK_COLOR));
                 if (isWorkingPhase){
@@ -117,18 +121,29 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     }
     public void setHEIGHTandWIDTH(int height, int width){
         timeDisplay.setBounds(0,0,width,height);
+        scheduleIndex.setBounds(30,10, 80, 20);
+        scheduleInfo.setBounds(90,10, 280, 20);
+        taskInfo.setBounds(30,30, width-30, 20);
         if (width<400){
             timeDisplay.setFont(FontLoader.getTerminalFont().deriveFont(40f));
+            scheduleIndex.setVisible(false);
+            scheduleInfo.setVisible(false);
+            taskInfo.setVisible(false);
         } else if (width<700){
             timeDisplay.setFont(FontLoader.getTerminalFont().deriveFont(70f));
+            scheduleIndex.setVisible(true);
+            scheduleInfo.setVisible(true);
+            taskInfo.setVisible(true);
         }else{
             timeDisplay.setFont(FontLoader.getTerminalFont().deriveFont(130f));
         }
     }
     private void updateTime(){
         LocalTime now = LocalTime.now();
+       barBorder.setCurrentValue(now.getSecond());
         String time = now.format(dtf);
         timeDisplay.setText(time);
+        eventHandler.getPanelnavbar().setTimerDisplay(""+time);
     }
     public void activate(){
         if (taskTimer.isRunning() || totalSeconds!=0){
@@ -145,13 +160,13 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     }
     public void deactivate(){
         this.setVisible(false);
-        clockTimer.stop();
 
     }
     public void startClockTimer(){
         if (!clockTimer.isRunning()){
             clockTimer.start();
             eventHandler.getPanelnavbar().setClockWorkingStatus();
+            barBorder.setMaxValue(60);
             updateTime();
             timeDisplay.setForeground(ThemeLoader.getColor(ThemeColorKey.SECND_ACCENT));
         }
@@ -163,6 +178,7 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
         schedule.add(CurrentSchedule);
         clockTimer.stop();
         eventHandler.getPanelnavbar().setTimerWorkingStatus();
+        barBorder.setMaxValue(CurrentSchedule);
         if (taskTimer != null && taskTimer.isRunning()) {
             taskTimer.stop();
             System.out.println("Task Timer Stopped");
@@ -183,6 +199,7 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
         eventHandler.getPanelnavbar().setPreparingStatus();
         timeDisplay.setForeground(ThemeLoader.getColor(ThemeColorKey.TIMER_ON_PREP_COLOR));
         CurrentSchedule = schedule.get(CurrentScheduleIndex);
+        barBorder.setMaxValue(CurrentSchedule);
         if (taskTimer != null && taskTimer.isRunning()) {
             taskTimer.stop();
             System.out.println("Task Timer Stopped");
@@ -197,6 +214,8 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
         int seconds = CurrentSchedule % 60;
         String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         timeDisplay.setText(timeString);
+        eventHandler.getPanelnavbar().setTimerDisplay(timeString);
+
     }
     public void stopTaskTimerandStartClockTimer(){
         taskTimer.stop();
@@ -223,6 +242,8 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     }
     public void resetTimer(){
         totalSeconds = originalSeconds;
+        CurrentSchedule = originalSeconds;
+        System.out.println("Reset Timer"+totalSeconds);
         updateTimeForTaskTimer();
     }
     public void setEventHandler(EventHandler eventHandler) {
@@ -258,7 +279,7 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     public void displayAllocation() {
         int workMinutes = workingSeconds/ 60;
         int breakMinutes = breakSeconds/ 60;
-        scheduleInfo.setText("work/break :"+workMinutes+"min /"+breakMinutes+"min");
+        scheduleInfo.setText("\uEEA7 : "+workMinutes+"min   \uEC15 : "+breakMinutes+"min");
 
         System.out.println("--- Time Allocation Plan ---");
         System.out.println(".................................");
@@ -272,10 +293,8 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
     @Override
     public void onThemeChanged() {
         // Automatically apply theme colors to this panel and its labels
-//        ThemeLoader.applyTheme(this, timeDisplay, scheduleIndex, taskInfo, scheduleInfo);
         this.setBackground(ThemeLoader.getColor(ThemeColorKey.PANEL_CLOCK));
-
-        // Adjust the timeDisplay color if a task timer is running
+        barBorder.setGradientColors(ThemeLoader.getColor(ThemeColorKey.PROG_BAR_GRADIENT1),ThemeLoader.getColor(ThemeColorKey.PROG_BAR_GRADIENT2),ThemeLoader.getColor(ThemeColorKey.PROG_BAR_GRADIENT3));
         if (taskTimer.isRunning() && currentTask != null) {
             if (CurrentScheduleIndex == 0) {
                 timeDisplay.setForeground(ThemeLoader.getColor(ThemeColorKey.TIMER_ON_PREP_COLOR));

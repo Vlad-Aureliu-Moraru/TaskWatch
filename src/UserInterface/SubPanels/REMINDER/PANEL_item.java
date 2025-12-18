@@ -1,5 +1,6 @@
 package UserInterface.SubPanels.REMINDER;
 
+import Archive.Model.Archive;
 import Directory.Model.Directory;
 import Logic.Loaders.FontLoader;
 import Task.Model.Task;
@@ -88,6 +89,15 @@ public class PANEL_item extends JPanel implements ThemeChangeListener {
                     eventHandler.getPanelMainmenu().getPanel_clock().deactivate();
                     eventHandler.getPanelMainmenu().getPanel_taskinfo().setVisible(true);
                     eventHandler.getPanelMainmenu().getPanel_taskinfo().updateTaskInfo(currentTask);
+
+                    Directory dir = eventHandler.getDirectoryRepository().getDirectoryById(currentTask.getDirectoryId());
+                    int archid =  eventHandler.getDirectoryRepository().getDirectoryById(currentTask.getDirectoryId()).getArchiveId();
+                    Archive arch = eventHandler.getArchiveRepository().getArchiveById(archid);
+                    eventHandler.getPanelnavbar().setCurrentPATH(arch.getArchiveName()+"/"+dir.getName()+"/"+currentTask.getName());
+                    eventHandler.setCurrentArchive(arch);
+                    eventHandler.setCurrentDirectory(dir);
+                    eventHandler.setCurrentTask(currentTask);
+                    eventHandler.getPanelnavbar().toggleTimerDisplayVisibility(true);
                 }else{
                     System.out.println("Clicked on task: " + currentTask.getName());
                 }
