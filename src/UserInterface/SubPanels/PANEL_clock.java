@@ -155,8 +155,12 @@ public class PANEL_clock extends JPanel implements ThemeChangeListener {
         }
         this.setVisible(true);
     }
-    public void switchVisible(){
+    public void toggleVisibility(){
         this.setVisible(!this.isVisible());
+    }
+
+    public void toggleVisibility(boolean visible){
+        this.setVisible(visible);
     }
     public void deactivate(){
         this.setVisible(false);

@@ -373,7 +373,7 @@ public class PANEL_cli extends JPanel {
         }
         else if (command.matches(commandHelper.getHelpCommand())) {
             eventHandler.getPanelMainmenu().getPanel_help().switchVisible();
-            eventHandler.getPanelMainmenu().getPanel_clock().switchVisible();
+            eventHandler.getPanelMainmenu().getPanel_clock().toggleVisibility(false);
             activate();
         }
         else if (command.matches(commandHelper.getExitCommand())) {
