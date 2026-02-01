@@ -1,6 +1,6 @@
 # TaskWatch 
 
-## ✨ Features
+## Features
 
 - **Task Management** – create, edit, and organize your tasks in customizable lists  
 - **Reminders** – get notified for important deadlines  
@@ -10,19 +10,19 @@
 
 ---
 
-## 🖥️ Usage
+## Usage
 
 - ```:h``` → opens the **help menu**  
 - ``` ` ``` → goes **back in the menu**  
 
-### 📂 File Structure
+### File Structure
 - Create **📁 Folders** in the main menu with ```:a```  
 - Each **📁 Folder** contains its own **📓 Tasks**  
 - Each **📓 Task** can have its own **🗒️ Notes**
 
 ---
 
-## 📥 Installation
+## Installation
 
 ### Linux
 1. Download the latest **Linux tarball** from [Releases](https://github.com/Vlad-Aureliu-Moraru/TaskWatch/releases).  
@@ -34,5 +34,6 @@
 
 ### Windows 
 1. Download the latest **Exe** from [Releases](https://github.com/Vlad-Aureliu-Moraru/TaskWatch/releases).  
+
 
 
